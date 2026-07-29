@@ -6,13 +6,13 @@
       "path": "references/第一性原理分析逻辑.md",
       "source_name": "first-principles-analysis-logic.md",
       "role": "analysis_logic_authority",
-      "sha256": "9024ff05717368ae41cff65d4967d1dc0f9fbd5f51cc79cbfdee0a169da89331"
+      "sha256": "77c74c895dd21e3107fc063e3306a35dd00df6f5a85870dab8e0a65ef47d888f"
     },
     {
       "path": "references/第一性原理分析提示词.md",
       "source_name": "第一性原理推演提示词.md",
       "role": "detailed_generation_prompt",
-      "sha256": "0bd54b505ad422cd547bd1f26a1049fea8b009b235c613994ec2a835647ab465"
+      "sha256": "eb5170f4feb65178984f66d10748bbcb5edd721a08e18a5e16cba52616ac6016"
     },
     {
       "path": "references/经验/基于第一性原理得出的通用结论，可用于分析其他问题.txt",
