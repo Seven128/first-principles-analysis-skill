@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "policy": "这些文件由本次对话提供的来源材料复制而来。默认保持原文；修改后必须更新 sha256，并在变更说明中解释原因。",
+  "files": [
+    {
+      "path": "references/第一性原理分析逻辑.md",
+      "source_name": "first-principles-analysis-logic.md",
+      "role": "analysis_logic_authority",
+      "sha256": "9024ff05717368ae41cff65d4967d1dc0f9fbd5f51cc79cbfdee0a169da89331"
+    },
+    {
+      "path": "references/第一性原理分析提示词.md",
+      "source_name": "第一性原理推演提示词.md",
+      "role": "detailed_generation_prompt",
+      "sha256": "a5beb6d9141f63b3777a254d91ae5e63163634050eb8952680cf584794c2990b"
+    },
+    {
+      "path": "references/经验/基于第一性原理得出的通用结论，可用于分析其他问题.txt",
+      "source_name": "基于第一性原理得出的通用结论，可用于分析其他问题.txt",
+      "role": "candidate_reusable_premises",
+      "sha256": "605a9821f36f95cfd5ba629324e3e056a7c74a58e8270e1d9d24ff06817aadbe"
+    },
+    {
+      "path": "references/回归样例/第一性原理例子-Fiber.md",
+      "source_name": "第一性原理例子-Fiber.md",
+      "role": "regression_example",
+      "sha256": "da00b4f0f2f10cd43f994d6016361f00e42346300c96bed5ca46ce6794fb2c3d"
+    },
+    {
+      "path": "references/回归样例/第一性原理例子-Harness工程.md",
+      "source_name": "第一性原理例子-Harness工程.md",
+      "role": "regression_example",
+      "sha256": "70d7e2be842f6bb293e06d572c398f5cd26d2e3cbeaa90d95062ef22df7dace7"
+    },
+    {
+      "path": "references/回归样例/第一性原理例子-浏览器安全.md",
+      "source_name": "第一性原理例子-浏览器安全.md",
+      "role": "regression_example",
+      "sha256": "9b83d70a616b553c32ea087356663cd9cfacc5da73145d82c169c2a87300430b"
+    },
+    {
+      "path": "references/回归样例/第一性原理例子-Node.md",
+      "source_name": "第一性原理例子-Node.md",
+      "role": "regression_example",
+      "sha256": "1d2f12b868cebd88042a1d5572773668a72390e7a48ce94e46abec431cad7c3c"
+    },
+    {
+      "path": "references/回归样例/第一性原理例子-API中转站获客分析.md",
+      "source_name": "第一性原理例子-API中转站获客分析.md",
+      "role": "regression_example",
+      "sha256": "fa29ff13eac01bf90198898fc6fad7cc4998b908b1b1f0bef49fcbc8d7a442ec"
+    },
+    {
+      "path": "references/回归样例/第一性原理例子-HTTP.md",
+      "source_name": "第一性原理例子-HTTP.md",
+      "role": "regression_example",
+      "sha256": "3798032b897487a33e7d7349aab0087c1e30c565b5e8b7280c4f363d1ca19648"
+    },
+    {
+      "path": "references/回归样例/第一性原理例子-AI SDLC Harness 工作流方案.md",
+      "source_name": "第一性原理例子-AI SDLC Harness 工作流方案.md",
+      "role": "regression_example",
+      "sha256": "2a39548d12ad08a2549c09fe177d105a9ef61402d2cf80d01dadec22194c4fef"
+    }
+  ]
+}
