@@ -41,7 +41,7 @@ jobs:
             .bootstrap/payload.rest-06 \
             | base64 --decode | tar -xJf -
           rm -rf .bootstrap
-          rm -f .github/workflows/bootstrap-skill.yml
+          rm -f .github/workflows/validate.yml
           python3 scripts/validate_skill.py
 
       - name: Commit generated skill
