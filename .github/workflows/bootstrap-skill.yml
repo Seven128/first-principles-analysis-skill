@@ -6,6 +6,9 @@ on:
       - feat/initial-first-principles-analysis-skill
     paths:
       - .github/workflows/bootstrap-skill.yml
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
