@@ -1,6 +1,6 @@
 # First Principles Analysis Skill
 
-一套把模糊问题转化为连续因果分析，并进一步整理成高信息密度成稿的 Skill。
+一套把模糊问题转化为连续因果分析，并进一步整理成有效信息密度高、局部理解负担可控成稿的 Skill。
 
 v2 将能力拆成四层：
 
@@ -11,10 +11,10 @@ v2 将能力拆成四层：
 +
 带适用条件和失效边界的通用结论
 +
-把完整推演整理成读者可直接阅读的交付形式
+把完整推演转换成读者容易正确理解的交付形式
 ```
 
-目标是让分析因果严密，同时让最终输出直白、流畅、详略得当，不机械套用模板，也不把内部推演记录直接写成文章。
+目标是让分析因果严密，同时让最终输出简洁、直白、直接。成文不以字数最短为目标，而是在保持事实、因果、条件和不确定性的前提下，降低读者获得正确理解所需的成本。
 
 ## 能处理什么
 
@@ -89,25 +89,46 @@ Skill 不默认长期优于短期、稳定优于波动、持续优于一次性�
 
 ### 6. 完整推演与最终成文分离
 
-分析阶段先保证事实、因果、替代解释和证据边界完整。用户需要文章、报告或完整方案时，再执行成文层：
+分析阶段先保证事实、因果、替代解释和证据边界完整。用户需要文章、报告或完整方案时，再执行成文转换：
 
 ```text
 完整推演
+→ 锁定事实、因果、条件和不确定性
+→ 识别文章任务与读者
 → 提取最小完整因果主线
-→ 控制信息层级
-→ 按读者理解顺序重组
-→ 删除重复和旁支
-→ 检查详细程度与表达
+→ 按真实依赖生成段落骨架
+→ 拆解超载句并把抽象名词还原成动作
+→ 按需加入例子，最后才考虑比喻
+→ 去重、校准详细程度
+→ 四层检查
+→ 回查推演不变量
 ```
 
-这样可以同时避免两类退化：把研究记录当文章，以及为了简洁删断因果链。
+这同时避免三类退化：
+
+- 把研究记录当文章；
+- 把多项机制压成抽象名词和属性清单；
+- 为了简洁删断因果，或为了生动增加新的理解任务。
+
+### 7. 有效信息密度
+
+目标不是单位字数放入最多概念，而是：
+
+```text
+读者正确理解并能够使用的关键信息
+÷
+获得这些信息所需的理解成本
+```
+
+因此，高质量成稿既要持续增加有效信息，也要控制每个局部同时引入的新关系。句子不必全部很短，段落也没有固定长度；结构边界应与真实逻辑边界一致。
 
 ## 目录
 
 ```text
 SKILL.md
 references/
-├── core/          # 核心推理、证据、表达和成文规则
+├── core/          # 核心推理、证据、表达和成文主流程
+├── writing/       # 成文规则卡、文章任务适配和四层检查
 ├── subjects/      # 按主体读取的分析指南
 ├── conclusions/   # 按场景读取的通用结论卡
 ├── examples/      # 旧案例使用边界
@@ -119,9 +140,11 @@ evals/
 ├── rubric.md
 ├── regression-cases.json
 ├── writing-rubric.md
-└── writing-regression-cases.json
+├── writing-regression-cases.json
+└── writing-style-pairs.json
 scripts/
 ├── validate_skill.py
+├── validate_writing.py
 ├── validate_conclusions.py
 ├── lint_language.py
 └── eval_report.py
@@ -137,7 +160,7 @@ scripts/
 - 猪肉价格为什么可能周期波动？
 - 我怎样利用 AI 赚钱？
 - 我应该留在当前公司还是接受新 Offer？
-- 把以上分析写成一篇直白、紧凑的技术文章。
+- 把以上分析写成一篇简洁、直白、因果完整的技术文章。
 
 Skill 会先在内部补全问题、选择推理方向和相关主体指南，再按用户需要输出直接回答或成稿，不展示内部路由脚手架。
 
@@ -145,11 +168,12 @@ Skill 会先在内部补全问题、选择推理方向和相关主体指南，�
 
 ```bash
 python3 scripts/validate_skill.py
+python3 scripts/validate_writing.py
 python3 scripts/validate_conclusions.py
 python3 scripts/lint_language.py --strict
 ```
 
-推理质量按照 `evals/rubric.md` 和 `evals/regression-cases.json` 评审。文章质量按照 `evals/writing-rubric.md` 和 `evals/writing-regression-cases.json` 评审。结构校验不能替代实际模型输出回归。
+推理质量按照 `evals/rubric.md` 和 `evals/regression-cases.json` 评审。文章质量按照 `evals/writing-rubric.md`、`evals/writing-regression-cases.json` 和 `evals/writing-style-pairs.json` 评审。结构校验不能替代实际模型输出回归和阅读理解检查。
 
 ## 原始来源
 

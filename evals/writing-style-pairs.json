@@ -1,0 +1,168 @@
+{
+  "version": 1,
+  "purpose": "用同一推演中的成对片段校准成文变换。重点比较关系是否显式、局部理解负担是否降低，以及改写是否保持事实和因果。",
+  "pairs": [
+    {
+      "id": "fiber-flat-enumeration",
+      "reasoning_case_id": "fiber",
+      "issue": "有依赖的机制被压成并列属性。",
+      "before": "Fiber 把渲染改造成可保存进度、可分片、可调度、可丢弃未提交结果、可集中提交的任务系统。",
+      "after": "Fiber 先把渲染进度变成 React 可以保存的数据。有了明确的恢复位置，React 才能暂停一次计算，并在之后继续处理。计算能够中断后，中间结果不能立即修改真实 DOM，因此 React 要先在内存中准备完整结果，再集中提交。",
+      "transformations": [
+        "拆开多个独立关系",
+        "恢复保存进度到暂停恢复的依赖",
+        "从可中断计算推出中间结果隔离与集中提交"
+      ],
+      "must_preserve": [
+        "Fiber 改造渲染执行结构",
+        "保存进度、暂停恢复和集中提交之间的关系"
+      ],
+      "must_not_infer": [
+        "双缓存直接产生优先级",
+        "Fiber 改造了 Diff 算法本身"
+      ]
+    },
+    {
+      "id": "fiber-field-disclosure",
+      "reasoning_case_id": "fiber",
+      "issue": "属于同一结构的字段一次全部展开。",
+      "before": "Fiber 节点包含 child、sibling、return、pendingProps、memoizedState、updateQueue、lanes、childLanes、flags、subtreeFlags、deletions 和 alternate。",
+      "after": "要暂停遍历，React 先要保存当前节点、父节点和接下来处理哪个节点，因此 Fiber 记录 child、sibling 和 return。文章推进到优先级时再说明 lanes；推进到中间结果隔离时再说明 alternate。",
+      "transformations": [
+        "按问题来源分组字段",
+        "把细节推迟到第一次成为必要答案的位置",
+        "删除与当前因果步骤无关的字段枚举"
+      ],
+      "must_preserve": [
+        "遍历位置由 child、sibling 和 return 表示",
+        "lanes 与优先级相关",
+        "alternate 与两棵树的关联相关"
+      ],
+      "must_not_infer": [
+        "未列出的字段不重要",
+        "所有字段之间存在先后因果"
+      ]
+    },
+    {
+      "id": "agent-nominalization",
+      "reasoning_case_id": "agent-principles",
+      "issue": "抽象名词隐藏真实动作。",
+      "before": "Agent 需要构建环境交互能力、反馈闭环能力和执行状态持久化能力。",
+      "after": "运行时先读取任务所在环境，并把模型选择的动作交给工具执行。工具把真实结果返回模型，下一步判断才能依据已经变化的状态。任务跨越多轮时，系统还要保存当前执行到哪一步。",
+      "transformations": [
+        "补出运行时、工具和系统等主体",
+        "把能力名改成读取、执行、返回和保存动作",
+        "按执行依赖排列句子"
+      ],
+      "must_preserve": [
+        "环境交互",
+        "结果反馈",
+        "跨轮状态保存"
+      ],
+      "must_not_infer": [
+        "所有 Agent 都使用同一种工具协议",
+        "状态保存是每个单步任务都需要的前置条件"
+      ]
+    },
+    {
+      "id": "harness-detail-overload",
+      "reasoning_case_id": "ai-sdlc-harness",
+      "issue": "完整方案把全部机制压在一个句子中。",
+      "before": "Harness 通过阶段契约、事实源、任务状态、Skill、Gate、Checkpoint、RFC、allowed_paths 和 CI 构建完整的软件工程治理体系。",
+      "after": "阶段契约先规定当前阶段应读取什么、产出什么以及怎样完成。阶段产物进入统一事实源后，下一阶段才能稳定继承前面的边界。任务状态记录当前执行位置；Gate 决定是否允许流转。任务中断时由 Checkpoint 保存现场，需求变化时再由 RFC 限定受影响链路。",
+      "transformations": [
+        "按职责与依赖拆开机制",
+        "用动作说明每项机制改变什么",
+        "删除没有在当前句中得到解释的附加术语"
+      ],
+      "must_preserve": [
+        "阶段契约、事实源、任务状态、Gate、Checkpoint 和 RFC 的职责",
+        "机制之间的阶段衔接关系"
+      ],
+      "must_not_infer": [
+        "自然语言 Skill 本身形成确定性控制",
+        "CI 是 Gate 的固定实现"
+      ]
+    },
+    {
+      "id": "human-shared-chain",
+      "reasoning_case_id": "human-anger",
+      "issue": "每个候选原因重复同一情绪形成过程。",
+      "before": "他可能因为自尊受损而生气；也可能因为公开尴尬而生气；还可能因为压力太大而生气。每种原因都分别从事件讲到情绪。",
+      "after": "被指出错误只是客观事件。对方可能把它理解为能力受到否定、在他人面前失去位置，或关系中缺少尊重。这些解释都会把事件评价为损失或威胁，从而引发愤怒；疲劳和长期压力可能进一步放大反应。",
+      "transformations": [
+        "先提取候选原因共享的感知与评价主链",
+        "把候选解释放到同一分叉位置",
+        "用放大因素补充而不重讲主链"
+      ],
+      "must_preserve": [
+        "能力、公开场合、尊重和压力均为候选方向",
+        "一次事件不足以确认真实动机"
+      ],
+      "must_not_infer": [
+        "对方确实自尊受损",
+        "愤怒一定来自同一个原因"
+      ]
+    },
+    {
+      "id": "api-growth-result-chain",
+      "reasoning_case_id": "api-relay-growth",
+      "issue": "增长措施先于结果链出现。",
+      "before": "可以做搜索引擎、找 KOL、低价套餐、邀请返利、留言板、免费额度和社群运营。",
+      "after": "用户先要在合适渠道看到服务，再判断它是否值得信任和尝试。注册后还要完成第一次成功调用，否则曝光和注册不会转成持续使用。因此，搜索内容处理触达，透明模型信息和稳定记录处理信任，低门槛试用处理首次成功；价格和留存措施要在单位经济允许的范围内继续验证。",
+      "transformations": [
+        "先建立触达、判断、注册、首次成功和持续使用的结果链",
+        "把措施映射到具体断点",
+        "把经营约束放到对应措施附近"
+      ],
+      "must_preserve": [
+        "渠道、信任、价格和留存都是增长变量",
+        "规则与单位经济限制方案"
+      ],
+      "must_not_infer": [
+        "各渠道必须按固定顺序测试",
+        "低价必然提高真实留存"
+      ]
+    },
+    {
+      "id": "decision-conclusion-first",
+      "reasoning_case_id": "job-offer-choice",
+      "issue": "方法和背景挡在条件化结论之前。",
+      "before": "职业选择是一个复杂的多目标决策问题，需要从收入、成长、稳定、地点、工作内容、风险等多个维度建立评分模型。",
+      "after": "目前不能直接判断哪一个更合适，因为两份工作的事实和你的优先级都缺失。若新 Offer 明显改善你最重视的工作内容和收入，且风险可接受，接受它更符合目标；若当前工作的稳定性和可逆性更重要，留下更合适。下一步先补齐最可能改变这个判断的三项事实。",
+      "transformations": [
+        "把条件化结论提前",
+        "把方法压缩为必要评价标准",
+        "按决策价值排序缺失信息"
+      ],
+      "must_preserve": [
+        "结论依赖用户目标和事实",
+        "收入、工作内容、稳定和风险是候选标准"
+      ],
+      "must_not_infer": [
+        "新 Offer 更好",
+        "稳定性应当优先"
+      ]
+    },
+    {
+      "id": "metaphor-gate",
+      "reasoning_case_id": "fiber",
+      "issue": "比喻增加了一套无必要的概念系统。",
+      "before": "Fiber 像给 React 装上了一个可以随时存档的时间机器，Lane 则像高速公路上的优先车道。",
+      "after": "React 把当前处理到哪个 Fiber 保存下来。主线程需要处理更紧急的工作时，它可以暂停；下次再从保存的位置继续。Lane 记录更新的优先级，让调度器先处理更紧急的更新。",
+      "transformations": [
+        "删除不能提供额外机制信息的比喻",
+        "改用主体、动作和状态变化",
+        "分别解释进度保存与优先级"
+      ],
+      "must_preserve": [
+        "Fiber 支持保存恢复位置",
+        "Lane 表达更新优先级"
+      ],
+      "must_not_infer": [
+        "Fiber 可以恢复任意历史状态",
+        "Lane 具有道路车道的全部属性"
+      ]
+    }
+  ]
+}
