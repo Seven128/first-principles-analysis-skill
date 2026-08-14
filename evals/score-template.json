@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "results": [
+    {
+      "id": "human-anger",
+      "scores": {
+        "problem_definition": 0,
+        "route_choice": 0,
+        "subject_reasoning": 0,
+        "causal_chain": 0,
+        "alternative_explanations": 0,
+        "evidence_discipline": 0,
+        "neutrality": 0,
+        "flexibility": 0,
+        "actionability_or_explanatory_value": 0,
+        "language": 0
+      },
+      "severe_error": false,
+      "notes": ""
+    }
+  ]
+}
