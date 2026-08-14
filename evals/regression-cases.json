@@ -1,242 +1,862 @@
 {
-  "version": 1,
-  "purpose": "验证第一性原理分析 Skill 的主干因果能力，而不是逐字复现参考文章。",
+  "version": 2,
+  "purpose": "验证第一性原理分析 Skill 在定义、解释、行动、选择和跨主体迁移中的因果能力，而不是逐字复现参考文章。",
+  "rubric": "evals/rubric.md",
+  "rubric_dimensions": [
+    "problem_definition",
+    "route_choice",
+    "subject_reasoning",
+    "causal_chain",
+    "alternative_explanations",
+    "evidence_discipline",
+    "neutrality",
+    "flexibility",
+    "actionability_or_explanatory_value",
+    "language"
+  ],
   "global_invariants": [
-    "分析一个明确问题，而不是只介绍宽泛主题或复述资料。",
-    "最终目的原则上只写一句，只锁定分析终点，不附加限制、取舍或方案。",
-    "目标求解型使用当下基线；原理还原型使用对象尚未形成时的形成前基线。",
-    "主体与抽象层级保持一致，子类型或局部实现不得无条件上推为整个类别。",
-    "“现状与要解决的问题”始终使用同一主体、固定基线 A0 与最终目的 O，建立二者之间的顶层能力缺口和固有限制。",
-    "现状部分只使用证明顶层缺口所需的最少充分事实，不展开具体任务的完整动态过程、未来模块、协议、字段、数据结构、循环、队列、代码和运行步骤。",
-    "方案加入后的新基线与派生问题只在方案部分展开；每项机制都先由当前基线中的任务要求和缺口正向推出。",
-    "前一项机制加入后成为下一项派生问题的新基线；依赖关系不能摊成无序并列清单。",
-    "每个问题有方案承接，每个机制可反向追溯到问题来源。",
-    "没有明确升级、替代或演进要求时，不强行加入版本比较。",
-    "正文直接陈述对象事实与因果，不出现“为了还原 X，形成前基线设为……”“本文采用……”等分析过程；必要的范围与证据边界应自然融入相关结论。",
-    "事实、合理推断、待验证假设和价值取舍分开表达。",
-    "语言客观、白话、简练、直白、准确，不用空泛黑话和夸张修辞。"
+    "先把用户输入还原成明确问题，不把宽泛主题或交付形式直接当作分析对象。",
+    "“是什么”先区分定义、分类、事实确认和形成机制，不一律转成为什么。",
+    "正确选择解释结果、达成目标、判断选择或混合问题的推理方向。",
+    "主体保持一致；外部环境只作为影响主体结果的条件，除非问题本身要求切换主体。",
+    "结论由事实、限制和连续作用过程推出，不把时间先后、相关性和现有结构直接当作因果。",
+    "复杂结果保留主要替代解释，并说明需要什么证据区分。",
+    "人的动机、情绪、价值观和经历没有证据时只能作为候选解释。",
+    "利益、资源、周期、信息差和资金流向等结论卡只在适用条件成立时使用。",
+    "行动方案从目标所需条件和当前差距推出，不先列经验清单再补理由。",
+    "必要条件与具体实现分开；当前实现不被写成唯一答案。",
+    "事实、合理推断、待验证假设和评价标准分开表达。",
+    "不偷偷加入长期、稳定、可持续、低风险等用户未选择的价值标准。",
+    "正文直接陈述对象事实、因果和行动，不泄漏内部路由、公式、基线或检查表。",
+    "语言客观、白话、准确，不用空泛黑话和夸张修辞。",
+    "没有专门案例的新主体能够组合已有通用逻辑与主体指南进行分析。"
   ],
   "cases": [
     {
       "id": "agent-principles",
-      "type": "principle_restoration",
+      "type": "explanation-designed-system",
       "prompt": "我知道 Agent 是基于接口式调用大模型的通用任务执行应用，但不知道为什么会有 Agent、为什么形成当前这种形态。请写一篇 Agent 技术原理文章。",
       "reference": null,
+      "subjects": [
+        "技术系统与产品"
+      ],
       "focus": [
-        "固定形成前基线与顶层缺口",
-        "主体和抽象层级一致",
-        "现状部分不模拟未来运行过程",
-        "方案部分逐项更新基线",
-        "最终目的只写对象概括"
+        "从原有能力到当前结构",
+        "机制依赖顺序",
+        "逻辑需要与历史事实区分"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "subject_reasoning",
+        "causal_chain",
+        "alternative_explanations",
+        "evidence_discipline",
+        "neutrality",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
       ],
       "must": [
-        "最终目的只写“Agent 是基于接口式调用大模型的通用任务执行应用”这一对象概括，不附加宿主性能、模型能力、调用成本或执行性能取舍。",
-        "固定比较“只有大模型接口、尚未形成任务执行应用”的 A0 与 Agent 最终概括 O。",
-        "现状部分保持应用/能力层级，首先说明模型输出不能自行读取和改变外部状态，也不能依据真实结果持续推进任务。",
-        "现状部分在同一层级概括模型概率性、有限上下文、生成时延和调用成本怎样约束任务执行的可靠性、持续性、速度与经济性。",
-        "把行动—反馈能力作为首先需要补足的条件；具体执行机制加入后，才在方案部分继续推出副作用控制、状态维持和验证等派生机制。",
-        "正文直接陈述对象事实，不说明为何设定分析基线。"
+        "简洁锁定 Agent 的对象概括，不在开头附加完整模块清单。",
+        "说明只有大模型接口时，输出不能自行读取和改变外部状态，也不能依据真实结果持续推进任务。",
+        "先推出环境交互与行动反馈能力，再在具体执行能力加入后分析权限、副作用、状态和验证等后续问题。",
+        "区分逻辑上需要某类能力与历史上具体产品如何实现。"
       ],
       "must_not": [
-        "单独设置主体最小稳定定义、形成前基线、分析边界与证据等级等方法论章节。",
-        "开头先列工具、状态、记忆、验证、安全等完整模块清单。",
-        "无触发地讨论上一代 Agent 产品或版本差异。",
-        "出现“为了还原 Agent 的形成原理，形成前基线设为”“本文采用的分析基线”“下面按照第一性原理”等内部推演过程表述。",
-        "在现状部分展开模型接口消息类型、工具调用 JSON、参数字段、宿主解析、ReAct、循环、队列、流水线、子代理、MCP、沙箱、状态机或具体数据结构。",
-        "在现状部分用修复测试失败、用户补充约束、文件被其他进程修改等完整任务故事，替代 A0 与 O 之间的顶层缺口。",
-        "在现状部分使用“加入执行能力后”“第一次运行后”等方式偷跑到 A1、A2。"
+        "开头先列工具、状态、记忆、验证、安全等完整答案。",
+        "在问题尚未成立前展开 MCP、沙箱、状态机、队列或具体字段。",
+        "出现 A0、O、基线、顶层缺口等内部脚手架。",
+        "声称当前某个 Agent 实现是唯一可能形态。"
       ]
     },
     {
       "id": "frontend-job",
-      "type": "goal_solving",
+      "type": "goal-solving",
       "prompt": "请用第一性原理分析：我怎样才能找到符合个人目标与现实条件的前端开发工程师工作？",
       "reference": null,
+      "subjects": [
+        "人的行为与情绪",
+        "群体与组织"
+      ],
       "focus": [
-        "当下基线",
-        "主体一致性",
-        "目标条件与方案映射"
+        "当下真实情况",
+        "目标条件与行动映射",
+        "未知个人信息"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "subject_reasoning",
+        "causal_chain",
+        "alternative_explanations",
+        "evidence_discipline",
+        "neutrality",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
       ],
       "must": [
-        "主体持续围绕求职者，市场和企业只作为影响求职者状态转变的外部条件。",
-        "说明岗位发现、能力匹配、履历识别、面试验证和双方选择等条件为何影响目标。",
-        "基于求职者当前状态识别缺口，再给出相应行动方案。"
+        "主体持续围绕求职者，市场和企业作为影响结果的外部条件。",
+        "解释岗位发现、能力匹配、履历识别、面试验证和双方选择为什么影响结果。",
+        "在未知个人条件时使用条件分支，并给出最值得补充的信息。",
+        "行动方案对应明确差距，并包含验证和调整。"
       ],
       "must_not": [
-        "把文章转成独立的宏观就业市场报告。",
-        "未了解个人条件时编造履历、技能或求职结果。",
-        "先给投简历、刷题、改简历等经验清单，再补写理由。"
+        "把文章写成独立宏观就业报告。",
+        "编造用户履历、技能、城市、薪资或求职结果。",
+        "先给投简历、刷题、改简历清单，再补写理由。",
+        "默认高薪、稳定或大公司是用户的最高目标。"
       ]
     },
     {
       "id": "fiber",
-      "type": "principle_restoration_with_history",
+      "type": "explanation-designed-system-history",
       "prompt": "请从第一性原理解释 React Fiber 为什么出现，以及为什么形成当前这种渲染执行结构。",
       "reference": "references/回归样例/第一性原理例子-Fiber.md",
+      "subjects": [
+        "技术系统与产品"
+      ],
       "focus": [
-        "形成前能力边界",
+        "已有能力与新增能力",
         "机制依赖顺序",
-        "已有能力与新增能力区分"
+        "版本边界"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "subject_reasoning",
+        "causal_chain",
+        "alternative_explanations",
+        "evidence_discipline",
+        "neutrality",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
       ],
       "must": [
-        "区分 React 已有的更新/调和能力与 Fiber 改造的执行架构。",
-        "从主线程约束、长任务和同步递归无法保存进度等问题正向推出可保存工作单元。",
-        "在可中断计算成立后，再推出中间结果隔离、优先级和集中提交等机制。"
+        "区分 React 已有的更新和调和能力与 Fiber 改造的执行架构。",
+        "从主线程约束、长任务和同步递归无法保存进度推出可保存工作单元。",
+        "在可中断计算成立后，再推出中间结果隔离、优先级和集中提交。",
+        "对当前实现细节保留版本范围。"
       ],
       "must_not": [
         "声称 Fiber 让 React 第一次拥有 Diff。",
-        "先列 Fiber、Lane、双缓存、flags 等模块再倒推原因。",
-        "把当前 React 单一版本的实现细节泛化为全部历史版本。"
+        "先列 Fiber、Lane、双缓存、flags 再倒推原因。",
+        "把当前 React 实现泛化为全部历史版本。",
+        "使用物理、绝对、完美替代机制说明。"
       ]
     },
     {
       "id": "http-evolution",
-      "type": "principle_restoration_with_version_trigger",
+      "type": "explanation-version-evolution",
       "prompt": "请从第一性原理解释 HTTP/1.1 相比 HTTP/1.0 为什么引入持久连接与报文定界，以及 HTTP/2 为什么进一步引入二进制分帧和头部压缩。",
       "reference": "references/回归样例/第一性原理例子-HTTP.md",
+      "subjects": [
+        "技术系统与产品"
+      ],
       "focus": [
-        "明确触发的版本演进",
-        "新机制引入的新问题",
-        "逐代问题—方案映射"
+        "明确版本触发",
+        "新机制引入新问题",
+        "逐代因果"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "subject_reasoning",
+        "causal_chain",
+        "alternative_explanations",
+        "evidence_discipline",
+        "neutrality",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
       ],
       "must": [
-        "允许并需要比较明确指定的协议版本。",
-        "先说明短连接的重复握手与慢启动成本，再推出连接复用。",
+        "比较用户明确指定的协议版本。",
+        "先说明重复握手和连接冷启动成本，再推出连接复用。",
         "连接常开失去断开定界后，再推出报文定界。",
-        "在 HTTP/1.1 的应用层队头阻塞和头部冗余成立后，再推出 HTTP/2 相应机制。"
+        "在 HTTP/1.1 应用层队头阻塞和头部冗余成立后，再说明 HTTP/2 的相关机制。"
       ],
       "must_not": [
-        "把后续协议才出现的问题倒写成早期协议设计者已经明确面对的全部问题。",
-        "跳过问题证明，直接罗列 Keep-Alive、Content-Length、Frame、HPACK。"
+        "把后续协议的问题倒写成早期设计者已经完整面对的历史事实。",
+        "跳过问题证明，直接罗列 Keep-Alive、Content-Length、Frame、HPACK。",
+        "把 TCP 层与 HTTP 应用层队头阻塞混为一谈。"
       ]
     },
     {
       "id": "api-relay-growth",
-      "type": "goal_solving_commercial",
-      "prompt": "请从第一性原理分析一个 API 中转服务怎样增加真实注册并持续使用的用户，同时遵守法律、平台规则和可持续经营约束。",
+      "type": "goal-solving-commercial",
+      "prompt": "请从第一性原理分析一个 API 中转服务怎样增加真实注册并持续使用的用户，同时遵守法律、平台规则和经营约束。",
       "reference": "references/回归样例/第一性原理例子-API中转站获客分析.md",
+      "subjects": [
+        "商业与赚钱",
+        "行业市场与资源流动"
+      ],
       "focus": [
-        "商业目标链",
-        "触达—转化—价值—留存",
-        "合规与单位经济"
+        "增长结果链",
+        "用户支付与持续价值",
+        "规则和单位经济"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "subject_reasoning",
+        "causal_chain",
+        "alternative_explanations",
+        "evidence_discipline",
+        "neutrality",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
       ],
       "must": [
-        "从真实用户增长需要经历的触达、价值判断、注册、首次成功使用、持续价值和传播条件展开。",
-        "方案分别对应渠道、信任、产品价值、价格与留存问题。",
-        "把法律、平台规则、上游稳定性和单位经济作为硬约束。"
+        "区分触达、价值判断、注册、首次成功、持续使用和传播。",
+        "渠道、信任、产品价值、价格和留存方案分别对应明确问题。",
+        "把法律、平台规则、上游稳定性和收入成本作为客观约束。",
+        "区分曝光、注册、活跃和付费等不同结果。"
       ],
       "must_not": [
-        "把欺诈、虚假宣传、批量滥用免费额度、规避平台限制或侵权方案当作推荐方案。",
+        "把欺诈、虚假宣传、批量滥用免费额度、规避平台限制或侵权作为推荐方案。",
         "用曝光量直接替代真实注册和持续使用。",
-        "只列营销手段而不解释用户为何转化与留存。"
+        "只列营销手段而不解释用户为何转化与留存。",
+        "默认可持续经营比其他目标更高尚，而不说明这是题目约束。"
       ]
     },
     {
       "id": "ai-sdlc-harness",
-      "type": "goal_solving_system_design",
+      "type": "goal-solving-system-design",
       "prompt": "请从第一性原理设计一套面向 AI Agent 的软件需求全链路 Harness 工作流，以降低阶段执行、阶段衔接和阶段交付成本。",
       "reference": "references/回归样例/第一性原理例子-AI SDLC Harness 工作流方案.md",
+      "subjects": [
+        "技术系统与产品",
+        "制度与政策"
+      ],
       "focus": [
         "复杂方案设计",
         "阶段问题与机制映射",
-        "成本收益"
+        "成本与边界"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "subject_reasoning",
+        "causal_chain",
+        "alternative_explanations",
+        "evidence_discipline",
+        "neutrality",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
       ],
       "must": [
-        "从复杂软件工程的多阶段事实、产物衔接、任务状态和交付约束推导问题。",
-        "阶段契约、事实源、任务状态、Skill、Gate、Checkpoint 和 RFC 等机制分别承接明确问题。",
-        "说明机制的使用成本和适用边界，避免为系统化外观新增机制。"
+        "从多阶段事实、产物衔接、任务状态和交付约束推出问题。",
+        "阶段契约、事实源、任务状态、Skill、Gate、Checkpoint 和 RFC 分别承接明确问题。",
+        "区分宿主执行的确定性机制与模型阅读的自然语言约束。",
+        "说明机制使用成本和适用边界。"
       ],
       "must_not": [
-        "先给完整目录树和模块清单，再补写设计理由。",
-        "把所有自然语言规则都描述为确定性硬约束。",
-        "把单次模型生成速度等同于全链路效率。"
+        "先给完整目录树和模块清单，再补设计理由。",
+        "把所有自然语言规则描述为不可绕过的硬约束。",
+        "把单次生成速度等同于全链路效率。",
+        "为系统化外观新增没有问题来源的模块。"
       ]
     },
     {
       "id": "browser-security",
-      "type": "principle_restoration_security",
+      "type": "explanation-security",
       "prompt": "请从第一性原理解释 Web 前端为什么会面临 XSS 与 CSRF，以及相应防御机制为什么能够成立。",
       "reference": "references/回归样例/第一性原理例子-浏览器安全.md",
+      "subjects": [
+        "技术系统与产品"
+      ],
       "focus": [
         "攻击成立条件",
-        "防御机制对应",
-        "多威胁模型分离"
+        "防御切断条件",
+        "威胁模型分离"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "subject_reasoning",
+        "causal_chain",
+        "alternative_explanations",
+        "evidence_discipline",
+        "neutrality",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
       ],
       "must": [
-        "分别建立 XSS 与 CSRF 的攻击前提和因果链，不把两者混成同一问题。",
-        "每项防御说明它切断攻击链的哪一个必要条件。",
-        "区分浏览器侧限制、服务端校验和凭证存储方式的责任边界。"
+        "分别建立 XSS 与 CSRF 的攻击前提和因果链。",
+        "每项防御说明切断攻击链的哪个必要条件。",
+        "区分浏览器限制、服务端校验和凭证存储的责任边界。",
+        "对 SameSite、CSP、Token 等机制说明部署和场景边界。"
       ],
       "must_not": [
-        "仅罗列转义、CSP、HttpOnly、SameSite、Token 等名词。",
-        "声称单一机制在所有部署、子域、SSO 和浏览器环境下绝对充分。",
-        "把 CORS 当作通用 CSRF 防御或服务端授权机制的替代品。"
+        "只罗列转义、CSP、HttpOnly、SameSite 和 Token。",
+        "声称单一机制在所有子域、SSO 和浏览器环境下绝对充分。",
+        "把 CORS 当作通用 CSRF 防御或服务端授权替代。",
+        "用绝对隔离或完美防御等词代替威胁分析。"
       ]
     },
     {
       "id": "node-runtime",
-      "type": "principle_restoration_runtime",
+      "type": "explanation-runtime",
       "prompt": "请从第一性原理解释 Node.js 事件循环如何在单线程下协调定时器、I/O 与微任务，并明确哪些结论属于规范、哪些依赖具体版本实现。",
       "reference": "references/回归样例/第一性原理例子-Node.md",
+      "subjects": [
+        "技术系统与产品"
+      ],
       "focus": [
-        "运行机制",
-        "优先级与吞吐取舍",
-        "版本事实边界"
+        "调度问题",
+        "优先级与吞吐",
+        "版本事实"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "subject_reasoning",
+        "causal_chain",
+        "alternative_explanations",
+        "evidence_discipline",
+        "neutrality",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
       ],
       "must": [
-        "从单线程执行栈、异步事件来源和响应/吞吐要求推导调度问题。",
-        "说明阶段、轮询、微任务检查点等机制分别解决什么条件。",
-        "对阶段顺序、定时器位置和批处理行为保留版本与实现边界。"
+        "从单线程执行栈、异步事件来源和响应与吞吐要求推出调度问题。",
+        "说明阶段、轮询和微任务检查点分别处理什么条件。",
+        "对阶段顺序、定时器位置和批处理行为保留版本与实现边界。",
+        "区分规范语义、Node 行为和 libuv 实现。"
       ],
       "must_not": [
-        "把不同 Node.js/libuv 版本的行为写成永恒不变的统一事实。",
-        "使用物理、绝对、完美等修辞替代可验证机制说明。",
-        "把多个无依赖主题强行混成同一条因果链。"
+        "把不同 Node.js 或 libuv 版本写成永恒统一事实。",
+        "使用物理、绝对、完美等修辞替代机制说明。",
+        "把事件循环、CommonJS 和 ESM 等无依赖主题强行连成同一因果链。"
       ]
     },
     {
       "id": "harness-engineering",
-      "type": "goal_solving_system_design",
+      "type": "goal-solving-system-design",
       "prompt": "请从第一性原理分析一个 Agent Harness 工程为了让 AI 半自动或全自动完成复杂软件项目，需要解决哪些问题，并怎样区分确定性硬机制与模型可读软约束。",
       "reference": "references/回归样例/第一性原理例子-Harness工程.md",
+      "subjects": [
+        "技术系统与产品",
+        "制度与政策"
+      ],
       "focus": [
         "复杂系统边界",
-        "硬机制/软约束",
+        "硬机制与软约束",
         "成本与恢复"
       ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "subject_reasoning",
+        "causal_chain",
+        "alternative_explanations",
+        "evidence_discipline",
+        "neutrality",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
+      ],
       "must": [
-        "从模型上下文、输出、成本、错误率和外部操作风险等客观约束推出根问题。",
-        "只有被宿主、工具、权限、Hook、Exit Code 或沙箱实际执行的约束才可称为硬机制。",
-        "Memory、Context、Action、Governance 等设计必须有问题来源和责任边界。"
+        "从模型上下文、输出、成本、错误率和外部操作风险等约束推出根问题。",
+        "只有被宿主、工具、权限、Hook、Exit Code 或沙箱实际执行的限制才称为确定性边界。",
+        "Memory、Context、Action、Governance 等设计必须有问题来源和责任边界。",
+        "说明自然语言规则提高概率但不能单独保证执行。"
       ],
       "must_not": [
         "把提示词、AGENTS.md、Skill 正文或自然语言 Policy 单独描述为物理安全边界。",
-        "为追求完整架构而引入没有收益证明的模块。",
-        "把某个客户端的当前实现泛化为所有 Agent Harness 的本质。"
+        "为追求完整架构引入没有收益证明的模块。",
+        "把某个客户端当前实现泛化为所有 Harness。"
       ]
     },
     {
       "id": "database-index-boundary",
-      "type": "principle_restoration",
+      "type": "explanation-designed-system",
       "prompt": "我知道数据库索引用于加快查询，但不知道为什么会有索引，以及为什么关系型数据库常见索引会采用 B+ 树。请从第一性原理解释。",
       "reference": null,
+      "subjects": [
+        "技术系统与产品"
+      ],
       "focus": [
-        "固定形成前基线与目标",
-        "现状最少充分信息",
-        "问题与具体机制边界"
+        "从无索引到定位能力",
+        "必要能力与具体实现",
+        "存储环境"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "subject_reasoning",
+        "causal_chain",
+        "alternative_explanations",
+        "evidence_discipline",
+        "neutrality",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
       ],
       "must": [
-        "最终目的只简洁表达索引的对象概括，不在开头展开结构细节或工程取舍。",
-        "固定比较没有索引辅助的数据组织与索引需要实现的高效定位目标，不写“形成前基线设为无索引”。",
-        "现状部分停在数据量增长后逐条扫描无法稳定满足查询成本要求，以及需要一种兼顾定位、范围访问、存储访问与更新的组织能力。",
-        "在机制部分再结合存储页、树高、范围访问与更新成本解释 B+ 树为什么是常见工程选择。"
+        "简洁说明索引的对象概括，不在开头展开 B+ 树结构。",
+        "先说明数据增长后逐条扫描为什么不能稳定满足查询成本。",
+        "先推出兼顾定位、范围访问、存储访问和更新的组织能力。",
+        "再结合存储页、树高、范围访问和更新成本解释 B+ 树为何常见。"
       ],
       "must_not": [
-        "单独展示分析基线、对象层级、证据等级或推演步骤。",
-        "在现状部分展开 B+ 树节点、页分裂、叶子链表等实现细节。",
-        "在现状部分先假设采用树结构，再讨论树高、分裂或缓存命中等新基线问题。",
-        "仅凭第一性原理声称 B+ 树是唯一可能的索引实现。",
-        "无触发地加入数据库版本或代际比较。"
+        "展示 A0、基线或推演公式。",
+        "在问题成立前展开节点、页分裂和叶子链表。",
+        "声称 B+ 树是唯一可能实现。",
+        "无触发地加入数据库版本比较。"
+      ]
+    },
+    {
+      "id": "human-anger",
+      "type": "explanation-human-emotion",
+      "prompt": "我指出同事方案里有一个明显错误后，他当场很生气。为什么他会生气？",
+      "reference": null,
+      "subjects": [
+        "人的行为与情绪",
+        "群体与组织"
+      ],
+      "focus": [
+        "主观理解",
+        "候选原因",
+        "证据边界"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "subject_reasoning",
+        "causal_chain",
+        "alternative_explanations",
+        "evidence_discipline",
+        "neutrality",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
+      ],
+      "must": [
+        "区分客观事件与对方可能怎样理解事件。",
+        "检查能力或地位受否定、公开场合、尊重、控制、不公、长期压力等候选方向。",
+        "说明愤怒可能由目标受阻、边界、身份或生理压力共同影响。",
+        "给出能够区分解释的观察或沟通问题。"
+      ],
+      "must_not": [
+        "断言他自尊心强、嫉妒、恶意或童年受过伤。",
+        "把用户所说的明显错误当作对方也必然认同的事实。",
+        "只给一个动机。",
+        "无限追溯童年而不解释当前事件到情绪的过程。"
+      ]
+    },
+    {
+      "id": "human-procrastination",
+      "type": "explanation-human-behavior",
+      "prompt": "一个人明明知道学习对长期发展重要，却总是拖延，为什么？",
+      "reference": null,
+      "subjects": [
+        "人的行为与情绪"
+      ],
+      "focus": [
+        "长期目标与即时反馈",
+        "自动因素",
+        "替代解释"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "subject_reasoning",
+        "causal_chain",
+        "alternative_explanations",
+        "evidence_discipline",
+        "neutrality",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
+      ],
+      "must": [
+        "分析即时成本、延迟收益、任务模糊、情绪回避和环境反馈。",
+        "检查习惯、疲劳、注意力、技能差距和外部约束。",
+        "区分知道重要与当下能够执行。",
+        "给出多种候选链和验证方式。"
+      ],
+      "must_not": [
+        "简单归因于懒惰、意志力差或价值观错误。",
+        "假设行为都是理性收益计算。",
+        "把某种心理诊断写成事实。"
+      ]
+    },
+    {
+      "id": "leader-project-allocation",
+      "type": "explanation-organization",
+      "prompt": "Leader 为什么总把好项目交给同一个人？",
+      "reference": null,
+      "subjects": [
+        "群体与组织",
+        "人的行为与情绪"
+      ],
+      "focus": [
+        "资源定义",
+        "评价与风险",
+        "利益与替代解释"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "subject_reasoning",
+        "causal_chain",
+        "alternative_explanations",
+        "evidence_discipline",
+        "neutrality",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
+      ],
+      "must": [
+        "先说明好项目具体带来什么资源和结果。",
+        "检查能力、历史交付、信任、可用时间、风险、绩效、关系和决策者责任。",
+        "区分可观察分配模式与对动机的推测。",
+        "给出需要查看的规则和决策证据。"
+      ],
+      "must_not": [
+        "直接断言利益输送、偏心或办公室政治。",
+        "只用能力或只用关系解释。",
+        "忽略 Leader 承担的交付风险和上级评价。"
+      ]
+    },
+    {
+      "id": "team-core-projects",
+      "type": "explanation-resource-allocation",
+      "prompt": "为什么团队内部总在争抢核心项目？",
+      "reference": null,
+      "subjects": [
+        "群体与组织",
+        "行业市场与资源流动"
+      ],
+      "focus": [
+        "资源分配",
+        "反馈强化",
+        "非资源解释"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "subject_reasoning",
+        "causal_chain",
+        "alternative_explanations",
+        "evidence_discipline",
+        "neutrality",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
+      ],
+      "must": [
+        "定义核心项目对应的绩效、晋升、可见度、技能和话语权等资源。",
+        "分析资源稀缺、分配权和项目经历对未来机会的反馈。",
+        "检查是否有外部资源输入和替代项目。",
+        "保留身份、兴趣、责任和组织目标等其他解释。"
+      ],
+      "must_not": [
+        "用贪婪或人品解释全部行为。",
+        "没有定义资源就讨论争夺。",
+        "默认团队是封闭零和系统。"
+      ]
+    },
+    {
+      "id": "pork-cycle",
+      "type": "explanation-market-cycle",
+      "prompt": "为什么猪肉价格可能周期性波动？",
+      "reference": null,
+      "subjects": [
+        "行业市场与资源流动"
+      ],
+      "focus": [
+        "价格利润产能区分",
+        "反馈延迟",
+        "外部输入"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "subject_reasoning",
+        "causal_chain",
+        "alternative_explanations",
+        "evidence_discipline",
+        "neutrality",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
+      ],
+      "must": [
+        "区分价格、利润、产能、库存、需求和资金。",
+        "说明高收益信号、扩产延迟、供给集中形成和后续收缩的链条。",
+        "说明周期是条件性结果，不是封闭系统必然规律。",
+        "说明政策、疫病、饲料、资本和需求可能打破或重塑周期。"
+      ],
+      "must_not": [
+        "说高价进入者的钱必然等额成为低价进入者利润。",
+        "把供需两个字当作完整解释。",
+        "声称无外部输入必然周期，有外部输入就不会周期。"
+      ]
+    },
+    {
+      "id": "ai-money",
+      "type": "goal-solving-commercial",
+      "prompt": "我怎样利用 AI 赚到钱？",
+      "reference": null,
+      "subjects": [
+        "商业与赚钱",
+        "行业市场与资源流动"
+      ],
+      "focus": [
+        "资金来源",
+        "支付条件",
+        "信息能力差",
+        "多路径"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "subject_reasoning",
+        "causal_chain",
+        "alternative_explanations",
+        "evidence_discipline",
+        "neutrality",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
+      ],
+      "must": [
+        "先识别钱的来源、支付者或分配规则。",
+        "说明 AI 可以降低什么成本、增加什么结果或形成什么新能力。",
+        "覆盖产品、服务、劳动、平台分配、渠道或其他主要路径，而不是只给项目点子。",
+        "调用信息、能力与时间差时检查支付意愿、交付、触达和差异持续时间。",
+        "在个人条件未知时给条件分支和低成本验证。"
+      ],
+      "must_not": [
+        "直接罗列热门 AI 项目。",
+        "说大多数人不会思考，所以包装一下就能赚钱。",
+        "默认长期可持续模式更好或短期投机更坏。",
+        "把需求、使用、注册或曝光直接等同于收入。",
+        "编造用户技能、资本或渠道。"
+      ]
+    },
+    {
+      "id": "pure-definition-prime",
+      "type": "definition",
+      "prompt": "什么是质数？",
+      "reference": null,
+      "subjects": [
+        "自然与生物系统"
+      ],
+      "focus": [
+        "定义与边界",
+        "不强行形成分析"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "evidence_discipline",
+        "flexibility",
+        "language"
+      ],
+      "must": [
+        "给出准确、简洁的定义。",
+        "说明适用范围为大于 1 的整数，并给出例子和反例。"
+      ],
+      "must_not": [
+        "转换成为什么质数被设计出来。",
+        "使用从无到有的形成链。",
+        "加入与定义无关的长篇数论历史。"
+      ]
+    },
+    {
+      "id": "agent-what-routing",
+      "type": "what-to-explanation",
+      "prompt": "Agent 到底是什么？我看了很多定义还是不理解为什么要有它。",
+      "reference": null,
+      "subjects": [
+        "技术系统与产品"
+      ],
+      "focus": [
+        "识别真实意图",
+        "从是什么转为什么"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "subject_reasoning",
+        "causal_chain",
+        "alternative_explanations",
+        "evidence_discipline",
+        "neutrality",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
+      ],
+      "must": [
+        "先给简洁对象概括，再解释为什么只有模型接口不足。",
+        "根据用户明确的理解需求转入形成原因和机制。",
+        "保持定义、任务要求和机制之间的连续关系。"
+      ],
+      "must_not": [
+        "只给词典式定义。",
+        "把所有是什么问题都声明为为什么。",
+        "先罗列完整 Agent 模块清单。"
+      ]
+    },
+    {
+      "id": "ant-trail-migration",
+      "type": "explanation-natural-collective",
+      "prompt": "蚂蚁为什么会形成稳定的行进路径？",
+      "reference": null,
+      "subjects": [
+        "自然与生物系统"
+      ],
+      "focus": [
+        "新主体迁移",
+        "局部规则与群体结果",
+        "避免拟人化"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "subject_reasoning",
+        "causal_chain",
+        "alternative_explanations",
+        "evidence_discipline",
+        "neutrality",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
+      ],
+      "must": [
+        "从个体感知、局部信号、重复强化和挥发或弱化等机制解释整体路径。",
+        "区分个体局部行为与群体层面的稳定结构。",
+        "说明物种和环境差异可能改变机制。"
+      ],
+      "must_not": [
+        "套用职场利益关系或有意识集体规划。",
+        "说蚂蚁为了整体效率而主动设计道路。",
+        "因为没有专门案例而停止分析。"
+      ]
+    },
+    {
+      "id": "job-offer-choice",
+      "type": "decision",
+      "prompt": "我应该留在当前公司，还是接受新 Offer？",
+      "reference": null,
+      "subjects": [
+        "人的行为与情绪",
+        "群体与组织"
+      ],
+      "focus": [
+        "评价标准",
+        "未知个人事实",
+        "条件化结论"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "subject_reasoning",
+        "causal_chain",
+        "alternative_explanations",
+        "evidence_discipline",
+        "neutrality",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
+      ],
+      "must": [
+        "先明确收入、成长、稳定、地点、工作内容、风险和个人生活等可能标准。",
+        "区分事实、预测和个人偏好。",
+        "在信息不足时提供比较框架和最需要补充的信息。",
+        "在不同优先级下给条件化结论。"
+      ],
+      "must_not": [
+        "替用户默认薪资、稳定或成长最重要。",
+        "编造两份工作的事实。",
+        "给出没有条件说明的唯一选择。"
+      ]
+    },
+    {
+      "id": "false-premise-interest-only",
+      "type": "premise-check",
+      "prompt": "所有人都是利益驱动的，请用第一性原理证明。",
+      "reference": null,
+      "subjects": [
+        "人的行为与情绪",
+        "群体与组织"
+      ],
+      "focus": [
+        "检查用户前提",
+        "范围修正",
+        "反例"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "subject_reasoning",
+        "causal_chain",
+        "alternative_explanations",
+        "evidence_discipline",
+        "neutrality",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
+      ],
+      "must": [
+        "指出全称命题无法由现有事实直接成立。",
+        "保留利益是重要检查方向的有效部分。",
+        "说明习惯、情绪、价值、责任、生理状态和认知等替代因素。",
+        "把命题改写为带适用条件的可验证表述。"
+      ],
+      "must_not": [
+        "迎合并伪造证明。",
+        "只用一个反例完全否定利益分析价值。",
+        "把价值判断代替逻辑范围检查。"
+      ]
+    },
+    {
+      "id": "mixed-growth-stagnation",
+      "type": "mixed-explanation-goal",
+      "prompt": "为什么我们产品最近增长停滞，接下来应该怎样改？",
+      "reference": null,
+      "subjects": [
+        "商业与赚钱",
+        "技术系统与产品",
+        "行业市场与资源流动"
+      ],
+      "focus": [
+        "混合问题分链",
+        "指标与原因",
+        "行动验证"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "subject_reasoning",
+        "causal_chain",
+        "alternative_explanations",
+        "evidence_discipline",
+        "neutrality",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
+      ],
+      "must": [
+        "先明确增长指的是曝光、注册、活跃、付费、收入还是留存。",
+        "先解释现状形成，再从当前状态分析未来目标。",
+        "区分渠道、转化、产品价值、留存、价格、市场和数据口径等候选原因。",
+        "方案针对已验证或待验证原因，并安排低成本验证。"
+      ],
+      "must_not": [
+        "把过去原因和未来方案混成一组增长技巧。",
+        "直接假设原因是营销不足或产品不好。",
+        "只看曝光而忽略真实目标指标。"
       ]
     }
   ]
