@@ -9,7 +9,16 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-CASES_PATH = ROOT / "evals/regression-cases.json"
+SUITES = {
+    "reasoning": {
+        "cases": ROOT / "evals/regression-cases.json",
+        "minimum": 16,
+    },
+    "writing": {
+        "cases": ROOT / "evals/writing-regression-cases.json",
+        "minimum": 10,
+    },
+}
 
 
 def load(path: Path):
@@ -19,10 +28,22 @@ def load(path: Path):
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("scores", type=Path, help="JSON mapping case id to dimension scores and notes")
-    parser.add_argument("--minimum", type=int, default=16)
+    parser.add_argument(
+        "--suite",
+        choices=sorted(SUITES),
+        default="reasoning",
+        help="Regression suite to score.",
+    )
+    parser.add_argument(
+        "--minimum",
+        type=int,
+        default=None,
+        help="Override the suite's default passing score.",
+    )
     args = parser.parse_args()
 
-    cases_data = load(CASES_PATH)
+    suite = SUITES[args.suite]
+    cases_data = load(suite["cases"])
     known = {case["id"]: case for case in cases_data["cases"]}
     scores_data = load(args.scores)
     results = scores_data.get("results")
@@ -30,12 +51,13 @@ def main() -> int:
         print("ERROR: score file requires a results list", file=sys.stderr)
         return 1
 
+    minimum = suite["minimum"] if args.minimum is None else args.minimum
     failed = 0
     seen: set[str] = set()
     for item in results:
         case_id = item.get("id")
         if case_id not in known:
-            print(f"ERROR: unknown case id: {case_id}", file=sys.stderr)
+            print(f"ERROR: unknown {args.suite} case id: {case_id}", file=sys.stderr)
             return 1
         if case_id in seen:
             print(f"ERROR: duplicate case id: {case_id}", file=sys.stderr)
@@ -57,14 +79,14 @@ def main() -> int:
         total = sum(scores.values())
         maximum = 2 * len(required_dims)
         severe = bool(item.get("severe_error", False))
-        threshold = min(args.minimum, maximum)
+        threshold = min(minimum, maximum)
         passed = total >= threshold and not severe
         status = "PASS" if passed else "FAIL"
         print(f"{status}: {case_id} {total}/{maximum}")
         if not passed:
             failed += 1
 
-    print(f"Scored {len(results)} cases; failed={failed}")
+    print(f"Suite={args.suite}; scored={len(results)}; failed={failed}")
     return 1 if failed else 0
 
 

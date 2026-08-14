@@ -20,6 +20,7 @@ CORE_PATHS = [
     "references/core/03-怎么做类问题推理.md",
     "references/core/04-客观性与证据规则.md",
     "references/core/05-输出与表达规则.md",
+    "references/core/06-文章成稿与压缩.md",
 ]
 
 SUBJECT_PATHS = [
@@ -54,7 +55,13 @@ REQUIRED_PATHS = [
     "evals/README.md",
     "evals/rubric.md",
     "evals/regression-cases.json",
+    "evals/score-template.json",
+    "evals/writing-rubric.md",
+    "evals/writing-regression-cases.json",
+    "evals/writing-score-template.json",
+    "scripts/eval_report.py",
     "scripts/lint_language.py",
+    "scripts/validate_conclusions.py",
     *CORE_PATHS,
     *SUBJECT_PATHS,
     *CONCLUSION_PATHS,
@@ -78,6 +85,17 @@ CONCLUSION_SECTIONS = [
     "## 常见误用",
 ]
 
+WRITING_SECTIONS = [
+    "## 1. 成文层的位置",
+    "## 3. 先确定文章任务",
+    "## 4. 提取最小完整因果主线",
+    "## 5. 控制信息层级",
+    "## 7. 压缩时保留因果桥梁",
+    "## 8. 一条结论只说明一次",
+    "## 12. 详细程度校准",
+    "## 13. 成稿检查",
+]
+
 EXPECTED_RUBRIC_DIMENSIONS = {
     "problem_definition",
     "route_choice",
@@ -89,6 +107,15 @@ EXPECTED_RUBRIC_DIMENSIONS = {
     "flexibility",
     "actionability_or_explanatory_value",
     "language",
+}
+
+EXPECTED_WRITING_RUBRIC_DIMENSIONS = {
+    "reader_focus",
+    "causal_completeness",
+    "information_selection",
+    "structure_and_deduplication",
+    "directness_and_flow",
+    "supporting_material_control",
 }
 
 
@@ -207,6 +234,7 @@ def validate_guides() -> tuple[int, int]:
         require_sections(ROOT / rel, SUBJECT_SECTIONS)
     for rel in CONCLUSION_PATHS:
         require_sections(ROOT / rel, CONCLUSION_SECTIONS)
+    require_sections(ROOT / "references/core/06-文章成稿与压缩.md", WRITING_SECTIONS)
     return len(SUBJECT_PATHS), len(CONCLUSION_PATHS)
 
 
@@ -221,7 +249,14 @@ def validate_runtime_links() -> None:
         fail("SKILL.md references missing paths: " + ", ".join(missing))
 
 
-def validate_regression_cases() -> int:
+def validate_string_list(case_id: str, field: str, value: Any) -> None:
+    if not isinstance(value, list) or not value or not all(
+        isinstance(item, str) and item.strip() for item in value
+    ):
+        fail(f"Regression case {case_id} field {field} must be a non-empty string list")
+
+
+def validate_regression_cases() -> tuple[int, set[str]]:
     data = load_json(ROOT / "evals/regression-cases.json")
     if data.get("version") != 2:
         fail("evals/regression-cases.json version must be 2")
@@ -263,11 +298,7 @@ def validate_regression_cases() -> int:
             fail(f"Regression case {case_id} requires a prompt")
 
         for field in ("subjects", "focus", "rubric_dimensions", "must", "must_not"):
-            value = case.get(field)
-            if not isinstance(value, list) or not value or not all(
-                isinstance(item, str) and item.strip() for item in value
-            ):
-                fail(f"Regression case {case_id} field {field} must be a non-empty string list")
+            validate_string_list(case_id, field, case.get(field))
 
         unknown_dims = set(case["rubric_dimensions"]) - EXPECTED_RUBRIC_DIMENSIONS
         if unknown_dims:
@@ -296,7 +327,102 @@ def validate_regression_cases() -> int:
     if missing_new:
         fail("Missing required v2 regression cases: " + ", ".join(missing_new))
 
-    return len(cases)
+    return len(cases), ids
+
+
+def validate_writing_regression_cases(reasoning_ids: set[str]) -> tuple[int, set[str]]:
+    data = load_json(ROOT / "evals/writing-regression-cases.json")
+    if data.get("version") != 1:
+        fail("evals/writing-regression-cases.json version must be 1")
+
+    for field in ("rubric", "reasoning_rubric"):
+        rel = data.get(field)
+        if not isinstance(rel, str) or not (ROOT / rel).is_file():
+            fail(f"writing-regression-cases.json {field} must reference an existing file")
+
+    global_dims = data.get("rubric_dimensions")
+    if not isinstance(global_dims, list) or set(global_dims) != EXPECTED_WRITING_RUBRIC_DIMENSIONS:
+        fail("writing rubric_dimensions must contain the expected six dimensions exactly once")
+    if len(global_dims) != len(set(global_dims)):
+        fail("writing rubric_dimensions contains duplicates")
+
+    invariants = data.get("global_invariants")
+    if not isinstance(invariants, list) or len(invariants) < 8 or not all(
+        isinstance(item, str) and item.strip() for item in invariants
+    ):
+        fail("writing global_invariants must contain at least eight non-empty strings")
+
+    cases = data.get("cases")
+    if not isinstance(cases, list) or len(cases) < 5:
+        fail("writing-regression-cases.json must contain at least five cases")
+
+    ids: set[str] = set()
+    for case in cases:
+        if not isinstance(case, dict):
+            fail("Each writing regression case must be an object")
+        case_id = case.get("id")
+        if not isinstance(case_id, str) or not re.fullmatch(r"[a-z0-9][a-z0-9-]*", case_id):
+            fail(f"Invalid writing regression case id: {case_id!r}")
+        if case_id in ids:
+            fail(f"Duplicate writing regression case id: {case_id}")
+        ids.add(case_id)
+
+        reasoning_case_id = case.get("reasoning_case_id")
+        if not isinstance(reasoning_case_id, str) or reasoning_case_id not in reasoning_ids:
+            fail(
+                f"Writing regression case {case_id} references unknown reasoning case: "
+                f"{reasoning_case_id!r}"
+            )
+
+        for field in ("type", "prompt", "output_mode"):
+            value = case.get(field)
+            if not isinstance(value, str) or not value.strip():
+                fail(f"Writing regression case {case_id} requires {field}")
+
+        for field in ("focus", "rubric_dimensions", "must", "must_not"):
+            validate_string_list(case_id, field, case.get(field))
+
+        unknown_dims = set(case["rubric_dimensions"]) - EXPECTED_WRITING_RUBRIC_DIMENSIONS
+        if unknown_dims:
+            fail(f"Writing regression case {case_id} has unknown dimensions: {sorted(unknown_dims)}")
+
+    required_cases = {
+        "agent-article-density",
+        "fiber-article-density",
+        "harness-detailed-without-repetition",
+        "human-anger-plain-article",
+        "job-offer-decision-memo",
+        "api-growth-report-density",
+    }
+    missing = sorted(required_cases - ids)
+    if missing:
+        fail("Missing required writing regression cases: " + ", ".join(missing))
+
+    return len(cases), ids
+
+
+def validate_score_template(
+    rel: str,
+    known_case_ids: set[str],
+    expected_dimensions: set[str],
+) -> None:
+    data = load_json(ROOT / rel)
+    if data.get("version") != 1:
+        fail(f"{rel} version must be 1")
+    results = data.get("results")
+    if not isinstance(results, list) or not results:
+        fail(f"{rel} requires a non-empty results list")
+    for item in results:
+        if not isinstance(item, dict):
+            fail(f"{rel} results must contain objects")
+        case_id = item.get("id")
+        if case_id not in known_case_ids:
+            fail(f"{rel} references unknown case id: {case_id!r}")
+        scores = item.get("scores")
+        if not isinstance(scores, dict) or set(scores) != expected_dimensions:
+            fail(f"{rel} score dimensions do not match expected dimensions")
+        if not all(isinstance(value, int) and 0 <= value <= 2 for value in scores.values()):
+            fail(f"{rel} scores must be integers from 0 to 2")
 
 
 def parse_args() -> argparse.Namespace:
@@ -318,7 +444,18 @@ def main() -> int:
         source_count = validate_source_manifest(skip_hashes=args.skip_source_hashes)
         subject_count, conclusion_count = validate_guides()
         validate_runtime_links()
-        case_count = validate_regression_cases()
+        reasoning_case_count, reasoning_ids = validate_regression_cases()
+        writing_case_count, writing_ids = validate_writing_regression_cases(reasoning_ids)
+        validate_score_template(
+            "evals/score-template.json",
+            reasoning_ids,
+            EXPECTED_RUBRIC_DIMENSIONS,
+        )
+        validate_score_template(
+            "evals/writing-score-template.json",
+            writing_ids,
+            EXPECTED_WRITING_RUBRIC_DIMENSIONS,
+        )
     except ValueError as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 1
@@ -327,7 +464,8 @@ def main() -> int:
     print(f"OK: verified {source_count} source-controlled reference entries")
     print(f"OK: verified {subject_count} subject guides")
     print(f"OK: verified {conclusion_count} conclusion cards")
-    print(f"OK: verified {case_count} regression cases")
+    print(f"OK: verified {reasoning_case_count} reasoning regression cases")
+    print(f"OK: verified {writing_case_count} writing regression cases")
     return 0
 
 
