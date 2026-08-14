@@ -14,6 +14,7 @@ SCAN_PATHS = [
     ROOT / "SKILL.md",
     ROOT / "README.md",
     ROOT / "references/core",
+    ROOT / "references/writing",
     ROOT / "references/subjects",
     ROOT / "references/conclusions",
 ]
@@ -72,7 +73,18 @@ def lint_file(path: Path) -> list[str]:
             continue
 
         for term, advice in RISKY.items():
-            if term == "物理" and any(phrase in line for phrase in ("物理层", "物理规律", "物理环境", "物理约束", "物理和计算限制", "生物、物理", "生态、物理")):
+            if term == "物理" and any(
+                phrase in line
+                for phrase in (
+                    "物理层",
+                    "物理规律",
+                    "物理环境",
+                    "物理约束",
+                    "物理和计算限制",
+                    "生物、物理",
+                    "生态、物理",
+                )
+            ):
                 continue
             if term in line:
                 warnings.append(
