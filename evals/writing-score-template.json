@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "results": [
+    {
+      "id": "agent-article-density",
+      "scores": {
+        "reader_focus": 0,
+        "causal_completeness": 0,
+        "information_selection": 0,
+        "structure_and_deduplication": 0,
+        "directness_and_flow": 0,
+        "supporting_material_control": 0
+      },
+      "severe_error": false,
+      "notes": ""
+    }
+  ]
+}
