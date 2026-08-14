@@ -1,7 +1,7 @@
 interface:
   display_name: "第一性原理分析"
-  short_description: "生成或回归因果严密的第一性原理分析文章"
-  default_prompt: "请使用第一性原理分析 Skill，先判断最优分析问题、问题类型、固定主体、时间基线与最终目的，再输出面向读者的分析文章。"
+  short_description: "生成或回归因果严密、信息密度高的第一性原理分析"
+  default_prompt: "请使用第一性原理分析 Skill，先在内部补全问题并完成连续因果推演；再按用户需要输出直接回答或文章。若输出文章，保留必要因果，删除重复、旁支和内部推演脚手架，使用直白、流畅的语言。"
 
 policy:
   allow_implicit_invocation: true
