@@ -39,6 +39,12 @@ Do not silently edit historical source baselines. If a source-controlled file ch
 - Do not solve verbosity by deleting necessary causal steps, and do not interpret “detailed” as permission to repeat every implementation detail.
 - Add or update reasoning regressions, writing regressions, or paired writing samples for every new general rule.
 
+## Branch workflow
+
+- Perform normal development directly on `main`.
+- Create a separate branch only when the work requires isolation.
+- After completing and validating work on a separate branch, merge it back into `main`; do not leave completed work only on a non-`main` branch.
+
 ## Validation
 
 Run:
