@@ -1,0 +1,299 @@
+{
+  "version": 1,
+  "purpose": "专项验证复杂输入能否被整理为正确的问题结构，并根据对象状态、行动主体、时间方向、用户角色和期望交付识别真实意图，而不是按是什么、为什么、怎么做等问句形式机械路由。",
+  "rubric": "evals/rubric.md",
+  "rubric_dimensions": [
+    "problem_definition",
+    "route_choice",
+    "subject_reasoning",
+    "causal_chain",
+    "alternative_explanations",
+    "evidence_discipline",
+    "flexibility",
+    "actionability_or_explanatory_value",
+    "language"
+  ],
+  "global_invariants": [
+    "先分离输入中的事实、用户观点、目标、限制、问题和交付要求，再建立问题结构。",
+    "候选问题按需要得到的独立结果提取，不按问号、句子或疑问词数量提取。",
+    "复杂输入区分核心问题、支撑问题、独立问题和背景材料，并按真实依赖排序。",
+    "是什么、为什么、怎么做只提供弱线索；路线由对象是否已存在、行动主体、用户角色、时间方向、真正未知和期望交付共同决定。",
+    "已有对象的怎么做的通常可能是在询问形成、运行或实现机制；主体准备亲自完成尚未实现目标时才进入行动路线。",
+    "当前明确目标和交付要求优先于历史上下文，历史信息只能作为候选解释。",
+    "存在歧义时先判断不同解释是否共享主线；只有会产生明显不同交付时才提出最少澄清。",
+    "用户要求直接回答时采用证据最强的暂定解释，并明确范围，不把假设写成已确认意图。",
+    "分析中新信息与初始路线冲突时重新建模，不为了保持最初标签忽略新目标。",
+    "有依赖的解释与行动链分别成立后再衔接；彼此独立的问题不强行合并。"
+  ],
+  "cases": [
+    {
+      "id": "existing-system-how-made",
+      "type": "surface-how-explanation",
+      "prompt": "数据库索引是怎么做的？",
+      "focus": [
+        "已有对象",
+        "观察者角色",
+        "实现机制解释"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "subject_reasoning",
+        "causal_chain",
+        "evidence_discipline",
+        "actionability_or_explanatory_value",
+        "language"
+      ],
+      "must": [
+        "识别用户主要在询问已经存在的索引怎样组织数据、定位记录和维护更新。",
+        "进入形成与运行解释，而不是默认给用户一份当前数据库加索引的操作步骤。",
+        "必要时说明不同数据库和索引类型会改变具体实现。"
+      ],
+      "must_not": [
+        "因为出现怎么做就直接进入目标达成路线。",
+        "编造用户正在使用的数据库、表结构或性能问题。",
+        "只给 CREATE INDEX 命令而不解释索引机制。"
+      ]
+    },
+    {
+      "id": "user-builds-system-how-to",
+      "type": "goal-solving-from-similar-phrasing",
+      "prompt": "我准备给自己的数据库实现一个简化索引，应该怎么做？",
+      "focus": [
+        "尚未实现目标",
+        "用户是行动者",
+        "行动路径"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "subject_reasoning",
+        "causal_chain",
+        "evidence_discipline",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
+      ],
+      "must": [
+        "识别目标尚未实现，用户需要从当前状态走向可运行的简化索引。",
+        "先明确索引要支持的查询、数据规模、更新和存储限制，再推出实现路径。",
+        "区分索引需要的能力与 B+ 树等具体实现。"
+      ],
+      "must_not": [
+        "只解释现有数据库索引的历史和结构，不给实施路径。",
+        "默认用户必须采用某一种索引结构。",
+        "在目标和限制未明确前直接展开完整工程目录。"
+      ]
+    },
+    {
+      "id": "mixed-explain-then-build",
+      "type": "mixed-explanation-and-goal",
+      "prompt": "Agent 的工具调用是怎么做的？我也准备给自己的 Agent 加一个，应该从哪里开始？",
+      "focus": [
+        "同一对象的双时间方向",
+        "解释链与行动链",
+        "依赖衔接"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "subject_reasoning",
+        "causal_chain",
+        "alternative_explanations",
+        "evidence_discipline",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
+      ],
+      "must": [
+        "识别前半句询问已有机制，后半句询问用户的未来实现路径。",
+        "先解释模型怎样产生动作意图、宿主怎样执行并返回结果，再以用户目标和环境为起点设计实现。",
+        "两条链共享的机制只说明一次，并明确哪些实现取决于具体宿主和权限模型。"
+      ],
+      "must_not": [
+        "把两个问题压成一份没有时间方向的模块清单。",
+        "只回答原理或只回答步骤。",
+        "把当前某个 Agent 产品的实现写成通用固定结构。"
+      ]
+    },
+    {
+      "id": "many-questions-one-problem-tree",
+      "type": "complex-input-single-core",
+      "prompt": "我们产品最近注册下降，投放成本涨了，留存也变差。我怀疑产品体验有问题，但市场最近可能也不好。到底是什么原因？应该先改投放还是先改产品？需要马上做大改版吗？",
+      "focus": [
+        "一个核心决策",
+        "多个支撑问题",
+        "用户假设与事实分离"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "subject_reasoning",
+        "causal_chain",
+        "alternative_explanations",
+        "evidence_discipline",
+        "neutrality",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
+      ],
+      "must": [
+        "把注册下降、投放成本和留存变化识别为需要核对口径的材料，把产品和市场判断识别为候选解释。",
+        "将核心问题建模为先验证并干预哪个断点更可能改变目标结果。",
+        "把原因识别、投放与产品影响、是否大改版作为支撑判断和行动分支，而不是三个无关答案。",
+        "先安排能够区分候选原因的低成本验证，再决定干预和改版范围。"
+      ],
+      "must_not": [
+        "按三个问号分别生成互相重复的三篇答案。",
+        "直接接受产品体验或市场环境是原因。",
+        "在缺少数据时直接建议大改版。"
+      ]
+    },
+    {
+      "id": "multiple-independent-questions",
+      "type": "complex-input-independent-questions",
+      "prompt": "请解释 HTTP/2 的二进制分帧为什么能支持多路复用。另外，我应该留在当前公司还是接受新 Offer？",
+      "focus": [
+        "不同主体",
+        "不同证据和评价标准",
+        "独立交付"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "subject_reasoning",
+        "evidence_discipline",
+        "neutrality",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
+      ],
+      "must": [
+        "保留为两个独立问题：协议机制解释和个人职业选择。",
+        "分别建立所需事实、证据和输出结构，不把二者串成同一因果链。",
+        "职业选择在信息不足时给条件化框架或最少澄清，不借用技术问题的评价标准。"
+      ],
+      "must_not": [
+        "为了统一主题把两个问题强行合并。",
+        "只回答其中一个却不说明范围。",
+        "编造 Offer、薪资或公司情况。"
+      ]
+    },
+    {
+      "id": "surface-what-goal-solving",
+      "type": "surface-what-action-intent",
+      "prompt": "我现在要找前端工作，什么样的作品集才能提高我拿到面试的概率？",
+      "focus": [
+        "表面是什么",
+        "未来目标",
+        "条件与路径"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "subject_reasoning",
+        "causal_chain",
+        "evidence_discipline",
+        "neutrality",
+        "actionability_or_explanatory_value",
+        "language"
+      ],
+      "must": [
+        "识别用户真正目标是提高获得面试的概率，而不是只定义作品集。",
+        "分析招聘方怎样识别和验证能力，再推出作品集需要提供的证据。",
+        "在用户背景未知时使用条件分支，不默认岗位级别、技术栈或公司类型。"
+      ],
+      "must_not": [
+        "因为出现什么样就只给作品集定义。",
+        "直接列热门项目而不解释它们证明什么。",
+        "默认大厂、高薪或某类技术栈是用户目标。"
+      ]
+    },
+    {
+      "id": "current-intent-overrides-history",
+      "type": "context-priority",
+      "prompt": "前面我们一直在讨论状态机原理，但我现在不是要原理说明。我已经决定自己实现，请直接给一份按依赖排序的开发方案。",
+      "focus": [
+        "当前明确目标",
+        "历史上下文边界",
+        "路线修正"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "evidence_discipline",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
+      ],
+      "must": [
+        "让当前明确的实施目标覆盖此前原理讨论路线。",
+        "把已有原理作为方案依据，而不是继续输出一篇原理文章。",
+        "按目标、当前条件、依赖、验证和风险组织开发方案。"
+      ],
+      "must_not": [
+        "因为历史上下文较长就忽略用户当前明确要求。",
+        "重复解释已经确认的原理来替代开发方案。",
+        "假设用户未提供的技术环境。"
+      ]
+    },
+    {
+      "id": "ambiguous-how-minimal-clarification",
+      "type": "material-intent-ambiguity",
+      "prompt": "这个系统怎么做？",
+      "focus": [
+        "高影响歧义",
+        "最少澄清",
+        "暂定范围"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "evidence_discipline",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
+      ],
+      "must": [
+        "识别现有机制解释、用户从零实现和要求助手直接执行都可能成立。",
+        "在没有上下文且不同解释会产生明显不同交付时，只问一个能够区分路线的问题。",
+        "若任务要求不得追问，则声明暂定解释后继续，不把假设伪装成已确认意图。"
+      ],
+      "must_not": [
+        "仅凭怎么做直接输出完整实施方案。",
+        "提出与区分路线无关的长问卷。",
+        "编造系统类型、用户角色或目标。"
+      ]
+    },
+    {
+      "id": "dynamic-reroute-with-new-evidence",
+      "type": "mid-analysis-rerouting",
+      "prompt": "先解释一下缓存怎么工作的。补充一下：我不是为了学习原理，线上接口正在超时，我需要决定现在是否加缓存以及先验证什么。",
+      "focus": [
+        "新证据",
+        "从解释转为决策与行动",
+        "已有内容作为支撑"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "causal_chain",
+        "alternative_explanations",
+        "evidence_discipline",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
+      ],
+      "must": [
+        "根据补充信息把核心问题改为缓存是否对应当前瓶颈，以及先验证什么。",
+        "保留必要的缓存机制作为判断依据，但不继续展开与决策无关的原理。",
+        "检查未命中、回源、序列化、锁竞争和网络等替代瓶颈，并安排验证。"
+      ],
+      "must_not": [
+        "坚持最初的纯解释路线。",
+        "因为接口超时就直接认定应该加缓存。",
+        "忽略线上变更的成本、风险和回退。"
+      ]
+    }
+  ]
+}

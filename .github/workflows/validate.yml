@@ -16,6 +16,7 @@ jobs:
         with:
           python-version: "3.12"
       - run: python3 scripts/validate_skill.py
+      - run: python3 scripts/validate_intent_routing.py
       - run: python3 scripts/validate_node_reasoning.py
       - run: python3 scripts/validate_writing.py
       - run: python3 scripts/validate_conclusions.py
