@@ -1,0 +1,319 @@
+{
+  "version": 1,
+  "purpose": "专项验证最终目的、当前状态、要解决的问题与方案能否在适用场景中形成连续逻辑链，同时避免把该结构机械套到定义、自然结果、群体涌现和自动情绪上。",
+  "rubric": "evals/rubric.md",
+  "rubric_dimensions": [
+    "problem_definition",
+    "route_choice",
+    "subject_reasoning",
+    "causal_chain",
+    "alternative_explanations",
+    "evidence_discipline",
+    "neutrality",
+    "flexibility",
+    "actionability_or_explanatory_value",
+    "language"
+  ],
+  "global_invariants": [
+    "先判断对象是否具有明确行动主体、设计任务或用户目标，再决定是否启用最终目的结构。",
+    "最终目的描述希望成立的外部结果和完成标准，不提前写入模块、协议、算法或实现属性。",
+    "当前状态只包含事实、已有能力、客观限制和未知信息。",
+    "要解决的问题由最终目的与当前状态之间尚未成立的条件推出，不是对现状的负面改写。",
+    "当前状态和要解决的问题可以共用一个标题，但内部语义必须分开。",
+    "每项方案必须对应一个已证明的问题，没有问题来源的模块不进入主线。",
+    "一种具体实现不自动等于必要条件或唯一方案，必须检查替代路径。",
+    "方案改变系统状态后，新出现的风险、成本和协作问题继续形成后续问题与方案。",
+    "技术和制度中的逻辑目的不能自动证明真实历史设计者的动机。",
+    "定义、事实确认、自然形成、群体涌现和自动情绪默认从要解释的结果开始，不虚构最终目的。",
+    "推理层固定语义关系，最终标题是否显式使用由问题与交付决定。",
+    "最终验证检查目标结果是否成立，而不只检查某个方案动作是否执行。"
+  ],
+  "cases": [
+    {
+      "id": "designed-system-purpose-chain",
+      "type": "designed-system-logical-reconstruction",
+      "prompt": "请从第一性原理解释 React Fiber 为什么出现，以及为什么形成可保存进度、可中断、优先级和集中提交这些结构。",
+      "focus": [
+        "外部目的",
+        "现状与缺口",
+        "问题到机制的递归"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "subject_reasoning",
+        "causal_chain",
+        "alternative_explanations",
+        "evidence_discipline",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
+      ],
+      "must": [
+        "把最终目的写成在主线程资源有限时保持更新正确并让重要交互及时响应，而不是直接写成设计可中断架构。",
+        "把同步递归、进度只在调用栈和长任务占用主线程写成当前状态。",
+        "由目标与现状推出缺少可保存工作位置和可调度执行边界，而不是先列 Fiber、Lane、双缓存和 Commit。",
+        "先推出可保存工作单元与暂停恢复，再从可中断计算产生的中间状态问题推出隔离与集中提交。",
+        "说明当前实现不是逻辑上唯一可能结构，并保留版本边界。"
+      ],
+      "must_not": [
+        "把可中断、双缓存、Lane 或集中提交直接写进最高层最终目的。",
+        "先列完整模块清单，再为每项模块补理由。",
+        "把逻辑上需要某类能力写成历史设计者已被证实的真实动机。"
+      ]
+    },
+    {
+      "id": "goal-solving-purpose-chain",
+      "type": "goal-solving-structure",
+      "prompt": "我想用作品集提高拿到前端面试的概率，请从第一性原理分析应该怎样做。",
+      "focus": [
+        "用户目标",
+        "完成标准",
+        "当前未知与多路径"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "subject_reasoning",
+        "causal_chain",
+        "alternative_explanations",
+        "evidence_discipline",
+        "neutrality",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
+      ],
+      "must": [
+        "把最终目的确定为提高获得目标岗位面试的概率，并说明目标岗位与完成口径会影响方案。",
+        "分析招聘方需要识别和验证哪些能力，再检查用户当前证据、渠道和岗位匹配状态。",
+        "把问题写成能力无法被稳定识别、项目证据与岗位要求不匹配等候选差距。",
+        "方案逐项对应差距，并包含验证、反馈和调整。",
+        "用户背景未知时使用条件分支，不编造技术栈、岗位级别和公司类型。"
+      ],
+      "must_not": [
+        "把最终目的写成制作一个 React 项目或精美作品集。",
+        "直接罗列热门项目而不说明它们证明什么。",
+        "默认大厂、高薪或长期稳定是用户最高目标。"
+      ]
+    },
+    {
+      "id": "historical-intent-boundary",
+      "type": "logical-purpose-versus-history",
+      "prompt": "请解释 HTTP/1.1 为什么引入持久连接和报文定界，并说明这里的最终目的是否等于设计者当时的真实动机。",
+      "focus": [
+        "逻辑任务",
+        "真实历史",
+        "方案引出新问题"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "subject_reasoning",
+        "causal_chain",
+        "alternative_explanations",
+        "evidence_discipline",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
+      ],
+      "must": [
+        "把减少重复连接建立成本、提高连接利用率作为逻辑上的任务结果。",
+        "从短连接反复握手和慢启动的现状推出连接复用问题。",
+        "连接保持后再从失去断开定界信号推出报文定界。",
+        "明确逻辑重建不能单独证明历史设计者的真实动机，真实历史需要规范或设计记录。"
+      ],
+      "must_not": [
+        "把当前逻辑链直接写成已经得到历史材料证明的设计过程。",
+        "把 Keep-Alive、Content-Length 和 Chunked 直接写成最终目的。",
+        "忽略持久连接引入的新定界问题。"
+      ]
+    },
+    {
+      "id": "solution-leakage-in-purpose",
+      "type": "purpose-node-validation",
+      "prompt": "我写的最终目的是：设计一个可中断续渲染、高效率、高鲁棒性的 Fiber 架构。请检查这个最终目的节点是否合适，并修复整条结构。",
+      "focus": [
+        "方案泄漏",
+        "外部结果",
+        "结构修复"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "causal_chain",
+        "alternative_explanations",
+        "evidence_discipline",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
+      ],
+      "must": [
+        "指出可中断和 Fiber 已经提前写入具体能力或实现。",
+        "把目的上提为主线程约束下的正确更新、交互响应和可接受资源成本。",
+        "把同步递归和进度无法保存放到当前状态，把缺少暂停恢复能力放到问题。",
+        "再由问题推出工作单元、调度、结果隔离和提交机制。"
+      ],
+      "must_not": [
+        "只改措辞而保留 Fiber 作为最高层目的。",
+        "因为最终目的有方案泄漏就删除目的节点。",
+        "把高效率和高鲁棒性当作无需定义的完成标准。"
+      ]
+    },
+    {
+      "id": "definition-skips-purpose-template",
+      "type": "definition-no-purpose",
+      "prompt": "什么是质数？",
+      "focus": [
+        "定义",
+        "不启用目的结构",
+        "边界"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "evidence_discipline",
+        "flexibility",
+        "language"
+      ],
+      "must": [
+        "直接给出大于 1 的整数且只有 1 和自身两个正因数的定义。",
+        "使用例子与反例帮助确认边界，但不展开形成史。",
+        "不使用最终目的、现状与方案结构。"
+      ],
+      "must_not": [
+        "讨论质数被设计出来的最终目的。",
+        "为了统一格式制造当前现状和采用方案。",
+        "加入与定义无关的长篇历史。"
+      ]
+    },
+    {
+      "id": "emotion-skips-forced-purpose",
+      "type": "automatic-emotion-no-purpose",
+      "prompt": "我指出同事方案中的错误后，他当场很生气。请分析为什么。",
+      "focus": [
+        "可观察结果",
+        "自动或半自动反应",
+        "候选解释"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "subject_reasoning",
+        "causal_chain",
+        "alternative_explanations",
+        "evidence_discipline",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
+      ],
+      "must": [
+        "从客观事件、对方可能的感知和解释、预期或身份受影响到情绪反应建立候选链。",
+        "把维护地位、避免尴尬等写成可能影响反应的候选结果，而不是确定最终目的。",
+        "保留压力、疲劳、公开场合和关系判断等替代解释。",
+        "说明需要什么观察或沟通才能区分。"
+      ],
+      "must_not": [
+        "强行写成他的最终目的是维护自尊，所以采用生气方案。",
+        "断言其真实动机、人格或童年经历。",
+        "把一次行为写成稳定目的结构。"
+      ]
+    },
+    {
+      "id": "natural-result-skips-purpose",
+      "type": "natural-system-no-purpose",
+      "prompt": "蚂蚁为什么会形成稳定的行进路径？",
+      "focus": [
+        "局部规则",
+        "群体结果",
+        "避免目的论"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "subject_reasoning",
+        "causal_chain",
+        "alternative_explanations",
+        "evidence_discipline",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
+      ],
+      "must": [
+        "从个体留下和感知局部信号、重复强化、信号挥发等过程解释群体路径。",
+        "区分个体局部行为与群体稳定结构。",
+        "说明物种和环境差异会改变具体机制。",
+        "以要解释的结果为起点，不虚构统一最终目的。"
+      ],
+      "must_not": [
+        "写成蚂蚁群体为了提高整体效率而设计路线。",
+        "使用最终目的、当前问题和采用方案的三段模板。",
+        "把自然选择或局部反馈写成有意识设计。"
+      ]
+    },
+    {
+      "id": "market-result-skips-unified-purpose",
+      "type": "emergent-market-no-purpose",
+      "prompt": "为什么猪肉价格可能周期性波动？",
+      "focus": [
+        "多主体",
+        "反馈延迟",
+        "无统一目的"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "subject_reasoning",
+        "causal_chain",
+        "alternative_explanations",
+        "evidence_discipline",
+        "neutrality",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
+      ],
+      "must": [
+        "以价格波动这一结果为起点，区分利润信号、扩产延迟、供给形成和需求变化。",
+        "说明不同参与者依据局部信息行动，群体结果不等于任何单个参与者的目标。",
+        "保留政策、疫病、饲料和资本等外部解释。",
+        "不为市场整体虚构最终目的和采用方案。"
+      ],
+      "must_not": [
+        "写成市场为了恢复平衡而主动采用周期调节。",
+        "套用目的—现状—方案三段标题。",
+        "把封闭系统写成周期的充分条件。"
+      ]
+    },
+    {
+      "id": "decision-adapts-purpose-structure",
+      "type": "decision-structure-variant",
+      "prompt": "我应该留在当前公司，还是接受新 Offer？",
+      "focus": [
+        "目标与评价标准",
+        "当前事实",
+        "条件化结论"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "subject_reasoning",
+        "causal_chain",
+        "alternative_explanations",
+        "evidence_discipline",
+        "neutrality",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
+      ],
+      "must": [
+        "先明确用户希望获得或避免的结果，以及收入、成长、稳定、内容、地点和可逆性等评价标准。",
+        "区分已知事实、未来预测和个人偏好。",
+        "分析两个选项怎样影响标准，并给出不同优先级下的条件化结论。",
+        "根据决策任务调整结构，不强行把接受 Offer 写成采用的唯一方案。"
+      ],
+      "must_not": [
+        "默认长期成长、稳定或薪资是最高目标。",
+        "编造两家公司的事实。",
+        "用固定三段模板代替真实横向比较。"
+      ]
+    }
+  ]
+}

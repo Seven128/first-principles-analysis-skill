@@ -1,0 +1,266 @@
+{
+  "version": 1,
+  "purpose": "专项验证成稿是否保持目的与问题主线，同时避免单句碎段、微型例子泛滥、普通文字代码块化和跨章节重复。",
+  "rubric": "evals/writing-rubric.md",
+  "rubric_dimensions": [
+    "reader_focus",
+    "causal_completeness",
+    "information_selection",
+    "structure_and_deduplication",
+    "directness_and_flow",
+    "supporting_material_control"
+  ],
+  "global_invariants": [
+    "目的型技术文章和完整方案默认可以显式使用最终目的、当前状态与要解决的问题、采用的方案，但不适用的任务不强套。",
+    "段落由一个主要新结论是否闭合决定，不把一句推进一个关系误解成一句一个段落。",
+    "连续证明同一结论的事实、机制和边界应留在同一段。",
+    "先用准确具体的字面语言解释，只有仍存在明显理解收益时才加入例子。",
+    "优先使用一个贯穿主要因果链的整体例子，不为每个小论点分别创建微型例子。",
+    "多个例子必须承担不同且不可合并的功能。",
+    "代码块只用于代码、配置、精确数据、协议、复杂流程或可复制命令。",
+    "普通中文句子、短列表和简单因果链不放入代码块。",
+    "标题对应主要结构或机制，不为字段、小步骤和短结论单独建标题。",
+    "开头、正文、案例与总结各自承担不同职责，不完整重复同一核心链。",
+    "详细程度来自关键事实、因果、取舍和边界，不来自留白、列表和重复。",
+    "压缩不得删除支撑核心结论所必需的因果桥。"
+  ],
+  "cases": [
+    {
+      "id": "agent-article-purpose-and-density",
+      "type": "standard-technical-article",
+      "prompt": "请写一篇面向有技术背景读者的文章，从第一性原理解释 Agent 为什么出现、为什么形成当前形态。使用最终目的—当前状态与要解决的问题—采用的方案结构，不要求源码字段百科。",
+      "focus": [
+        "三节点主线",
+        "例子克制",
+        "段落密度"
+      ],
+      "rubric_dimensions": [
+        "reader_focus",
+        "causal_completeness",
+        "information_selection",
+        "structure_and_deduplication",
+        "directness_and_flow",
+        "supporting_material_control"
+      ],
+      "must": [
+        "最终目的描述把用户目标推进为可验证外部结果，不把工具、上下文、权限和状态写进目的。",
+        "当前状态与问题部分区分模型已有判断能力、输出不会自动改变环境，以及执行与反馈缺口。",
+        "采用的方案按执行与反馈、真实副作用、长任务状态等依赖顺序展开。",
+        "使用连续段落完成一个主要结论，不连续出现大量一句一段。",
+        "优先使用直接机制说明；如需要案例，使用一个能够串联主要闭环的整体任务，不为读取文件、执行测试、生成 Patch 分别重复举例。",
+        "普通动作句和简单流程不使用代码块，代码块只在真正需要精确展示时出现。",
+        "总结只收束 Agent 的核心闭环和边界，不重新枚举全部扩展机制。"
+      ],
+      "must_not": [
+        "开头先列上下文、工具、权限、状态、记忆、MCP、插件和子 Agent 的完整清单。",
+        "每个小论点后都加入独立例子。",
+        "把请读取文件、请执行测试等普通句子放入代码块。",
+        "一句话一个段落贯穿全文。",
+        "在定义、最小闭环、完整案例、哪些不是 Agent 和总结中完整重复同一结论。"
+      ]
+    },
+    {
+      "id": "fiber-detailed-without-micro-examples",
+      "type": "detailed-technical-article",
+      "prompt": "请完整解释 React Fiber 的主要结构，要求因果详细，但不要把每个字段和小机制都配一个例子。",
+      "focus": [
+        "详细不等于重复",
+        "整体例子",
+        "标题粒度"
+      ],
+      "rubric_dimensions": [
+        "reader_focus",
+        "causal_completeness",
+        "information_selection",
+        "structure_and_deduplication",
+        "directness_and_flow",
+        "supporting_material_control"
+      ],
+      "must": [
+        "先从主线程目标、同步递归现状和进度无法保存的差距推出 Fiber 工作单元。",
+        "工作循环、结果隔离、优先级和集中提交按问题依赖展开。",
+        "字段在对应机制需要时出现，不为 child、sibling、return、lanes、flags 和 alternate 分别建立完整案例。",
+        "如使用搜索输入场景，只在一个整体章节串联主要机制，其他章节直接引用。",
+        "段落与标题对应主要结构，不为每个字段单独换段或建标题。"
+      ],
+      "must_not": [
+        "每个字段都附定义、伪代码、输入输出和业务例子。",
+        "在多个章节完整重演搜索输入案例。",
+        "用普通流程代码块替代可以直接说明的因果。",
+        "通过大量短段落制造详细感。"
+      ]
+    },
+    {
+      "id": "human-anger-short-without-example-padding",
+      "type": "short-plain-language-article",
+      "prompt": "请把为什么一个人在被指出错误后会生气写成一篇简洁短文，保留多种候选解释，不需要额外虚构案例。",
+      "focus": [
+        "直接机制",
+        "无例子填充",
+        "候选解释"
+      ],
+      "rubric_dimensions": [
+        "reader_focus",
+        "causal_completeness",
+        "information_selection",
+        "structure_and_deduplication",
+        "directness_and_flow",
+        "supporting_material_control"
+      ],
+      "must": [
+        "用事件、感知、解释、预期或身份受影响、情绪反应的主链直接说明。",
+        "把尴尬、地位判断、关系理解和压力作为紧凑候选分支。",
+        "多个句子共同解释同一主链时放在完整段落中。",
+        "不为每个候选原因再创建一个虚构人物或场景。",
+        "明确一次行为不足以确认动机、人格和成长经历。"
+      ],
+      "must_not": [
+        "强行加入最终目的—采用方案结构。",
+        "为威胁感、尴尬、关系和压力分别举一个例子。",
+        "把短文章拆成大量单句段落。",
+        "用比喻系统代替直接因果。"
+      ]
+    },
+    {
+      "id": "decision-memo-no-display-padding",
+      "type": "decision-memo",
+      "prompt": "把留在当前公司还是接受新 Offer 的分析写成决策备忘录。没有具体数据，请给条件化结论，避免展示性代码块和重复总结。",
+      "focus": [
+        "条件化结论",
+        "真实比较",
+        "辅助材料控制"
+      ],
+      "rubric_dimensions": [
+        "reader_focus",
+        "causal_completeness",
+        "information_selection",
+        "structure_and_deduplication",
+        "directness_and_flow",
+        "supporting_material_control"
+      ],
+      "must": [
+        "开头尽快说明当前不能给单一答案，并给不同优先级下的条件化结论。",
+        "围绕真实评价标准比较两个选项，未知事实明确标出。",
+        "只有横向比较确实更清楚时使用表格，普通关系使用正文。",
+        "不使用代码块展示评价标准、简单流程或结论。",
+        "结尾只指出最能改变决策的缺失信息。"
+      ],
+      "must_not": [
+        "把评价标准放进代码块。",
+        "先长篇解释决策方法再开始比较。",
+        "在开头、表格后和结尾重复同一条件化结论。",
+        "编造薪资、岗位和家庭情况。"
+      ]
+    },
+    {
+      "id": "harness-detailed-purpose-dense",
+      "type": "detailed-system-plan",
+      "prompt": "请写一份完整详细的 Agent Harness 工程方案，使用最终目的—当前状态与要解决的问题—采用的方案结构，保留硬机制与软约束边界，但控制例子和无意义换行。",
+      "focus": [
+        "详细方案",
+        "问题机制对应",
+        "段落与例子控制"
+      ],
+      "rubric_dimensions": [
+        "reader_focus",
+        "causal_completeness",
+        "information_selection",
+        "structure_and_deduplication",
+        "directness_and_flow",
+        "supporting_material_control"
+      ],
+      "must": [
+        "最终目的先说明复杂软件任务的真实交付、流程连续和可验证结果。",
+        "现状分别说明上下文、外部执行、长程状态、错误率和交付裁决等事实，再推出问题。",
+        "Action、Context、Memory 和 Governance 等机制逐项对应问题，不因架构完整感加入无来源模块。",
+        "硬机制与模型可读软约束只完整解释一次，后文引用其边界。",
+        "主要机制使用完整段落说明，不把每句话拆成独立段落。",
+        "例子只在一个复杂状态或边界仍难理解时使用，不为每个模块配具象示例。",
+        "普通职责列表和简单生命周期不使用代码块填充篇幅。"
+      ],
+      "must_not": [
+        "最终目的直接写成建立状态机、沙箱、Memory 和 Gate。",
+        "在总体思路、模块、生命周期和总结中重复同一套硬软边界。",
+        "每项机制都附一个文件路径和调用例子。",
+        "用大量单句段落、普通文字代码块和重复列表制造完整感。"
+      ]
+    }
+  ],
+  "style_pairs": [
+    {
+      "id": "merge-fragmented-paragraphs",
+      "before": "模型可以输出动作。\n\n文件不会自动读取。\n\n命令不会自动执行。\n\n代码库不会自动变化。",
+      "after": "模型可以输出读取文件、执行命令或修改代码的动作意图，但这些输出本身不会让外部环境发生变化。系统仍需要执行者完成真实操作。",
+      "must_preserve": [
+        "模型输出动作意图",
+        "外部变化不会自动发生",
+        "需要执行者"
+      ],
+      "must_not_infer": [
+        "模型完全不能理解动作",
+        "所有动作必须人工完成"
+      ],
+      "transformation": "把共同证明一个结论的单句碎段合并成完整段落，同时保留因果。"
+    },
+    {
+      "id": "remove-micro-example-chain",
+      "before": "模型可以要求读取文件，例如读取 src/config.ts。模型可以要求执行测试，例如 pnpm test。模型可以生成 Patch，例如修改 index.ts。",
+      "after": "模型能够提出读取、执行和修改等动作意图，但这些意图需要运行时执行，并把真实结果返回模型。",
+      "must_preserve": [
+        "动作类型不止一种",
+        "需要运行时执行",
+        "结果需要反馈"
+      ],
+      "must_not_infer": [
+        "所有工具都具有相同风险",
+        "具体路径和命令是必要事实"
+      ],
+      "transformation": "删除只替换名词的微型例子，用直接机制概括共同关系。"
+    },
+    {
+      "id": "remove-plain-text-code-fence",
+      "before": "```text\n请读取 src/config.ts\n```\n\n文件不会因此自动被读取。",
+      "after": "模型即使输出“请读取 src/config.ts”，文件也不会因此自动被读取。",
+      "must_preserve": [
+        "模型输出请求",
+        "文件不会自动读取"
+      ],
+      "must_not_infer": [
+        "该路径真实存在",
+        "必须读取该文件"
+      ],
+      "transformation": "普通句子不使用代码块，直接嵌入正文。"
+    },
+    {
+      "id": "lift-solution-out-of-purpose",
+      "before": "最终目的是设计一个可中断、可恢复、可调度的渲染架构。",
+      "after": "最终目的是在主线程资源有限时保持界面更新正确，并让重要交互及时响应。可中断、可恢复和可调度是由现状差距进一步推出的能力。",
+      "must_preserve": [
+        "主线程资源有限",
+        "更新正确",
+        "交互响应",
+        "后续能力来源"
+      ],
+      "must_not_infer": [
+        "Fiber 是唯一实现",
+        "可中断本身就是外部结果"
+      ],
+      "transformation": "把具体能力从最终目的移到由现状与问题推出的方案层。"
+    },
+    {
+      "id": "compress-repetitive-summary",
+      "before": "正文已经逐项解释工具、反馈、权限、状态、上下文、MCP、插件和子 Agent。总结再次逐项列出这些机制，并重新说明模型输出不能改变环境。",
+      "after": "总结只保留：Agent 通过受控执行和真实反馈把模型判断连接到外部结果；权限、状态和上下文等机制用于让这一闭环在真实任务中安全、连续地运行。",
+      "must_preserve": [
+        "受控执行",
+        "真实反馈",
+        "安全连续运行"
+      ],
+      "must_not_infer": [
+        "扩展机制不重要",
+        "正文可以删除所有边界"
+      ],
+      "transformation": "总结收束核心结论和边界，不重复正文全部目录。"
+    }
+  ]
+}

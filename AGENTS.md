@@ -28,22 +28,30 @@ Do not silently edit historical source baselines. If a source-controlled file ch
 - Keep complete reasoning separate from article composition.
 - Treat question words such as “是什么、为什么、怎么做” as weak signals. Route from object/result state, acting subject, user role, time direction, the real unknown, and the requested delivery.
 - Model complex input as a problem structure: separate facts, user hypotheses, constraints, questions, and delivery requirements; distinguish the core question, supporting questions, and independent questions; preserve their real dependencies and the user's current explicit priority.
+- After problem modeling, decide whether the object carries an explicit purpose. Use the purpose/current-state/problem/solution chain for user goals, designed systems, plans, and supported conscious choices; do not force it onto definitions, natural processes, emergent group outcomes, or automatic emotions.
+- For purpose-bearing problems, preserve the semantic order: final purpose and completion criteria → current facts, capabilities, and constraints → missing conditions and problems → design principles → concrete paths → validation, cost, and boundaries.
+- Keep the final purpose at the result level. Do not leak modules, protocols, algorithms, class names, or implementation properties into the goal node.
+- Keep current state and problem distinct even when they share one reader-facing heading. Current state supplies facts; the problem is the missing condition derived from the purpose-state gap.
+- Every solution mechanism must trace to a proven problem. A mechanism introduced only for architectural completeness should be removed, deferred, or marked optional.
 - Use prior conversation and project context as evidence for intent, not as permission to override the user's current explicit goal or invent missing personal facts.
 - When intent remains ambiguous, clarify only when competing interpretations would produce materially different deliverables. Otherwise answer the shared core or state a temporary scope and continue.
 - Before accepting a key causal or action node, classify whether it claims necessity, sufficiency, contribution, one implementation, or mere association; test counterexamples, counterfactuals, alternative paths, reverse causality, and common causes at a depth proportional to the node's impact.
 - When node validation finds a gap, repair the node by adding conditions, splitting the mechanism, adding alternatives, weakening the claim, narrowing the scope, or removing it. Do not keep the original absolute claim with only an “exception” note.
-- Before composition, preserve facts, causal direction, conditions, uncertainty, evaluation criteria, and the repaired strength of key nodes as invariants.
+- Before composition, preserve facts, causal direction, conditions, uncertainty, evaluation criteria, purpose-structure applicability, and the repaired strength of key nodes as invariants.
 - Optimize effective information density: preserve correct and useful information while reducing the reader's understanding cost.
 - Do not flatten proven dependencies into attribute lists, and do not invent causal order among parallel conditions.
 - Prefer concrete subjects, actions, and state changes over nominalized abstractions when accuracy is preserved.
 - Introduce fields, modules, and terms when they first become necessary to the current causal step, not merely because they belong to the same structure.
+- Default to direct literal explanation before adding examples. Prefer one section-level or whole-chain example over separate micro-examples for every small point; retain multiple examples only when they have distinct indispensable functions.
+- Paragraph boundaries follow major conclusions, not sentence count. Do not interpret “one sentence advances one relation” as “one sentence per paragraph.”
+- Use code fences for code, configuration, exact data, protocols, complex flows, or copyable commands. Do not put ordinary prose, short lists, or simple causal chains in code blocks for display.
 - Use examples and metaphors only when they reduce understanding cost; author voice, slang, emotion, and fixed narrative structures are optional flavor, not universal rules.
 - Treat conclusion cards as candidate explanations, never axioms.
 - Preserve the distinction between facts, inferences, hypotheses, and evaluation criteria.
 - Do not add hidden value judgments such as “long-term is better” unless the user selects that standard.
 - Use plain Chinese in reader-facing rules. Avoid internal symbols and inflated wording.
-- Do not solve verbosity by deleting necessary causal steps, and do not interpret “detailed” as permission to repeat every implementation detail.
-- Add or update reasoning regressions, focused intent-routing regressions, focused node-validation regressions, writing regressions, or paired writing samples for every new general rule.
+- Do not solve verbosity by deleting necessary causal steps, and do not interpret “detailed” as permission to repeat every implementation detail, example, or summary.
+- Add or update reasoning regressions, focused intent-routing regressions, focused node-validation regressions, focused purpose-structure regressions, writing regressions, writing-density regressions, or paired writing samples for every new general rule.
 
 ## Branch workflow
 
@@ -59,9 +67,11 @@ Run:
 python3 scripts/validate_skill.py
 python3 scripts/validate_intent_routing.py
 python3 scripts/validate_node_reasoning.py
+python3 scripts/validate_purpose_structure.py
 python3 scripts/validate_writing.py
+python3 scripts/validate_writing_density.py
 python3 scripts/validate_conclusions.py
 python3 scripts/lint_language.py --strict
 ```
 
-The scripts validate structure, focused intent-routing and node-validation cases, paired writing samples, and high-risk wording. They do not replace model-output evaluation, causal-invariant review, or reading-comprehension checks.
+The scripts validate structure, focused intent-routing, node-validation, purpose-structure, writing-density cases, paired writing samples, and high-risk wording. They do not replace model-output evaluation, causal-invariant review, or reading-comprehension checks.
