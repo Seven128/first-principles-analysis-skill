@@ -1,0 +1,171 @@
+{
+  "version": 1,
+  "purpose": "专项验证关键推理节点能否在进入正式因果链前区分必要、充分、促进、实现路径和伴随关系，并通过反例、反事实、替代路径与因果方向检查修复结论。",
+  "rubric": "evals/rubric.md",
+  "rubric_dimensions": [
+    "problem_definition",
+    "causal_chain",
+    "alternative_explanations",
+    "evidence_discipline",
+    "flexibility",
+    "actionability_or_explanatory_value",
+    "language"
+  ],
+  "global_invariants": [
+    "节点校验发生在完整推演内部、文章成稿之前，不把检查表原样写给读者。",
+    "先明确节点声称的是必要、充分、促进、一种实现还是伴随关系，再选择对应检查。",
+    "对 A 导致 B 的严格命题，分别检查 A 成立但 B 不成立，以及 A 不成立但 B 仍成立的情况。",
+    "A 导致 B 的逆否命题是非 B 导致非 A；非 A 导致非 B 是原命题的否命题，不与原命题自动等价。",
+    "单个反例只能直接推翻同一范围内的严格全称命题，不能直接推翻概率或平均效果。",
+    "发现缺口后必须补条件、增加替代路径、拆分中间过程、降低结论强度、缩小范围或删除节点。",
+    "相关关系需要检查反向因果、共同原因和相互强化，不能凭同时出现确定方向。",
+    "逻辑上需要某项能力不能自动证明历史设计者的真实意图。"
+  ],
+  "cases": [
+    {
+      "id": "commute-inverse-not-contrapositive",
+      "type": "strict-conditional-validation",
+      "prompt": "我得出一个结论：我开车上班，就不会迟到。反过来就是我不开车上班，我一定会迟到。如果这个反过来的命题不成立，是不是说明原命题也不成立？请检查这段推理。",
+      "focus": [
+        "逆否命题与否命题",
+        "必要条件与充分条件",
+        "节点修复"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "causal_chain",
+        "alternative_explanations",
+        "evidence_discipline",
+        "actionability_or_explanatory_value",
+        "language"
+      ],
+      "must": [
+        "指出原命题的逆否命题是迟到则没有开车，而不开车则迟到是原命题的否命题。",
+        "说明否命题不成立只能说明开车不是不迟到的必要条件，不能直接推翻原命题。",
+        "同时检查开车但仍迟到的情况，以判断开车是否足够。",
+        "根据出发时间、拥堵、车辆状态和替代通勤路径修复结论强度与适用条件。"
+      ],
+      "must_not": [
+        "把不开车则迟到称为逆否命题。",
+        "因为坐地铁也不迟到就直接证明开车时一定会迟到。",
+        "只纠正术语，不继续检查遗漏条件和替代路径。"
+      ]
+    },
+    {
+      "id": "cache-missing-sufficient-conditions",
+      "type": "sufficiency-validation",
+      "prompt": "接口加了缓存以后就一定会变快，所以只要上线缓存，性能问题就解决了。请检查这个结论。",
+      "focus": [
+        "充分条件检查",
+        "遗漏条件",
+        "中间作用过程"
+      ],
+      "rubric_dimensions": [
+        "causal_chain",
+        "alternative_explanations",
+        "evidence_discipline",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
+      ],
+      "must": [
+        "寻找已经有缓存但接口仍慢的情况，例如未命中、回源慢、序列化慢、锁竞争或网络瓶颈。",
+        "说明缓存不是性能改善的无条件充分条件。",
+        "把节点修复为在可缓存、命中率足够且主要瓶颈位于可被缓存消除的计算或读取路径时，缓存才可能降低延迟。",
+        "给出能够验证瓶颈、命中率和端到端延迟的证据要求。"
+      ],
+      "must_not": [
+        "看到一个缓存未命中案例就认定缓存永远无效。",
+        "只附加可能有例外而不补充条件。",
+        "跳过瓶颈定位直接推荐更多缓存层。"
+      ]
+    },
+    {
+      "id": "replication-not-unique-necessity",
+      "type": "necessity-and-implementation-validation",
+      "prompt": "为了防止数据丢失，系统必须使用数据库主从复制。请用第一性原理判断这个结论是否成立。",
+      "focus": [
+        "必要条件与具体实现",
+        "替代路径",
+        "上位条件"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "causal_chain",
+        "alternative_explanations",
+        "evidence_discipline",
+        "flexibility",
+        "actionability_or_explanatory_value",
+        "language"
+      ],
+      "must": [
+        "把真正目标细化为允许的数据损失、恢复时间、故障类型和恢复可验证性。",
+        "检查没有主从复制但通过备份、日志归档、纠删码或其他独立副本仍能满足目标的情况。",
+        "说明主从复制是一种实现路径，不自动是所有场景的必要条件。",
+        "同时说明某些实时性和可用性要求下复制可能成为合适甚至必要的局部方案。"
+      ],
+      "must_not": [
+        "把主从复制直接写成防丢失的普遍唯一方案。",
+        "因为存在备份方案就认定复制没有价值。",
+        "不区分逻辑必要条件和具体技术选型。"
+      ]
+    },
+    {
+      "id": "exercise-probability-counterexample",
+      "type": "probabilistic-relation-validation",
+      "prompt": "经常运动的人也会生病，所以运动并不能降低生病风险。这个推理成立吗？",
+      "focus": [
+        "概率命题",
+        "单个反例边界",
+        "可比较证据"
+      ],
+      "rubric_dimensions": [
+        "causal_chain",
+        "alternative_explanations",
+        "evidence_discipline",
+        "flexibility",
+        "language"
+      ],
+      "must": [
+        "指出降低风险并不等于保证不生病。",
+        "说明运动者生病的单个案例不能直接推翻概率性关系。",
+        "要求在其他重要条件相近时比较发生率、疾病类型、运动方式和时间范围。",
+        "保留运动可能无效、效果有限或被其他风险因素抵消的条件分支。"
+      ],
+      "must_not": [
+        "把概率关系改写成运动则绝不生病。",
+        "用一个病例证明运动完全无效。",
+        "在没有证据时反向断言运动一定降低所有疾病风险。"
+      ]
+    },
+    {
+      "id": "core-project-common-cause",
+      "type": "causal-direction-validation",
+      "prompt": "负责核心项目的人绩效通常更好，所以核心项目会让员工变优秀。请检查这个因果结论。",
+      "focus": [
+        "反向因果",
+        "共同原因",
+        "双向强化"
+      ],
+      "rubric_dimensions": [
+        "subject_reasoning",
+        "causal_chain",
+        "alternative_explanations",
+        "evidence_discipline",
+        "neutrality",
+        "language"
+      ],
+      "must": [
+        "检查是否因为已有能力、信任或资源更强，员工才被分配核心项目。",
+        "考虑核心项目也可能通过学习机会、曝光和资源进一步提升表现，形成双向作用。",
+        "说明绩效评价标准和项目分配机制可能同时影响观察结果。",
+        "提出能区分选择效应与项目培养效应的证据或比较方式。"
+      ],
+      "must_not": [
+        "仅凭相关性确定核心项目单向导致优秀。",
+        "把所有项目分配都解释成公平能力筛选。",
+        "在证据不足时断言员工的真实动机或管理者意图。"
+      ]
+    }
+  ]
+}

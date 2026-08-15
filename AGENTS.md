@@ -26,7 +26,9 @@ Do not silently edit historical source baselines. If a source-controlled file ch
 - Fix the most upstream reusable cause, not one example only.
 - Keep common reasoning separate from subject-specific guidance.
 - Keep complete reasoning separate from article composition.
-- Before composition, preserve facts, causal direction, conditions, uncertainty, and evaluation criteria as invariants.
+- Before accepting a key causal or action node, classify whether it claims necessity, sufficiency, contribution, one implementation, or mere association; test counterexamples, counterfactuals, alternative paths, reverse causality, and common causes at a depth proportional to the node's impact.
+- When node validation finds a gap, repair the node by adding conditions, splitting the mechanism, adding alternatives, weakening the claim, narrowing the scope, or removing it. Do not keep the original absolute claim with only an “exception” note.
+- Before composition, preserve facts, causal direction, conditions, uncertainty, evaluation criteria, and the repaired strength of key nodes as invariants.
 - Optimize effective information density: preserve correct and useful information while reducing the reader's understanding cost.
 - Do not flatten proven dependencies into attribute lists, and do not invent causal order among parallel conditions.
 - Prefer concrete subjects, actions, and state changes over nominalized abstractions when accuracy is preserved.
@@ -37,7 +39,7 @@ Do not silently edit historical source baselines. If a source-controlled file ch
 - Do not add hidden value judgments such as “long-term is better” unless the user selects that standard.
 - Use plain Chinese in reader-facing rules. Avoid internal symbols and inflated wording.
 - Do not solve verbosity by deleting necessary causal steps, and do not interpret “detailed” as permission to repeat every implementation detail.
-- Add or update reasoning regressions, writing regressions, or paired writing samples for every new general rule.
+- Add or update reasoning regressions, focused node-validation regressions, writing regressions, or paired writing samples for every new general rule.
 
 ## Branch workflow
 
@@ -51,9 +53,10 @@ Run:
 
 ```bash
 python3 scripts/validate_skill.py
+python3 scripts/validate_node_reasoning.py
 python3 scripts/validate_writing.py
 python3 scripts/validate_conclusions.py
 python3 scripts/lint_language.py --strict
 ```
 
-The scripts validate structure, paired writing samples, and high-risk wording. They do not replace model-output evaluation, causal-invariant review, or reading-comprehension checks.
+The scripts validate structure, focused node-validation cases, paired writing samples, and high-risk wording. They do not replace model-output evaluation, causal-invariant review, or reading-comprehension checks.
