@@ -50,6 +50,7 @@ REQUIRED_PATHS = [
     "references/README.md",
     "references/第一性原理分析逻辑.md",
     "references/第一性原理分析提示词.md",
+    "references/writing/00-分析定稿与文章契约.md",
     "references/source-manifest.json",
     "references/examples/旧案例使用说明.md",
     "evals/README.md",
@@ -393,6 +394,7 @@ def validate_writing_regression_cases(reasoning_ids: set[str]) -> tuple[int, set
         "human-anger-plain-article",
         "job-offer-decision-memo",
         "api-growth-report-density",
+        "agent-article-handoff-and-reader-contract",
     }
     missing = sorted(required_cases - ids)
     if missing:

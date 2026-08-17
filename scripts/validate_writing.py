@@ -12,9 +12,11 @@ from typing import Any, Iterable
 ROOT = Path(__file__).resolve().parents[1]
 
 WRITING_REFERENCES = [
+    "references/writing/00-分析定稿与文章契约.md",
     "references/writing/01-写作规则卡.md",
     "references/writing/02-文章任务适配.md",
     "references/writing/03-成文检查.md",
+    "references/writing/04-信息密度、段落与例子控制.md",
 ]
 
 REQUIRED_PATHS = [
@@ -42,6 +44,15 @@ WRITING_CORE_SECTIONS = [
 ]
 
 WRITING_REFERENCE_SECTIONS = {
+    "references/writing/00-分析定稿与文章契约.md": [
+        "## 2. 分析阶段必须形成分析定稿",
+        "## 3. 实际分析问题",
+        "## 4. 成文前建立文章契约",
+        "## 5. 文章开头必须呈现实质问题",
+        "## 6. 读者视角与叙述口吻",
+        "## 7. 成文阶段的权限边界",
+        "## 8. 成稿回查",
+    ],
     "references/writing/01-写作规则卡.md": [
         "## 1. 一句推进一个主要关系",
         "## 2. 从平铺属性中恢复真实依赖",
@@ -62,12 +73,21 @@ WRITING_REFERENCE_SECTIONS = {
         "## 8. 可选语气与作者风味",
     ],
     "references/writing/03-成文检查.md": [
+        "## L0：分析交接、文章定位与开头",
         "## L1：语言与表面负担",
         "## L2：结构与关系",
         "## L3：内容保真与信息选择",
         "## L4：整体阅读检查",
         "## 修复顺序",
         "## 自动检查的边界",
+    ],
+    "references/writing/04-信息密度、段落与例子控制.md": [
+        "## 2. 段落由主要结论闭合决定",
+        "## 3. 默认先不用例子",
+        "## 5. 代码块只承载需要精确保真的内容",
+        "## 7. 一项核心结论只完整说明一次",
+        "## 8.1 实际问题与结构节点不是可删重复",
+        "## 9. 成文检查",
     ],
 }
 
@@ -89,6 +109,7 @@ REQUIRED_CASES = {
     "api-growth-report-density",
     "http-evolution-readable-density",
     "human-procrastination-readable-density",
+    "agent-article-handoff-and-reader-contract",
 }
 
 REQUIRED_PAIRS = {
@@ -100,6 +121,8 @@ REQUIRED_PAIRS = {
     "api-growth-result-chain",
     "decision-conclusion-first",
     "metaphor-gate",
+    "analysis-question-before-definition",
+    "remove-reader-context-leak",
 }
 
 
@@ -156,12 +179,12 @@ def validate_runtime() -> int:
         fail("Composition core does not load: " + ", ".join(missing_links))
 
     output_rules = (ROOT / "references/core/05-输出与表达规则.md").read_text(encoding="utf-8")
-    for phrase in ("有效信息密度", "一个主要新结论", "具体主体、动作和状态变化"):
+    for phrase in ("有效信息密度", "一个主要新结论", "具体主体、动作和状态变化", "实际分析问题", "分析定稿", "文章契约"):
         if phrase not in output_rules:
             fail(f"Output rules missing writing invariant: {phrase}")
 
     rubric = (ROOT / "evals/writing-rubric.md").read_text(encoding="utf-8")
-    for phrase in ("局部负担", "并行条件", "比喻"):
+    for phrase in ("局部负担", "并行条件", "比喻", "实际分析问题", "用户当前材料"):
         if phrase not in rubric:
             fail(f"Writing rubric missing diagnostic concept: {phrase}")
 

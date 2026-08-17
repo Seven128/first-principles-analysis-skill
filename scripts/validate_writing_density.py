@@ -37,6 +37,8 @@ REQUIRED_PAIRS = {
     "remove-plain-text-code-fence",
     "lift-solution-out-of-purpose",
     "compress-repetitive-summary",
+    "state-question-before-purpose",
+    "remove-generation-context",
 }
 
 REQUIRED_RULE_SECTIONS = [
@@ -86,6 +88,8 @@ def validate_rule_file() -> None:
         "优先在主要原理已经讲清后，使用一个能够贯穿主链的代表性例子",
         "普通中文句子",
         "总结不重新枚举正文中的全部模块",
+        "实际分析问题",
+        "用户当前材料",
     ]
     for phrase in required_phrases:
         if phrase not in text:
@@ -99,7 +103,7 @@ def validate_skill_link() -> None:
     rel = "references/writing/04-信息密度、段落与例子控制.md"
     if rel not in text:
         fail(f"SKILL.md must load {rel}")
-    for phrase in ("默认先不用例子", "一句话一个段落", "普通文字放进代码块"):
+    for phrase in ("默认先不用例子", "一句话一个段落", "普通文字放进代码块", "实际分析问题", "分析定稿"):
         if phrase not in text:
             fail(f"SKILL.md missing writing-density control: {phrase}")
 

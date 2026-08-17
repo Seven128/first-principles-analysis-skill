@@ -10,6 +10,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 CASES_PATH = ROOT / "evals/intent-routing-regression-cases.json"
+RULE_PATH = ROOT / "references/core/01-问题识别与分类.md"
 
 EXPECTED_DIMENSIONS = {
     "problem_definition",
@@ -34,6 +35,7 @@ REQUIRED_CASE_IDS = {
     "current-intent-overrides-history",
     "ambiguous-how-minimal-clarification",
     "dynamic-reroute-with-new-evidence",
+    "completed-analysis-question-handoff",
 }
 
 
@@ -60,6 +62,13 @@ def require_string_list(case_id: str, field: str, value: Any) -> None:
 
 
 def main() -> int:
+    if not RULE_PATH.is_file():
+        fail(f"Missing rule file: {RULE_PATH.relative_to(ROOT)}")
+    rule_text = RULE_PATH.read_text(encoding="utf-8")
+    for phrase in ("补全实际分析问题", "不是用户原句的机械复述", "进入分析定稿"):
+        if phrase not in rule_text:
+            fail(f"Problem-modeling rule missing phrase: {phrase}")
+
     data = load_json(CASES_PATH)
 
     if data.get("version") != 1:
