@@ -21,5 +21,6 @@ jobs:
       - run: python3 scripts/validate_purpose_structure.py
       - run: python3 scripts/validate_writing.py
       - run: python3 scripts/validate_writing_density.py
+      - run: python3 scripts/validate_reader_structure.py
       - run: python3 scripts/validate_conclusions.py
       - run: python3 scripts/lint_language.py --strict

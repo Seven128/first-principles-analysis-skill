@@ -17,6 +17,7 @@ WRITING_REFERENCES = [
     "references/writing/02-文章任务适配.md",
     "references/writing/03-成文检查.md",
     "references/writing/04-信息密度、段落与例子控制.md",
+    "references/writing/05-结构节点、信息层级与标题.md",
 ]
 
 REQUIRED_PATHS = [
@@ -46,7 +47,7 @@ WRITING_CORE_SECTIONS = [
 WRITING_REFERENCE_SECTIONS = {
     "references/writing/00-分析定稿与文章契约.md": [
         "## 2. 分析阶段必须形成分析定稿",
-        "## 3. 实际分析问题",
+        "## 3. 完整分析任务与读者可见问题",
         "## 4. 成文前建立文章契约",
         "## 5. 文章开头必须呈现实质问题",
         "## 6. 读者视角与叙述口吻",
@@ -86,8 +87,18 @@ WRITING_REFERENCE_SECTIONS = {
         "## 3. 默认先不用例子",
         "## 5. 代码块只承载需要精确保真的内容",
         "## 7. 一项核心结论只完整说明一次",
-        "## 8.1 实际问题与结构节点不是可删重复",
+        "## 8.1 读者可见问题与结构节点不是可删重复",
         "## 9. 成文检查",
+    ],
+    "references/writing/05-结构节点、信息层级与标题.md": [
+        "## 2. 三类交接信息必须分开",
+        "## 3. 每个结构节点只承担一种主要职责",
+        "## 4. 原理还原型最终目的先锁定对象角色",
+        "## 6. 标题必须直接提供信息",
+        "## 7. 何时建立小标题",
+        "## 8. 标题层级",
+        "## 9. 父章节与子章节分工",
+        "## 10. 成文检查",
     ],
 }
 
@@ -179,12 +190,12 @@ def validate_runtime() -> int:
         fail("Composition core does not load: " + ", ".join(missing_links))
 
     output_rules = (ROOT / "references/core/05-输出与表达规则.md").read_text(encoding="utf-8")
-    for phrase in ("有效信息密度", "一个主要新结论", "具体主体、动作和状态变化", "实际分析问题", "分析定稿", "文章契约"):
+    for phrase in ("有效信息密度", "一个主要新结论", "具体主体、动作和状态变化", "完整分析任务", "读者可见问题", "分析定稿", "文章契约"): 
         if phrase not in output_rules:
             fail(f"Output rules missing writing invariant: {phrase}")
 
     rubric = (ROOT / "evals/writing-rubric.md").read_text(encoding="utf-8")
-    for phrase in ("局部负担", "并行条件", "比喻", "实际分析问题", "用户当前材料"):
+    for phrase in ("局部负担", "并行条件", "比喻", "读者可见问题", "用户当前材料"): 
         if phrase not in rubric:
             fail(f"Writing rubric missing diagnostic concept: {phrase}")
 
