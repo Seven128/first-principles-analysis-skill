@@ -1,0 +1,142 @@
+{
+  "version": 1,
+  "purpose": "专项验证历史纵轴、横向对照、多视角交叉审查、双遍推导、跨领域借解和最小实验能否作为按需补强方法进入现有第一性原理主链，而不是替代主链或被机械套到所有问题。",
+  "rubric": "evals/rubric.md",
+  "rubric_dimensions": [
+    "problem_definition",
+    "route_choice",
+    "subject_reasoning",
+    "causal_chain",
+    "alternative_explanations",
+    "evidence_discipline",
+    "neutrality",
+    "flexibility",
+    "actionability_or_explanatory_value",
+    "language"
+  ],
+  "global_invariants": [
+    "现有核心逻辑主链保持不变：先识别问题，再从目的或待解释结果、事实、缺失条件、机制、方案和验证建立连续因果。",
+    "历史纵轴、横向对照、多视角审查、跨领域借解和最小实验都是按问题需要启用的补强方法，不是新的统一模板。",
+    "不把定义、当前机制说明、一次具体情绪、普通事实确认和不涉及演化的自然结果自动改写成历史研究。",
+    "真实历史按状态转折组织，并区分逻辑重建、实际事件、机制作用和人物动机。",
+    "横向对照用于检查必要性、充分性、替代路径和真实选择原因，不用竞品表格替代因果分析。",
+    "比较对象需要说明选择理由，并检查目标、时间、规模、环境和成熟阶段是否可比。",
+    "多视角审查选择互补分析变量，不模拟知名专家或编造人物观点，视角数量由问题决定。",
+    "跨领域借解先抽象主体、资源、约束、反馈和状态变化，类比只生成候选机制，不能单独作为证据。",
+    "双遍推导先隐藏现有方案重新推出必要条件，再审查现有机制；重新推导不预设要推倒重来。",
+    "历史信息只有在路径依赖、迁移成本、累积能力或包袱会改变当前行动时才进入怎么做分析。",
+    "未来场景使用条件、信号和失效条件表达，路径数量由真实分支决定。",
+    "最小实验优先验证最可能改变决策的假设，强调信息价值、低成本和可逆性，不固定假设数量或实验周期。",
+    "补强方法产生的有效事实、替代路径和边界进入最终分析，方法脚手架默认不进入正文。"
+  ],
+  "cases": [
+    {
+      "id": "mechanism-explanation-skips-forced-history",
+      "type": "current-mechanism-no-history",
+      "prompt": "数据库索引是怎么组织数据并定位记录的？",
+      "focus": ["当前机制", "历史轴触发边界", "直接解释"],
+      "rubric_dimensions": ["problem_definition", "route_choice", "causal_chain", "flexibility", "actionability_or_explanatory_value", "language"],
+      "must": ["直接解释索引怎样组织键、定位记录和维护更新。", "根据索引类型说明边界，不因为对象是技术系统就自动展开完整发展史。"],
+      "must_not": ["把回答主体改成数据库索引从古至今的历史。", "强行加入竞品、专家会诊或未来三条路径。"]
+    },
+    {
+      "id": "historical-axis-when-evolution-is-unknown",
+      "type": "historical-evolution",
+      "prompt": "请分析 HTTP/1.0 到 HTTP/2 的关键演进，早期选择怎样形成后来的能力、路径依赖和新问题。",
+      "focus": ["真实转折", "状态递归", "逻辑与历史边界"],
+      "rubric_dimensions": ["problem_definition", "route_choice", "causal_chain", "alternative_explanations", "evidence_discipline", "flexibility", "actionability_or_explanatory_value", "language"],
+      "must": ["按形成前状态、当时限制、实际机制、新状态和后续问题组织转折。", "说明持久连接解决重复建连后又引出报文定界，后续协议继续处理新的限制。", "区分规范和版本事实、逻辑上需要的能力以及历史设计者动机。", "说明早期选择沉淀的能力和约束怎样影响后续方案。"],
+      "must_not": ["只列年份、人物和版本功能而没有状态变化因果。", "把逻辑重建直接写成已经被历史材料证明的真实动机。", "因为启用历史纵轴就删除最终目的、现状、问题与机制之间的关系。"]
+    },
+    {
+      "id": "horizontal-comparison-tests-necessity",
+      "type": "same-goal-different-implementation",
+      "prompt": "有人说为了防止数据丢失，系统必须使用主从复制。请比较备份、日志归档、纠删码和复制，判断这个结论。",
+      "focus": ["相同目标不同实现", "上位必要条件", "统一比较口径"],
+      "rubric_dimensions": ["problem_definition", "causal_chain", "alternative_explanations", "evidence_discipline", "neutrality", "flexibility", "actionability_or_explanatory_value", "language"],
+      "must": ["先明确允许的数据损失、恢复时间、故障范围和恢复验证口径。", "用不同实现共同补足的上位条件检查主从复制是否必要。", "说明每种路径适用的时间、成本和故障条件。"],
+      "must_not": ["把横向比较写成功能数量排名。", "因为存在替代方案就认定复制没有价值。", "在目标口径不同的情况下直接比较优劣。"]
+    },
+    {
+      "id": "horizontal-comparison-tests-sufficiency",
+      "type": "same-mechanism-different-result",
+      "prompt": "两个接口都加了缓存，一个明显变快，另一个仍然很慢。请分析为什么。",
+      "focus": ["相同机制不同结果", "遗漏条件", "可比性"],
+      "rubric_dimensions": ["problem_definition", "causal_chain", "alternative_explanations", "evidence_discipline", "flexibility", "actionability_or_explanatory_value", "language"],
+      "must": ["比较瓶颈位置、可缓存性、命中率、回源、序列化、锁竞争和网络条件。", "说明同名机制不代表实现强度、数据特征和使用环境相同。", "由差异修复缓存足以解决性能问题的过强结论。"],
+      "must_not": ["只用有缓存和没效果两个事实否定缓存。", "忽略两个接口的请求结构、数据规模和测量口径。"]
+    },
+    {
+      "id": "action-route-skips-history-detour",
+      "type": "goal-solving-no-history-detour",
+      "prompt": "我的产品注册转化下降，应该先验证什么、再改什么？",
+      "focus": ["当前目标", "低成本验证", "补强方法边界"],
+      "rubric_dimensions": ["problem_definition", "route_choice", "causal_chain", "evidence_discipline", "flexibility", "actionability_or_explanatory_value", "language"],
+      "must": ["从注册结果链、当前数据和候选断点推出验证顺序。", "只有历史渠道变化或旧产品决策会改变当前判断时才补充历史信息。"],
+      "must_not": ["先写行业发展史或产品完整版本时间线。", "为了使用横纵分析而延迟当前最有价值的验证。"]
+    },
+    {
+      "id": "double-derivation-without-rebuild-bias",
+      "type": "existing-system-path-dependence",
+      "prompt": "现有审批流程已经叠了很多补丁。请从第一性原理检查应该保留、局部修复、替换还是重做。",
+      "focus": ["双遍推导", "表面补丁", "迁移取舍"],
+      "rubric_dimensions": ["problem_definition", "causal_chain", "alternative_explanations", "evidence_discipline", "neutrality", "flexibility", "actionability_or_explanatory_value", "language"],
+      "must": ["第一遍隐藏当前方案，从目标、事实、约束和必要条件推出上位设计方向。", "第二遍把现有机制映射回已经证明的问题，区分仍有效实现、历史取舍、补偿机制和表面修补。", "比较保留、修复、替换和重做的迁移成本、风险、可逆性和验证难度。"],
+      "must_not": ["把第一性原理等同于推倒重来。", "因为现有流程有补丁就默认完整重构收益最高。", "只给新架构，不说明旧机制分别处理了什么问题。"]
+    },
+    {
+      "id": "cross-domain-transfer-requires-structural-map",
+      "type": "cross-domain-path-generation",
+      "prompt": "当前客服工单总被少量大客户占满，普通用户长期等待。请从其他领域借解，但要能落到当前约束。",
+      "focus": ["底层结构", "远领域机制", "失效条件"],
+      "rubric_dimensions": ["problem_definition", "subject_reasoning", "causal_chain", "alternative_explanations", "evidence_discipline", "neutrality", "flexibility", "actionability_or_explanatory_value", "language"],
+      "must": ["先抽象为有限服务资源、异质任务、优先级、公平性和等待成本问题。", "说明借用机制与当前主体、资源、约束和反馈的对应关系。", "列出不可映射的差异和可能失效条件，再回到当前场景校验。", "把借来的机制作为候选路径，而不是已经成立的答案。"],
+      "must_not": ["只罗列医疗分诊、操作系统调度等类比名称。", "用相似故事代替当前数据、成本和执行约束。", "强行凑固定数量的领域案例。"]
+    },
+    {
+      "id": "multi-perspective-without-fake-experts",
+      "type": "complementary-perspective-review",
+      "prompt": "我们准备开放 Agent 自动执行生产操作，请从多个互补视角审查方案。",
+      "focus": ["互补变量", "分歧假设", "统一裁决"],
+      "rubric_dimensions": ["problem_definition", "subject_reasoning", "causal_chain", "alternative_explanations", "evidence_discipline", "neutrality", "flexibility", "actionability_or_explanatory_value", "language"],
+      "must": ["选择技术执行边界、安全与权限、业务损失、治理与审计等互补视角。", "每个视角说明关键差距、候选路径、遗漏风险和改变判断的证据。", "综合共同事实、真正分歧和分歧背后的假设，再给条件化方案。"],
+      "must_not": ["编造世界级专家或真实人物的观点。", "固定选择三个高度相似的角色。", "把多份意见并排放置却没有统一目标和选择依据。"]
+    },
+    {
+      "id": "future-paths-are-conditional-not-fixed",
+      "type": "history-comparison-future-scenarios",
+      "prompt": "基于一个技术过去的演进和当前替代方案，判断它未来可能怎样发展。",
+      "focus": ["历史积累", "当前替代路径", "条件与信号"],
+      "rubric_dimensions": ["problem_definition", "causal_chain", "alternative_explanations", "evidence_discipline", "neutrality", "flexibility", "actionability_or_explanatory_value", "language"],
+      "must": ["从已积累能力、路径依赖、迁移成本、替代路径和外部条件推出场景。", "为每条场景说明成立前提、领先信号、反向信号和重建判断的条件。", "路径数量由真实分支决定。"],
+      "must_not": ["无论材料如何都固定输出三条路径。", "把历史趋势直接外推成确定未来。", "用没有证据的设计者意图解释未来方向。"]
+    },
+    {
+      "id": "minimum-experiment-maximizes-information-value",
+      "type": "minimum-experiment",
+      "prompt": "我不知道该先做付费投放还是重做注册页，怎样用一个小实验减少不确定性？",
+      "focus": ["关键假设", "信息价值", "继续与停止条件"],
+      "rubric_dimensions": ["problem_definition", "causal_chain", "alternative_explanations", "evidence_discipline", "neutrality", "flexibility", "actionability_or_explanatory_value", "language"],
+      "must": ["先找出会改变投放与注册页选择的关键假设。", "优先验证一旦证伪就会淘汰更多路径、且成本较低的假设。", "说明动作、投入、结果指标、继续条件、停止条件和实验新增信息。", "区分曝光、点击等过程指标与最终注册结果。"],
+      "must_not": ["机械列出三个假设或固定七天周期。", "设计不可逆的大改版来验证早期假设。", "实验只检查动作是否完成，不检查目标结果。"]
+    },
+    {
+      "id": "simple-definition-skips-supplementary-methods",
+      "type": "definition-no-supplementary-methods",
+      "prompt": "什么是质数？",
+      "focus": ["定义", "方法边界", "简洁交付"],
+      "rubric_dimensions": ["problem_definition", "route_choice", "flexibility", "actionability_or_explanatory_value", "language"],
+      "must": ["直接给出定义、边界、例子和反例。"],
+      "must_not": ["加入质数的历史纵轴、横向竞品、多视角会诊或未来路径。", "为了统一模板设计最小实验。"]
+    },
+    {
+      "id": "single-emotion-skips-forced-history-and-comparison",
+      "type": "automatic-emotion-no-supplementary-methods",
+      "prompt": "我指出同事方案中的错误后，他当场很生气。为什么？",
+      "focus": ["当前事件", "候选解释", "停止追溯"],
+      "rubric_dimensions": ["problem_definition", "route_choice", "subject_reasoning", "causal_chain", "alternative_explanations", "evidence_discipline", "flexibility", "actionability_or_explanatory_value", "language"],
+      "must": ["从事件、感知、解释、预期或身份受影响到情绪反应建立候选链。", "在更早经历不改变本次解释时停止追溯。"],
+      "must_not": ["自动分析其童年历史或与其他人的横向对照。", "为了多视角而编造心理专家、管理专家和沟通专家发言。"]
+    }
+  ]
+}
