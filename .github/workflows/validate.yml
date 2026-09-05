@@ -20,6 +20,7 @@ jobs:
       - run: python3 scripts/validate_node_reasoning.py
       - run: python3 scripts/validate_purpose_structure.py
       - run: python3 scripts/validate_writing.py
+      - run: python3 -m unittest discover -s tests -p 'test_*.py'
       - run: python3 scripts/validate_writing_density.py
       - run: python3 scripts/validate_reader_structure.py
       - run: python3 scripts/validate_conclusions.py
