@@ -1,11 +1,12 @@
 {
   "version": 1,
-  "purpose": "用同一推演中的成对片段校准成文变换。重点比较关系是否显式、局部理解负担是否降低，以及改写是否保持事实和因果。",
+  "purpose": "用同一推演中的成对片段校准成文变换。unit_role 区分结论句、解释段与文章开头；先判断当前位置的职责，再比较关系、理解负担与语义保真。已经足够而无需改写的正向案例见 local-conclusion-regression-cases.json。",
   "pairs": [
     {
       "id": "fiber-flat-enumeration",
       "reasoning_case_id": "fiber",
-      "issue": "有依赖的机制被压成并列属性。",
+      "unit_role": "explanation",
+      "issue": "有依赖的机制被压成并列属性；此处需要解释依赖，不是在压缩定位句。",
       "before": "Fiber 把渲染改造成可保存进度、可分片、可调度、可丢弃未提交结果、可集中提交的任务系统。",
       "after": "Fiber 先把渲染进度变成 React 可以保存的数据。有了明确的恢复位置，React 才能暂停一次计算，并在之后继续处理。计算能够中断后，中间结果不能立即修改真实 DOM，因此 React 要先在内存中准备完整结果，再集中提交。",
       "transformations": [
@@ -25,6 +26,7 @@
     {
       "id": "fiber-field-disclosure",
       "reasoning_case_id": "fiber",
+      "unit_role": "explanation",
       "issue": "属于同一结构的字段一次全部展开。",
       "before": "Fiber 节点包含 child、sibling、return、pendingProps、memoizedState、updateQueue、lanes、childLanes、flags、subtreeFlags、deletions 和 alternate。",
       "after": "要暂停遍历，React 先要保存当前节点、父节点和接下来处理哪个节点，因此 Fiber 记录 child、sibling 和 return。文章推进到优先级时再说明 lanes；推进到中间结果隔离时再说明 alternate。",
@@ -46,7 +48,8 @@
     {
       "id": "agent-nominalization",
       "reasoning_case_id": "agent-principles",
-      "issue": "抽象名词隐藏真实动作。",
+      "unit_role": "explanation",
+      "issue": "抽象名词隐藏真实动作；需要展开机制时使用本变换。",
       "before": "Agent 需要构建环境交互能力、反馈闭环能力和执行状态持久化能力。",
       "after": "运行时先读取任务所在环境，并把模型选择的动作交给工具执行。工具把真实结果返回模型，下一步判断才能依据已经变化的状态。任务跨越多轮时，系统还要保存当前执行到哪一步。",
       "transformations": [
@@ -67,6 +70,7 @@
     {
       "id": "harness-detail-overload",
       "reasoning_case_id": "ai-sdlc-harness",
+      "unit_role": "explanation",
       "issue": "完整方案把全部机制压在一个句子中。",
       "before": "Harness 通过阶段契约、事实源、任务状态、Skill、Gate、Checkpoint、RFC、allowed_paths 和 CI 构建完整的软件工程治理体系。",
       "after": "阶段契约先规定当前阶段应读取什么、产出什么以及怎样完成。阶段产物进入统一事实源后，下一阶段才能稳定继承前面的边界。任务状态记录当前执行位置；Gate 决定是否允许流转。任务中断时由 Checkpoint 保存现场，需求变化时再由 RFC 限定受影响链路。",
@@ -87,6 +91,7 @@
     {
       "id": "human-shared-chain",
       "reasoning_case_id": "human-anger",
+      "unit_role": "explanation",
       "issue": "每个候选原因重复同一情绪形成过程。",
       "before": "他可能因为自尊受损而生气；也可能因为公开尴尬而生气；还可能因为压力太大而生气。每种原因都分别从事件讲到情绪。",
       "after": "被指出错误只是客观事件。对方可能把它理解为能力受到否定、在他人面前失去位置，或关系中缺少尊重。这些解释都会把事件评价为损失或威胁，从而引发愤怒；疲劳和长期压力可能进一步放大反应。",
@@ -107,6 +112,7 @@
     {
       "id": "api-growth-result-chain",
       "reasoning_case_id": "api-relay-growth",
+      "unit_role": "explanation",
       "issue": "增长措施先于结果链出现。",
       "before": "可以做搜索引擎、找 KOL、低价套餐、邀请返利、留言板、免费额度和社群运营。",
       "after": "用户先要在合适渠道看到服务，再判断它是否值得信任和尝试。注册后还要完成第一次成功调用，否则曝光和注册不会转成持续使用。因此，搜索内容处理触达，透明模型信息和稳定记录处理信任，低门槛试用处理首次成功；价格和留存措施要在单位经济允许的范围内继续验证。",
@@ -127,6 +133,7 @@
     {
       "id": "decision-conclusion-first",
       "reasoning_case_id": "job-offer-choice",
+      "unit_role": "conclusion",
       "issue": "方法和背景挡在条件化结论之前。",
       "before": "职业选择是一个复杂的多目标决策问题，需要从收入、成长、稳定、地点、工作内容、风险等多个维度建立评分模型。",
       "after": "目前不能直接判断哪一个更合适，因为两份工作的事实和你的优先级都缺失。若新 Offer 明显改善你最重视的工作内容和收入，且风险可接受，接受它更符合目标；若当前工作的稳定性和可逆性更重要，留下更合适。下一步先补齐最可能改变这个判断的三项事实。",
@@ -147,6 +154,7 @@
     {
       "id": "metaphor-gate",
       "reasoning_case_id": "fiber",
+      "unit_role": "explanation",
       "issue": "比喻增加了一套无必要的概念系统。",
       "before": "Fiber 像给 React 装上了一个可以随时存档的时间机器，Lane 则像高速公路上的优先车道。",
       "after": "React 把当前处理到哪个 Fiber 保存下来。主线程需要处理更紧急的工作时，它可以暂停；下次再从保存的位置继续。Lane 记录更新的优先级，让调度器先处理更紧急的更新。",
@@ -167,18 +175,19 @@
     {
       "id": "analysis-question-before-definition",
       "reasoning_case_id": "agent-principles",
-      "issue": "文章用定义直接开头，或把内部完整分析任务原样写成读者问题。",
-      "before": "Agent 是基于接口式调用大模型的通用任务执行应用。它能够调用工具并根据结果继续判断。",
-      "after": "要分析的问题是：Agent 是什么？为什么传统程序和大模型单独都不足以完成开放任务，Agent 的主要结构又为什么会由这些缺口产生？随后再写最终目的，并在后文逐项解释执行、反馈、权限、状态和验证。",
+      "unit_role": "opening",
+      "issue": "定义本身准确，但作为文章开头缺少读者可见问题；这里只修复开头结构，不把合格定义当作坏句子。",
+      "before": "Agent 是基于接口式调用大模型的通用任务执行应用。",
+      "after": "## 要分析的问题\n\nAgent 是什么，其任务执行结构为什么这样设计？\n\n## 最终目的\n\nAgent 是基于接口式调用大模型的通用任务执行应用。",
       "transformations": [
-        "从核心问题生成简短读者可见问题",
-        "把支撑问题和机制目录移入必须覆盖项与正文",
-        "区分文章问题、对象定义和最终目的"
+        "只补入读者可见问题和结构标题，保留原定义",
+        "旧能力不足留作正文的支撑问题，不挤进开头问句",
+        "此片段只展示文章开头，不替代后续现状、问题和方案"
       ],
       "must_preserve": [
         "任务执行型 Agent 的分析范围",
-        "传统程序和大模型单独存在的能力缺口",
-        "当前结构形成原因"
+        "已有定位句的措辞和含义",
+        "后文仍讨论传统程序和大模型的能力缺口与结构形成原因"
       ],
       "must_not_infer": [
         "移出问题句的机制不再讨论",
@@ -189,6 +198,7 @@
     {
       "id": "remove-reader-context-leak",
       "reasoning_case_id": "agent-principles",
+      "unit_role": "explanation",
       "issue": "个性化通过暴露原始对话和求职材料实现，破坏文章定位与自包含性。",
       "before": "这与用户当前学习材料中强调的渐进式揭露一致。用户现有求职材料也已经把 Agent UI 和工具调用列为竞争力。",
       "after": "上下文应按任务需要逐步加载，避免无关信息挤占有限窗口。对于具备前端工程背景的读者，事件流、工具状态和验证结果可以作为理解 Agent 运行时的重点。",
@@ -206,6 +216,43 @@
         "文章必须讨论个人简历",
         "用户材料是公开事实"
       ]
+    },
+    {
+      "id": "harness-duty-local-conclusion",
+      "reasoning_case_id": "ai-sdlc-harness",
+      "unit_role": "conclusion",
+      "issue": "当前只说明阶段契约的职责，却把上下游收益和实现都混进一句话。",
+      "before": "阶段契约通过对输入上下文、阶段产物和出口验收规则的结构化定义，形成对阶段工作内容及其完成状态的统一描述，并支持后续阶段衔接。",
+      "after": "阶段契约规定当前阶段的输入、产出和完成条件。",
+      "transformations": [
+        "保留当前职责所需的三项信息",
+        "收益和实现只在需要解释时另行展开",
+        "这句话已完成职责时直接结束"
+      ],
+      "must_preserve": ["阶段输入、产出和完成条件"],
+      "must_not_infer": ["契约文本本身能够强制执行所有规则", "后续解释不再需要说明阶段衔接"]
+    },
+    {
+      "id": "agent-tool-local-conclusion",
+      "reasoning_case_id": "agent-principles",
+      "unit_role": "conclusion",
+      "issue": "工具的主要作用被抽象名词遮住。",
+      "before": "工具调用机制负责将模型侧动作意图转化为外部操作，并构建执行结果向模型侧回传的环境交互通路。",
+      "after": "工具执行模型提出的操作，并返回结果。",
+      "transformations": ["直接写出主体、动作和结果", "具体调用与反馈过程需要时再展开"],
+      "must_preserve": ["模型提出操作", "工具执行并返回结果"],
+      "must_not_infer": ["调用成功等于任务完成", "所有任务都要使用同一工具协议"]
+    },
+    {
+      "id": "job-offer-uncertainty-local-conclusion",
+      "reasoning_case_id": "job-offer-choice",
+      "unit_role": "conclusion",
+      "issue": "证据不足时用复杂评价措辞代替直接判断。",
+      "before": "由于影响职业选择的具体工作条件与个体偏好排序尚未得到充分明确，当前无法形成具备足够依据的综合性推荐结果。",
+      "after": "缺少两份工作的具体条件和你的优先级，目前无法判断哪份更合适。",
+      "transformations": ["直接说明不能确定什么以及缺少什么", "保留证据不足，不伪造肯定结论"],
+      "must_preserve": ["工作条件未知", "用户优先级未知", "结论暂时不能确定"],
+      "must_not_infer": ["更高收入应当优先", "新工作一定更好"]
     }
   ]
 }

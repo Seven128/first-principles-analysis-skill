@@ -28,6 +28,7 @@ REQUIRED_PATHS = [
     "evals/writing-regression-cases.json",
     "evals/writing-style-pairs.json",
     "evals/writing-score-template.json",
+    "evals/local-conclusion-regression-cases.json",
 ]
 
 WRITING_CORE_SECTIONS = [
@@ -136,6 +137,21 @@ REQUIRED_PAIRS = {
     "remove-reader-context-leak",
 }
 
+LOCAL_ROLE_CASES = {
+    "meeting-definition": "definition",
+    "meeting-purpose": "purpose",
+    "meeting-problem": "problem",
+    "meeting-cause": "cause",
+    "meeting-mechanism": "mechanism",
+}
+REQUIRED_LOCAL_CASES = set(LOCAL_ROLE_CASES) | {
+    "roster-definition", "keep-sufficient-sentence", "necessary-qualifier",
+    "uncertain-motive", "heading-no-repeat", "detailed-causal-article",
+    "precise-short-over-vague-or-overloaded", "conditional-choice",
+    "independent-points",
+}
+LOCAL_ROLES = {"definition", "purpose", "problem", "cause", "mechanism", "judgment", "mixed"}
+
 
 def fail(message: str) -> None:
     raise ValueError(message)
@@ -181,6 +197,10 @@ def validate_runtime() -> int:
         fail("Missing writing files: " + ", ".join(missing))
 
     require_sections("references/core/06-文章成稿与压缩.md", WRITING_CORE_SECTIONS)
+    require_sections("references/core/05-输出与表达规则.md", [
+        "## 4. 分析先证明，呈现可以先给结论",
+        "## 5. 每个要点先说准一个结论",
+    ])
     for rel, sections in WRITING_REFERENCE_SECTIONS.items():
         require_sections(rel, sections)
 
@@ -190,12 +210,12 @@ def validate_runtime() -> int:
         fail("Composition core does not load: " + ", ".join(missing_links))
 
     output_rules = (ROOT / "references/core/05-输出与表达规则.md").read_text(encoding="utf-8")
-    for phrase in ("有效信息密度", "一个主要新结论", "具体主体、动作和状态变化", "完整分析任务", "读者可见问题", "分析定稿", "文章契约"): 
+    for phrase in ("有效信息密度", "一个主要新结论", "具体主体、动作和状态变化", "完整分析任务", "读者可见问题", "分析定稿", "文章契约"):
         if phrase not in output_rules:
             fail(f"Output rules missing writing invariant: {phrase}")
 
     rubric = (ROOT / "evals/writing-rubric.md").read_text(encoding="utf-8")
-    for phrase in ("局部负担", "并行条件", "比喻", "读者可见问题", "用户当前材料"): 
+    for phrase in ("局部负担", "并行条件", "比喻", "读者可见问题", "用户当前材料", "局部结论"):
         if phrase not in rubric:
             fail(f"Writing rubric missing diagnostic concept: {phrase}")
 
@@ -292,6 +312,8 @@ def validate_pairs(known_reasoning_ids: set[str]) -> int:
             require_string_list(pair_id, field, pair.get(field))
         if pair["before"].strip() == pair["after"].strip():
             fail(f"Writing pair {pair_id} before and after must differ")
+        if "unit_role" in pair and pair["unit_role"] not in ("conclusion", "explanation", "opening", "heading"):
+            fail(f"Writing pair {pair_id} has an invalid unit_role")
 
     missing = sorted(REQUIRED_PAIRS - ids)
     if missing:
@@ -314,6 +336,74 @@ def validate_score_template(case_ids: set[str]) -> None:
             fail("writing-score-template.json dimensions do not match the writing rubric")
 
 
+def validate_local_cases(data: Any) -> int:
+    """Validate coverage and input/evaluation separation, not generated prose quality."""
+    if not isinstance(data, dict) or type(data.get("version")) is not int or data["version"] != 1:
+        fail("local-conclusion-regression-cases.json version must be 1")
+    if not isinstance(data.get("purpose"), str) or not data["purpose"].strip():
+        fail("local conclusion cases require purpose")
+    require_string_list("local conclusions", "generation_instructions", data.get("generation_instructions"))
+    materials = data.get("materials")
+    if not isinstance(materials, dict) or not materials:
+        fail("local conclusion cases require materials")
+    for material_id, facts in materials.items():
+        if not isinstance(material_id, str) or not re.fullmatch(r"[a-z0-9][a-z0-9-]*", material_id):
+            fail(f"Invalid local material id: {material_id!r}")
+        require_string_list(material_id, "facts", facts)
+
+    cases = data.get("cases")
+    if not isinstance(cases, list) or not cases:
+        fail("local conclusion cases require cases")
+    indexed: dict[str, dict[str, Any]] = {}
+    for case in cases:
+        if not isinstance(case, dict):
+            fail("Each local conclusion case must be an object")
+        case_id = case.get("id")
+        if not isinstance(case_id, str) or not re.fullmatch(r"[a-z0-9][a-z0-9-]*", case_id):
+            fail(f"Invalid local conclusion case id: {case_id!r}")
+        if case_id in indexed:
+            fail(f"Duplicate local conclusion case id: {case_id}")
+        indexed[case_id] = case
+        item = case.get("input")
+        if not isinstance(item, dict) or set(item) != {"material", "request"}:
+            fail(f"{case_id} input must contain only material and request")
+        material_id = item["material"]
+        if not isinstance(material_id, str) or material_id not in materials:
+            fail(f"{case_id} references unknown material: {material_id!r}")
+        if not isinstance(item["request"], str) or not item["request"].strip():
+            fail(f"{case_id} requires a non-empty request")
+        evaluation = case.get("evaluation")
+        if not isinstance(evaluation, dict):
+            fail(f"{case_id} requires separate evaluation")
+        role = evaluation.get("role")
+        if not isinstance(role, str) or role not in LOCAL_ROLES:
+            fail(f"{case_id} has invalid local role: {role!r}")
+        for field in ("must", "must_not"):
+            require_string_list(case_id, field, evaluation.get(field))
+
+    missing = sorted(REQUIRED_LOCAL_CASES - set(indexed))
+    if missing:
+        fail("Missing local conclusion cases: " + ", ".join(missing))
+    role_materials = {indexed[case_id]["input"]["material"] for case_id in LOCAL_ROLE_CASES}
+    if len(role_materials) != 1:
+        fail("Local role-selection cases must use the same material")
+    for case_id, role in LOCAL_ROLE_CASES.items():
+        if indexed[case_id]["evaluation"]["role"] != role:
+            fail(f"{case_id} must evaluate role {role}")
+    return len(cases)
+
+
+def local_conclusion_input(data: Any, case_id: str) -> dict[str, Any]:
+    """Return only facts and request; never expose evaluation fields to generation."""
+    validate_local_cases(data)
+    for case in data["cases"]:
+        if case["id"] == case_id:
+            item = case["input"]
+            return {"facts": list(data["materials"][item["material"]]), "request": item["request"]}
+    fail(f"Unknown local conclusion case: {case_id}")
+    raise AssertionError("unreachable")
+
+
 def main() -> int:
     try:
         reference_count = validate_runtime()
@@ -321,6 +411,7 @@ def main() -> int:
         case_count, case_ids = validate_cases(reasoning_ids)
         pair_count = validate_pairs(reasoning_ids)
         validate_score_template(case_ids)
+        local_count = validate_local_cases(load_json("evals/local-conclusion-regression-cases.json"))
     except ValueError as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 1
@@ -328,6 +419,7 @@ def main() -> int:
     print(f"OK: verified {reference_count} writing runtime references")
     print(f"OK: verified {case_count} writing regression cases")
     print(f"OK: verified {pair_count} paired writing samples")
+    print(f"OK: verified {local_count} local conclusion cases (structure only)")
     return 0
 
 
