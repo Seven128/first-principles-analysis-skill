@@ -29,7 +29,8 @@ Do not silently edit historical source baselines. If a source-controlled file ch
 - For long-form delivery, materialize a semantics-locked analysis draft before composition. The draft must include the complete internal analysis task, problem structure, repaired causal chain, applicable purpose nodes, must-cover items, evidence boundaries, and must-keep / optional / must-not-infer content.
 - Keep the complete internal analysis task separate from the reader-facing question. The visible question should preserve the core unknown without concatenating supporting questions, answer catalogs, required mechanisms, or evidence provenance.
 - For designed-system explanations, the visible final-purpose node may state the object's stable role or target state; keep completion criteria and downstream mechanisms in their own nodes.
-- Use information-bearing headings that name the subject and relationship. Add subheadings for independent semantic units, use bold leads for compact one-paragraph aspects, and prevent parent sections from pre-explaining every child section.
+- Use information-bearing headings that state the subject and relationship. Add subheadings for independent semantic units; compact aspects may use ordinary prose or optional emphasis of a complete conclusion. Do not automatically bold every paragraph's first sentence or pre-explain every child section.
+- Apply sections 5 and 6 of `references/core/05-输出与表达规则.md` together: state the complete substantive answer, then remove empty wording. Preserve technical terms, quotations, real comparisons, necessary negation, conditions, uncertainty, and requested scope. Do not replace semantic review with a word blacklist.
 - Treat article positioning as a contract: article type, target reader, reader task, scope, out-of-scope content, detail level, and narrative viewpoint. Effective information density is a quality criterion, not the article's purpose.
 - In an article, put the concise reader-facing question generated from the core problem immediately after the title. For purpose-bearing articles, preserve the visible order: reader-facing question → final purpose or target state → current state and problems → adopted solution. Do not force the purpose nodes onto non-purpose objects.
 - Treat question words such as “是什么、为什么、怎么做” as weak signals. Route from object/result state, acting subject, user role, time direction, the real unknown, and the requested delivery.
@@ -77,7 +78,9 @@ python3 scripts/validate_intent_routing.py
 python3 scripts/validate_node_reasoning.py
 python3 scripts/validate_purpose_structure.py
 python3 scripts/validate_writing.py
+python3 -m unittest discover -s tests -p 'test_*.py'
 python3 scripts/validate_writing_density.py
+python3 scripts/validate_reader_structure.py
 python3 scripts/validate_conclusions.py
 python3 scripts/lint_language.py --strict
 ```

@@ -25,6 +25,16 @@ STATEMENT_CASES = {
     "statement-format-invariance",
     "statement-structure-no-bold",
 }
+STYLE_CASES = {
+    "style-drop-fillers",
+    "style-unpack-label",
+    "style-direct-status",
+    "style-keep-real-comparison",
+    "style-keep-terms-and-quote",
+    "style-no-invented-action",
+    "style-no-ceremony-article",
+    "style-preserve-negative-boundary",
+}
 
 
 class LocalConclusionTests(unittest.TestCase):
@@ -38,7 +48,8 @@ class LocalConclusionTests(unittest.TestCase):
         ids = {case["id"] for case in self.data["cases"]}
         self.assertTrue(writing.REQUIRED_LOCAL_CASES <= ids)
         self.assertTrue(STATEMENT_CASES <= ids, STATEMENT_CASES - ids)
-        self.assertGreaterEqual(count, 24)
+        self.assertTrue(STYLE_CASES <= ids, STYLE_CASES - ids)
+        self.assertGreaterEqual(count, 32)
 
     def test_generation_input_excludes_review_fields(self) -> None:
         for case in self.data["cases"]:
