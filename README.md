@@ -270,7 +270,9 @@ Skill 不默认长期优于短期、稳定优于波动、持续优于一次性�
 
 对人为设计系统的原理文章，最终目的还会区分对象稳定角色、运行结果和完成标准。正文先用一句话锁定对象最终形成什么，再由现状与问题逐步推出执行、反馈、安全、状态和验证等要求。
 
-标题同样属于有效信息：父标题直接写明对象与主要关系，独立语义单元使用小标题，紧凑单段使用段首粗体，父章节不提前完整复述所有子章节。同一论点由相邻段落共同完成时，不为每段增加标题或重复主要结论。
+标题同样属于有效信息：父标题直接写明对象与主要关系，独立语义单元使用小标题；紧凑单段可使用普通正文，或按需强调完整结论；父章节不提前完整复述所有子章节。同一论点由相邻段落共同完成时，不为每段增加标题或重复主要结论。
+
+各大小结论按 `references/core/05-输出与表达规则.md` 第 5 节用完整陈述给出具体判断，不能只说“存在差异”“也有边界”，再把主答案留在后文。先检查答案是否说全，再决定是否加粗；第 6 节负责删除没有信息作用的套话，同时保留技术术语、引语、真实比较、必要否定与不确定性。
 
 ### 14. 信息密度与连续阅读共同优化
 
@@ -333,6 +335,9 @@ evals/
 ├── writing-rubric.md
 ├── writing-regression-cases.json
 ├── writing-style-pairs.json
+├── local-conclusion-regression-cases.json
+├── reader-structure-regression-cases.json
+├── writing-guidance-integration.md
 ├── writing-density-regression-cases.json
 └── writing-density-review.md
 scripts/
@@ -346,6 +351,7 @@ scripts/
 ├── lint_language.py
 └── eval_report.py
 tests/
+├── test_local_conclusions.py
 └── test_writing_density.py
 ```
 
@@ -383,7 +389,7 @@ python3 scripts/lint_language.py --strict
 python3 -m unittest discover -s tests -p 'test_*.py'
 ```
 
-推理质量按照 `evals/rubric.md`、`evals/regression-cases.json`、`evals/intent-routing-regression-cases.json`、`evals/node-validation-regression-cases.json` 和 `evals/purpose-structure-regression-cases.json` 评审。文章质量按照 `evals/writing-rubric.md`、`evals/writing-regression-cases.json`、`evals/writing-style-pairs.json` 和 `evals/writing-density-regression-cases.json` 评审。结构校验不能替代实际模型输出回归和阅读理解检查。
+推理质量按照 `evals/rubric.md`、`evals/regression-cases.json`、`evals/intent-routing-regression-cases.json`、`evals/node-validation-regression-cases.json` 和 `evals/purpose-structure-regression-cases.json` 评审。文章质量按照 `evals/writing-rubric.md`、`evals/writing-regression-cases.json`、`evals/writing-style-pairs.json`、`evals/local-conclusion-regression-cases.json` 和 `evals/writing-density-regression-cases.json` 评审。结构校验不能替代实际模型输出回归和阅读理解检查。
 
 信息密度专项新增固定材料案例，生成输入与评审要求分开。下面的命令只导出对应事实与请求，不调用模型，不包含 `must`、`must_not`、评分字段或成对答案：
 
@@ -391,7 +397,7 @@ python3 -m unittest discover -s tests -p 'test_*.py'
 python3 scripts/validate_writing_density.py --case example-before-abstraction
 ```
 
-本次规则对应的样例自查和验证边界见 `evals/writing-density-review.md`。自动检查、同一助手自查、独立模型回归与真人阅读盲测分别记录，不把结构通过或构造样例当作稳定阅读体验改善的证明。
+本次规则对应的样例自查和验证边界见 `evals/writing-density-review.md`；完整结论与去套话的采用记录见 `evals/writing-guidance-integration.md`。自动检查、同一助手自查、独立模型回归与真人阅读盲测分别记录，不把结构通过或构造样例当作稳定阅读体验改善的证明。
 
 ## 原始来源
 
