@@ -29,8 +29,8 @@ Do not silently edit historical source baselines. If a source-controlled file ch
 - For long-form delivery, materialize a semantics-locked analysis draft before composition. The draft must include the complete internal analysis task, problem structure, repaired causal chain, applicable purpose nodes, must-cover items, evidence boundaries, and must-keep / optional / must-not-infer content.
 - Keep the complete internal analysis task separate from the reader-facing question. The visible question should preserve the core unknown without concatenating supporting questions, answer catalogs, required mechanisms, or evidence provenance.
 - For designed-system explanations, the visible final-purpose node may state the object's stable role or target state; keep completion criteria and downstream mechanisms in their own nodes.
-- Use information-bearing headings that name the subject and relationship. Add subheadings for independent semantic units, use bold leads for compact one-paragraph aspects, and prevent parent sections from pre-explaining every child section.
-- Treat article positioning as a contract: article type, target reader, reader task, scope, out-of-scope content, detail level, and narrative viewpoint. Effective information density is a quality criterion, not the article's purpose.
+- Use information-bearing headings that name the subject and relationship. Add subheadings for independent semantic units, use bold leads for compact aspects, and prevent parent sections from pre-explaining every child section. Several paragraphs supporting one argument do not automatically require separate headings or repeated conclusions.
+- Treat article positioning as a contract: article type, target reader, reader task, scope, out-of-scope content, detail level, narrative viewpoint, and known delivery medium. Effective information density is a quality criterion, not the article's purpose.
 - In an article, put the concise reader-facing question generated from the core problem immediately after the title. For purpose-bearing articles, preserve the visible order: reader-facing question → final purpose or target state → current state and problems → adopted solution. Do not force the purpose nodes onto non-purpose objects.
 - Treat question words such as “是什么、为什么、怎么做” as weak signals. Route from object/result state, acting subject, user role, time direction, the real unknown, and the requested delivery.
 - Model complex input as a problem structure: separate facts, user hypotheses, constraints, questions, and delivery requirements; distinguish the core question, supporting questions, and independent questions; preserve their real dependencies and the user's current explicit priority.
@@ -44,16 +44,18 @@ Do not silently edit historical source baselines. If a source-controlled file ch
 - Before accepting a key causal or action node, classify whether it claims necessity, sufficiency, contribution, one implementation, or mere association; test counterexamples, counterfactuals, alternative paths, reverse causality, and common causes at a depth proportional to the node's impact.
 - When node validation finds a gap, repair the node by adding conditions, splitting the mechanism, adding alternatives, weakening the claim, narrowing the scope, or removing it. Do not keep the original absolute claim with only an “exception” note.
 - Before composition, preserve facts, causal direction, conditions, uncertainty, evaluation criteria, purpose-structure applicability, and the repaired strength of key nodes as invariants.
-- Composition may select, order, compress, and phrase the analysis draft. It may not redefine the problem, silently add new conclusions, or pull unrelated personal/project context from the raw conversation. If the handoff is incomplete, return to reasoning and repair it before writing.
+- Composition may select, order, compress, and phrase the analysis draft. It may not redefine the problem, silently add new conclusions, or pull unrelated personal/project context from the raw conversation. Clearly marked hypothetical illustrations may instantiate only locked relationships under `references/writing/00-分析定稿与文章契约.md`; they cannot invent mechanisms, observations, performance results, or citations. If the handoff is incomplete, return to reasoning and repair it before writing.
 - Default the current requester as the target reader, but express that through information selection and explanation depth. Technical articles use a neutral, self-contained voice and must not contain phrases such as ‘用户当前材料’, ‘用户此前提到’, ‘你的求职材料’, or ‘本轮对话中’.
 - Optimize effective information density: preserve correct and useful information while reducing the reader's understanding cost.
 - Do not flatten proven dependencies into attribute lists, and do not invent causal order among parallel conditions.
 - Prefer concrete subjects, actions, and state changes over nominalized abstractions when accuracy is preserved.
 - Introduce fields, modules, and terms when they first become necessary to the current causal step, not merely because they belong to the same structure.
-- Default to direct literal explanation before adding examples. Prefer one section-level or whole-chain example over separate micro-examples for every small point; retain multiple examples only when they have distinct indispensable functions.
-- Paragraph boundaries follow major conclusions, not sentence count. Do not interpret “one sentence advances one relation” as “one sentence per paragraph.”
+- Use examples at the first point where they help the reader understand; omit them when direct explanation is sufficient. Reuse a scenario by showing only the relationship newly needed at each point. Keep distinct examples only for distinct functions. The detailed rules belong in `references/writing/04-信息密度、段落与例子控制.md`.
+- Paragraph boundaries follow reading tasks. Adjacent paragraphs may jointly complete one argument; do not force either single-paragraph proofs or one sentence per paragraph. Keep causal links and necessary qualifiers visible across the group.
+- Keep evidence and relevant limits near the claim they support. Distinguish illustration, observed demonstration, and evidence for a general claim. Allow brief functional recaps and complementary prose/visuals without repeating the full proof.
 - Use code fences for code, configuration, exact data, protocols, complex flows, or copyable commands. Do not put ordinary prose, short lists, or simple causal chains in code blocks for display.
 - Use examples and metaphors only when they reduce understanding cost; author voice, slang, emotion, and fixed narrative structures are optional flavor, not universal rules.
+- Treat line width, typography, and responsive layout as medium-specific presentation. Do not hard-wrap prose to fixed character counts or require decorative images. Do not add a separate polishing workflow for these composition changes.
 - Treat conclusion cards as candidate explanations, never axioms.
 - Preserve the distinction between facts, inferences, hypotheses, and evaluation criteria.
 - Do not add hidden value judgments such as “long-term is better” unless the user selects that standard.
@@ -78,8 +80,10 @@ python3 scripts/validate_node_reasoning.py
 python3 scripts/validate_purpose_structure.py
 python3 scripts/validate_writing.py
 python3 scripts/validate_writing_density.py
+python3 scripts/validate_reader_structure.py
 python3 scripts/validate_conclusions.py
 python3 scripts/lint_language.py --strict
+python3 -m unittest discover -s tests -p 'test_*.py'
 ```
 
-The scripts validate structure, focused intent-routing, node-validation, purpose-structure, writing-density cases, paired writing samples, and high-risk wording. They do not replace model-output evaluation, causal-invariant review, or reading-comprehension checks.
+The scripts validate structure, focused intent-routing, node-validation, purpose-structure, writing-density cases, paired writing samples, and high-risk wording. The unit tests validate fixture handling and separation of generation inputs from reviewer fields. They do not replace model-output evaluation, causal-invariant review, or reading-comprehension checks.
