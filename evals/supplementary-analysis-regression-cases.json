@@ -137,6 +137,35 @@
       "rubric_dimensions": ["problem_definition", "route_choice", "subject_reasoning", "causal_chain", "alternative_explanations", "evidence_discipline", "flexibility", "actionability_or_explanatory_value", "language"],
       "must": ["从事件、感知、解释、预期或身份受影响到情绪反应建立候选链。", "在更早经历不改变本次解释时停止追溯。"],
       "must_not": ["自动分析其童年历史或与其他人的横向对照。", "为了多视角而编造心理专家、管理专家和沟通专家发言。"]
+    },
+    {
+      "id": "emergent-history-without-unified-purpose",
+      "type": "natural-collective-formation-history",
+      "prompt": "请根据这组受控材料解释蚁群路径怎样逐步形成，不推断具体物种或其他未给出的机制：起初个体沿多条路线探索；经过路线的个体留下可被同伴感知的信号，个体更可能沿信号较强的路线行进；信号随时间减弱；在其他条件相同时，较短路线能在同一时间完成更多往返；后来活动集中到其中一条路线。材料没有统一规划者或集体设计意图的证据。",
+      "focus": [
+        "自然群体的形成过程",
+        "局部反馈与状态转折",
+        "历史分析不等于统一目的"
+      ],
+      "rubric_dimensions": [
+        "problem_definition",
+        "route_choice",
+        "subject_reasoning",
+        "causal_chain",
+        "evidence_discipline",
+        "flexibility",
+        "language"
+      ],
+      "must": [
+        "按探索、局部信号累积与减弱、路线选择相互强化、活动集中等状态变化组织形成解释。",
+        "由给定的往返速度与信号反馈建立条件化解释，不把较短路线必然成为最终路线写成已证明事实。",
+        "保留自然群体的形成分析，以要解释的结果为起点，不要求统一最终目的、设计者或采用方案。"
+      ],
+      "must_not": [
+        "因为对象没有统一行动主体，就拒绝或跳过其形成过程分析。",
+        "写成蚁群为了整体效率而主动设计或选择最短路线。",
+        "把此案例的条件化局部反馈概括为所有蚂蚁必然选择最短路线。"
+      ]
     }
   ]
 }

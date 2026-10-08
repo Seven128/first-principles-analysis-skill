@@ -141,6 +141,15 @@ class ComparisonTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 c.bundle(path)
 
+    def test_runtime_conclusion_cards_are_allowed(self):
+        self.replace_json(self.before, lambda v: v["files"].update({"references/conclusions/资金流向.md": "runtime conclusion with conditions"}))
+        self.assertIn("references/conclusions/资金流向.md", c.bundle(self.before)["files"])
+
+    def test_conclusion_path_cannot_escape_to_evaluation(self):
+        self.replace_json(self.before, lambda v: v["files"].update({"references/conclusions/../../evals/answers.md": "answer"}))
+        with self.assertRaisesRegex(ValueError, "Non-runtime policy path"):
+            c.bundle(self.before)
+
     def test_existing_run_is_not_overwritten(self):
         self.prepare()
         with self.assertRaises(FileExistsError):
