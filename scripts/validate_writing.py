@@ -150,6 +150,7 @@ REQUIRED_LOCAL_CASES = set(LOCAL_ROLE_CASES) | {
     "uncertain-motive", "heading-no-repeat", "detailed-causal-article",
     "precise-short-over-vague-or-overloaded", "conditional-choice",
     "independent-points",
+    "format-validity-does-not-invent-checks",
 }
 LOCAL_ROLES = {"definition", "purpose", "problem", "cause", "mechanism", "judgment", "mixed"}
 

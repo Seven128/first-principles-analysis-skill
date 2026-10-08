@@ -68,7 +68,7 @@ def bundle(path: Path) -> dict:
     files = value.get("files")
     require(isinstance(files, dict) and bool(files), "Missing policy files")
     for name, text in files.items():
-        safe = name == "SKILL.md" or name.startswith(("references/core/", "references/writing/", "references/subjects/"))
+        safe = name == "SKILL.md" or name.startswith(("references/core/", "references/writing/", "references/subjects/", "references/conclusions/"))
         require(safe and ".." not in Path(name).parts and name.endswith(".md"), "Non-runtime policy path")
         require(isinstance(text, str) and bool(text.strip()), "Empty policy text")
     return value

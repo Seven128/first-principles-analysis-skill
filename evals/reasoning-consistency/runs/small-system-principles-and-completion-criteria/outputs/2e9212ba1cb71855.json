@@ -1,0 +1,14 @@
+{
+  "actor": "collaboration.spawn_agent",
+  "model": "GPT-6 Astra Pro (parent-inherited; API model ID not exposed)",
+  "settings": {
+    "reasoning_effort": "unknown",
+    "temperature": "unknown",
+    "model_override": "none"
+  },
+  "origin": "external",
+  "context_id": "/root/sample_2e9212ba",
+  "run_id": "/root/sample_2e9212ba",
+  "isolation": "fresh",
+  "packet_sha256": "2a0b6e68f49257e38928dfd76980b171a1ebf9fa396ffbfd5a65d4a6da1527fc"
+}

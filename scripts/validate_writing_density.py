@@ -12,6 +12,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 RULE_PATH = ROOT / "references/writing/04-信息密度、段落与例子控制.md"
+CONTRACT_PATH = ROOT / "references/writing/00-分析定稿与文章契约.md"
 CASES_PATH = ROOT / "evals/writing-density-regression-cases.json"
 SKILL_PATH = ROOT / "SKILL.md"
 
@@ -119,13 +120,22 @@ def validate_rule_file() -> None:
         "简短回指",
         "普通中文句子",
         "总结不重新枚举正文中的全部模块",
-        "完整分析任务",
         "读者可见问题",
-        "用户当前材料",
     ]
     for phrase in required_phrases:
         if phrase not in text:
             fail(f"Writing density rule file missing required phrase: {phrase}")
+
+    # The contract owns handoff and voice rules; density must reference it.
+    contract_rel = CONTRACT_PATH.relative_to(ROOT).as_posix()
+    if contract_rel not in text:
+        fail(f"Writing density rule must reference {contract_rel}")
+    if not CONTRACT_PATH.is_file():
+        fail(f"Missing article contract: {contract_rel}")
+    contract = CONTRACT_PATH.read_text(encoding="utf-8")
+    for phrase in ("完整分析任务", "读者可见问题", "用户当前材料"):
+        if phrase not in contract:
+            fail(f"Article contract missing writing-density dependency: {phrase}")
 
 
 def validate_skill_link() -> None:
@@ -135,6 +145,9 @@ def validate_skill_link() -> None:
     rel = "references/writing/04-信息密度、段落与例子控制.md"
     if rel not in text:
         fail(f"SKILL.md must load {rel}")
+    contract_rel = CONTRACT_PATH.relative_to(ROOT).as_posix()
+    if contract_rel not in text:
+        fail(f"SKILL.md must load {contract_rel}")
     for phrase in ("例子在第一次帮助理解时出现", "相邻段落", "一句话一个段落", "普通文字放进代码块", "完整分析任务", "读者可见问题", "分析定稿"):
         if phrase not in text:
             fail(f"SKILL.md missing writing-density control: {phrase}")

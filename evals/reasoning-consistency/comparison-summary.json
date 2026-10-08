@@ -1,0 +1,59 @@
+[
+  {
+    "case": "independent-questions-and-evidence-boundaries",
+    "record": "runs/independent-questions-and-evidence-boundaries",
+    "result": {
+      "status": "completed",
+      "completed": 1,
+      "planned": 1,
+      "preferences": {
+        "before": 0,
+        "after": 0,
+        "tie": 1,
+        "neither": 0
+      },
+      "same_model_and_settings": true,
+      "evidence_level": "operator-declared-isolated-blind",
+      "declared_independent_comparison_complete": true,
+      "limitation": "Isolation and model settings are operator declarations. This report checks file bindings, not actual provider context isolation or semantic correctness. Preferences from these samples do not prove stable improvement."
+    }
+  },
+  {
+    "case": "small-system-principles-and-completion-criteria",
+    "record": "runs/small-system-principles-and-completion-criteria",
+    "result": {
+      "status": "completed",
+      "completed": 1,
+      "planned": 1,
+      "preferences": {
+        "before": 0,
+        "after": 0,
+        "tie": 1,
+        "neither": 0
+      },
+      "same_model_and_settings": true,
+      "evidence_level": "operator-declared-isolated-blind",
+      "declared_independent_comparison_complete": true,
+      "limitation": "Isolation and model settings are operator declarations. This report checks file bindings, not actual provider context isolation or semantic correctness. Preferences from these samples do not prove stable improvement."
+    }
+  },
+  {
+    "case": "short-rewrite-preserves-unknowns-and-comparisons",
+    "record": "runs/short-rewrite-preserves-unknowns-and-comparisons",
+    "result": {
+      "status": "completed",
+      "completed": 1,
+      "planned": 1,
+      "preferences": {
+        "before": 0,
+        "after": 0,
+        "tie": 1,
+        "neither": 0
+      },
+      "same_model_and_settings": true,
+      "evidence_level": "operator-declared-isolated-blind",
+      "declared_independent_comparison_complete": true,
+      "limitation": "Isolation and model settings are operator declarations. This report checks file bindings, not actual provider context isolation or semantic correctness. Preferences from these samples do not prove stable improvement."
+    }
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "bindings": {
+    "8da3f26a622d86b2": {
+      "text": "50066ba5f6505e564df326f9e807a2168d9d2b6c8575f876eef905ec83e72afc",
+      "metadata": "2498f49a047b17fc59d8fff59a37018d2c405c62851be97d6a3fc0ee747bdae2"
+    },
+    "7ba796e2e7c6c1bd": {
+      "text": "6243541557b8f04e40f6aaa1bfd35cb1bfc17003ea495401d8eb5099c177767c",
+      "metadata": "1c74c951d824af5f0f701b173943027093ce8f08bc2382013d27e874d5d18e59"
+    }
+  },
+  "reviews": [
+    {
+      "id": "35c4c0af004d7bc6",
+      "mapping": {
+        "A": "8da3f26a622d86b2",
+        "B": "7ba796e2e7c6c1bd"
+      },
+      "packet_sha256": "79d4b169191fb19b37e6d448b5389db90fa2045fa0b6f5b3dcfb07aeae7cfe03"
+    }
+  ],
+  "manifest_sha256": "f6c0de9a011c4efd4a8c027fe157fe2f189720fd1ca3a18aaa23fe0109d160cd"
+}

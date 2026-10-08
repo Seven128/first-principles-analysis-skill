@@ -326,6 +326,7 @@ def validate_regression_cases() -> tuple[int, set[str]]:
         "job-offer-choice",
         "false-premise-interest-only",
         "mixed-growth-stagnation",
+        "revenue-and-net-result-objectives",
     }
     missing_new = sorted(required_new_cases - ids)
     if missing_new:

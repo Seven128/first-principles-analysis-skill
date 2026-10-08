@@ -1,0 +1,113 @@
+{
+  "timestamp_utc": "2026-10-08T05:49:15.904505+00:00",
+  "runtime_revision": "2d378f62e8a07fe75caf209dd04cadc6088a53ca",
+  "results": [
+    {
+      "command": [
+        "python3",
+        "scripts/validate_skill.py"
+      ],
+      "exit_code": 0,
+      "stdout": "OK: skill=first-principles-analysis\nOK: verified 10 source-controlled reference entries\nOK: verified 7 subject guides\nOK: verified 6 conclusion cards\nOK: verified 23 reasoning regression cases\nOK: verified 9 writing regression cases\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/validate_intent_routing.py"
+      ],
+      "exit_code": 0,
+      "stdout": "Validated intent routing suite: 11 cases, 13 global invariants\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/validate_node_reasoning.py"
+      ],
+      "exit_code": 0,
+      "stdout": "Validated node reasoning suite: 6 cases, 8 global invariants\nValidated supplementary analysis suite: 13 cases, 13 global invariants\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/validate_purpose_structure.py"
+      ],
+      "exit_code": 0,
+      "stdout": "OK: purpose/current-state/problem/solution runtime rule\nOK: verified 9 purpose-structure regression cases\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/validate_writing.py"
+      ],
+      "exit_code": 0,
+      "stdout": "OK: verified 6 writing runtime references\nOK: verified 9 writing regression cases\nOK: verified 13 paired writing samples\nOK: verified 33 local conclusion cases (structure only)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/validate_writing_density.py"
+      ],
+      "exit_code": 0,
+      "stdout": "OK: writing density runtime rules and entry consistency (structure only)\nOK: verified 14 writing density regression cases\nOK: verified 13 writing density style pairs\nNOTE: structure checks do not establish generated prose quality or reading improvement\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/validate_reader_structure.py"
+      ],
+      "exit_code": 0,
+      "stdout": "OK: reader-facing question, purpose layering, and heading hierarchy rules\nOK: verified 6 reader-structure regression cases\nOK: verified 6 reader-structure style pairs\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/validate_conclusions.py"
+      ],
+      "exit_code": 0,
+      "stdout": "OK: subject guides and conclusion cards satisfy section contracts\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/lint_language.py",
+        "--strict"
+      ],
+      "exit_code": 0,
+      "stdout": "OK: no risky unqualified wording in 32 runtime documents\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_*.py"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "........................................\n----------------------------------------------------------------------\nRan 40 tests in 0.122s\n\nOK\n"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ]
+}

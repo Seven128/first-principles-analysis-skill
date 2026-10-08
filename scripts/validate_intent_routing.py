@@ -36,6 +36,7 @@ REQUIRED_CASE_IDS = {
     "ambiguous-how-minimal-clarification",
     "dynamic-reroute-with-new-evidence",
     "completed-analysis-question-handoff",
+    "skill-audit-remains-read-only",
 }
 
 

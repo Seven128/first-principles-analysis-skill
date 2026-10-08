@@ -35,6 +35,7 @@ REQUIRED_NODE_CASE_IDS = {
     "replication-not-unique-necessity",
     "exercise-probability-counterexample",
     "core-project-common-cause",
+    "real-counterexample-refutes-universal",
 }
 
 REQUIRED_SUPPLEMENTARY_CASE_IDS = {
@@ -50,6 +51,7 @@ REQUIRED_SUPPLEMENTARY_CASE_IDS = {
     "minimum-experiment-maximizes-information-value",
     "simple-definition-skips-supplementary-methods",
     "single-emotion-skips-forced-history-and-comparison",
+    "emergent-history-without-unified-purpose",
 }
 
 
