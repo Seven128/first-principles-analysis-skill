@@ -1,0 +1,36 @@
+{
+  "instruction": "在独立上下文执行本任务。只使用所附运行规则与固定材料，不读取其他输出、评审标准、版本对照或历史对话。材料不足时保留未知。交付要求见 task；不输出逐步思考记录。",
+  "stage": "writing",
+  "task": {
+    "request": "把下面两段改得直接通顺，每段分别完成自己的说明，总共不超过 220 汉字。第一段说清格式结论的含义；第二段给出目前能成立的判断和条件化选择。只给改写后的两个短段。",
+    "material": {
+      "paragraph_one": {
+        "original": "格式正确并不代表请求符合业务要求或得到授权，这些方面还存在需要分开理解的地方。",
+        "confirmed": [
+          "已确认请求字段符合给定格式要求。",
+          "没有资料说明这次操作是否符合业务要求、是否已经获授权，也没有说明系统是否实施了相应检查。"
+        ]
+      },
+      "paragraph_two": {
+        "original": "是否留在现公司还是接受新 Offer，需要结合具体条件和个人看重的方向才能判断。",
+        "confirmed": [
+          "当事人这次最重视工作的稳定性，其次是离开后仍有其他工作选择的余地。",
+          "两份工作在这些方面的实际差异未知；薪资、职责和其他工作条件也未提供。",
+          "当前没有能证明现公司或新 Offer 更有优势的比较资料。"
+        ]
+      }
+    }
+  },
+  "policy_paths": [
+    "references/core/05-输出与表达规则.md",
+    "references/core/06-文章成稿与压缩.md",
+    "references/subjects/人的行为与情绪.md",
+    "references/subjects/技术系统与产品.md",
+    "references/writing/00-分析定稿与文章契约.md",
+    "references/writing/01-写作规则卡.md",
+    "references/writing/02-文章任务适配.md",
+    "references/writing/03-成文检查.md",
+    "references/writing/04-信息密度、段落与例子控制.md",
+    "references/writing/05-结构节点、信息层级与标题.md"
+  ]
+}
