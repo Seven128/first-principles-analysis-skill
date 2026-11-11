@@ -186,6 +186,10 @@ A 与 B 同时出现
 
 严格命题与概率命题使用不同的反例标准。发现漏洞后必须补条件、增加替代路径、降低结论强度、缩小范围或删除节点，不能只附一句“存在例外”。目的结构中的最终目的、问题和方案同样要接受这项检查。
 
+关键论点以能独立支持或推翻的最小命题为单位：置为未知、取反或改变合理输入后，会实质改变核心答案、选择、继续条件、关键适用范围、重要代价或最终结论强度，就需要检查。关键事实、许可和数值也包括在内；一句话中的多个独立条件分开验证。不改变这些输出的微小置信波动不单独触发完整校验。
+
+每个关键论点至少完成一轮“明确命题—尝试推翻—核对材料—修复结论”。共享前提复用，各分支独有关系仍分别检查；只有尚未解决且会改变决定的缺口才追加取证。未找到反例不等于证明正确，预算用尽也不能把未决写成通过。不设只查前三项的总数上限，不对低影响事实连接无限追溯。
+
 ### 8. 主体指南按需加载
 
 当前包含：
@@ -193,16 +197,24 @@ A 与 B 同时出现
 - 人的行为与情绪；
 - 群体与组织；
 - 技术系统与产品；
+- 产品发现与验证；
 - 行业市场与资源流动；
 - 商业与赚钱；
+- 商业化与合规；
 - 制度与政策；
 - 自然与生物系统。
 
 指南只提供优先检查方向，不强制填充所有变量。主体指南也帮助判断对象是否具有统一目的，防止把自然过程和群体涌现写成有意识设计。
 
-### 9. 通用结论使用结论卡
+### 9. 已知经验与候选结论在同一环节调用
 
-当前包含：
+先区分检查方法、条件性命题和本题事实。主体指南提供提问和取证方向，结论卡提供候选解释，二者都不能省略当前场景的证据与反证检查。
+
+产品发现只增加三项与原核心互补的方法：按决策依赖安排澄清、记录真实任务证据的采集条件、分别验证价值与使用、交付、持续运行条件。商业化合规按实际主体与行为匹配权利义务，再把未决限制、履约和许可成本回写方案比较；不复制某个软件或地区的固定清单。
+
+产品方法来源、热度快照、许可和去重记录见 `evals/product-methods-integration.md`，合规方法的公开来源及适用边界见 `evals/commercial-compliance-integration.md`。这些记录供维护使用，日常调用只加载命中的指南。
+
+现有结论卡仍包含：
 
 - 利益关系链；
 - 资源分配；
@@ -297,6 +309,14 @@ Skill 不默认长期优于短期、稳定优于波动、持续优于一次性�
 
 成文与排版职责分开：正文和 Markdown 不按固定字符数手动换行；只有明确要求排版成品时，才按实际载体处理行宽、字号、图文和窄屏呈现。没有图片不阻断成文，未检查实际渲染不声称视觉验证完成。本次继续使用现有成文与局部修复流程，不新增后置润色 Skill。
 
+### 15. 自然表达在成文阶段内修复
+
+去 AI 味复用既有表达与语义保真规则，只补充“定位具体理解障碍—最小范围修改—核对信息与逻辑”。新写说明文使用中性默认口吻，编辑原稿时保留有依据的作者视角与有作用的修辞；不补造经历，不追求词频或检测分数，不凭风格判定作者身份。原句已经清楚时可以不改。
+
+用户指定的 lieflat-less-ai-tone 已作为参考阅读，其 CC BY-NC 4.0 许可及采用边界记录在 `evals/writing-guidance-integration.md`；未复制其正文、脚本、词表、阈值或报告模板，也不添加强制检测和等待确认的第二套工作流。
+
+通用核心只保存跨对象仍成立的判断操作，具体项目、技术名称和体裁保留在带适用范围的经验或示例中。入口默认提示也只负责发起任务，不再复制整套运行规则。
+
 ## 目录
 
 ```text
@@ -331,6 +351,10 @@ evals/
 ├── regression-cases.json
 ├── intent-routing-regression-cases.json
 ├── node-validation-regression-cases.json
+├── product-experience-regression-cases.json
+├── commercial-compliance-regression-cases.json
+├── product-methods-integration.md
+├── commercial-compliance-integration.md
 ├── purpose-structure-regression-cases.json
 ├── writing-rubric.md
 ├── writing-regression-cases.json
@@ -391,6 +415,8 @@ python3 -m unittest discover -s tests -p 'test_*.py'
 
 推理质量按照 `evals/rubric.md`、`evals/regression-cases.json`、`evals/intent-routing-regression-cases.json`、`evals/node-validation-regression-cases.json` 和 `evals/purpose-structure-regression-cases.json` 评审。文章质量按照 `evals/writing-rubric.md`、`evals/writing-regression-cases.json`、`evals/writing-style-pairs.json`、`evals/local-conclusion-regression-cases.json` 和 `evals/writing-density-regression-cases.json` 评审。结构校验不能替代实际模型输出回归和阅读理解检查。
 
+`validate_node_reasoning.py` 同时检查产品与商业化合规专项用例。生成时仅提取案例 `prompt`，评审条件不传给生成者。新增关键论点粒度、非技术迁移和自然表达案例的实际运行范围见 [本轮验证记录](evals/experience-integration-review.md)，不把未执行的完整套件说成通过。
+
 信息密度专项新增固定材料案例，生成输入与评审要求分开。下面的命令只导出对应事实与请求，不调用模型，不包含 `must`、`must_not`、评分字段或成对答案：
 
 ```bash
@@ -401,4 +427,4 @@ python3 scripts/validate_writing_density.py --case example-before-abstraction
 
 ## 原始来源
 
-v1 的逻辑、提示词、经验和长篇案例继续保留，并由 `references/source-manifest.json` 校验哈希。当前运行时将它们视为历史来源和回归材料，而不是每次分析都完整加载的提示词。本次新增规则不修改这些历史基线，只在当前 `core/`、`writing/`、Skill 编排和专项回归中落地。
+v1 的逻辑、提示词、经验和长篇案例继续保留，并由 `references/source-manifest.json` 校验哈希。当前运行时将它们视为历史来源和回归材料，而不是每次分析都完整加载的提示词。本次新增规则不修改这些历史基线，只在当前 `core/`、`subjects/`、`writing/`、Skill 编排和专项回归中落地。
