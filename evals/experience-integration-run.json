@@ -1,0 +1,104 @@
+{
+  "version": 1,
+  "date": "2026-11-11",
+  "mode": "independent-generation",
+  "generation_context": "Each task ran in a fresh subagent with fork_turns=none. Generators received only the runtime skill path and the supplied task/material, with no evaluation fields, diffs, or earlier outputs.",
+  "model_setting": "Inherited session model and reasoning settings; no per-agent override.",
+  "scope": "Six initial targeted forward runs and one focused post-review run. This is not an old/new comparison, a blind preference experiment, a complete model regression suite, or a latency benchmark.",
+  "cases": [
+    {
+      "case_id": "compound-premises-need-separate-checks",
+      "suite": "evals/node-validation-regression-cases.json",
+      "agent": "forward_compound",
+      "prompt": "我认为这个服务已可以扩大投放：12个人说喜欢，开发者自己演示成功，供应商答应可以用，所以用户会独立完成、愿意支付，而且放大后也能盈利。手头只有这些材料。请判断这个结论；直接分析，不做用户访谈，控制在600字左右。",
+      "output": "**现有证据不足以支持“已可扩大投放”，也不足以证明服务会失败。**你的目标要求用户独立获得所需结果并实际付费，且扩大后的收入超过全部成本；三条材料只覆盖局部条件。\n\n1. **“12人喜欢”只证明他们表达了好感。**样本来源和接触总人数未知，无法推算市场接受程度。认可创意也可能没有真实使用需要；即使需要，付款者仍可能不愿按你的价格购买。任务价值与支付行为分别缺少证据。\n\n2. **开发者演示成功只证明当次条件下跑通。**熟悉操作、准备输入或临场处理异常，都可能帮助其成功，现有材料无法排除这些影响。普通用户独立完成、不同任务下的成功率，以及增加负载后的交付质量，均未得到验证。\n\n3. **供应商承诺“可以用”，尚未明确使用边界。**需确认承诺者有权授权，并覆盖实际对外服务、收费方式、规模和期限。材料不足以证明这些范围已获准，也不足以判定违法；许可成立仍不代表供应容量足够。\n\n4. **即使喜欢、跑通、获准使用同时成立，也不能推出盈利。**实际收入还要覆盖获客、供应、交付、客服、退款和固定成本。有人付费仍可能亏损；扩大后单位成本与服务质量如何变化，目前没有依据。\n\n当前可保留有限验证投入：先明确许可范围，再补充目标用户真实任务的独立完成记录、明确价格下的支付行为、完整成本及扩容实测。若这些证据支持目标规模下的交付与盈利，再逐步扩大；任何关键条件未成立，都应调整相应环节，不能用其他积极信号替代。"
+    },
+    {
+      "case_id": "shared-premise-distinct-branches",
+      "suite": "evals/node-validation-regression-cases.json",
+      "agent": "forward_contract",
+      "prompt": "只使用这些给定事实作推理练习：供应商合同第3条允许公司在中国境内的付费报告中展示版本V1图表；第4条明确不允许把V1原始数据转卖。A方案把图表放进报告，B方案出售原始数据，C方案明年换V2。三项都引用这份合同。请判断目前证据分别能支持什么，避免重复解释同一条款，400字内。",
+      "output": "- **A有范围内的许可依据。**第3条支持公司在中国境内的付费报告中展示V1图表；A满足这些条件时获得支持，不能扩大为其他地域、版本或用途均获准。\n- **B受到明确限制。**第4条不允许转卖V1原始数据，因此出售该数据不是单纯“证据不足”，而是与已知限制相冲突。图表展示许可不能覆盖这一行为。\n- **C目前证据不足。**明年换V2改变了版本与使用时间，不能直接沿用A的结论，也不能由B的限制推出禁止。需补充覆盖V2、具体用途及明年使用期限的合同依据。C的未决不影响A、B在各自范围内的判断。"
+    },
+    {
+      "case_id": "natural-preserve-author-voice",
+      "suite": "evals/local-conclusion-regression-cases.json",
+      "agent": "forward_voice",
+      "facts": [
+        "作者提供的活动回顾原稿：我等了二十分钟，雨还是没停。于是改走室内路线。那天走得慢，我倒记住了路边那间书店。下次天气好时，户外路线也许更合适。",
+        "作者只要求改进表达，没有提供其他经历、观测或天气资料。"
+      ],
+      "prompt": "帮我给这段活动回顾去 AI 味，直接给正文即可。",
+      "output": "我等了二十分钟，雨还是没停，就改走了室内路线。那天走得慢，我倒记住了路边那间书店。下次天气好时，户外路线也许更合适。"
+    },
+    {
+      "case_id": "quantitative-pivot-and-sensitivity",
+      "suite": "evals/node-validation-regression-cases.json",
+      "agent": "forward_numeric",
+      "prompt": "这是一个只核对算术的假设模型，不涉及真实项目：每月固定成本6000元，每单收入40元、变动成本25元，预计每月400单。我算出来每月能赚6000元，所以直接扩大。请检查这个论点，说明订单量怎样改变结论。不要另外调研行业或法律，300字内。",
+      "output": "按给定模型，**预计400单时月利润为0元**。“赚6000元”漏扣了固定成本。\n\n每单扣除变动成本剩40−25＝15元，因此：\n\n**月利润＝15×月订单量−6000。**\n\n400单产生的6000元结余，恰好抵消固定成本。价格和成本不变时，少于400单亏损，400单保本，超过400单盈利。例如，300单亏1500元，500单赚1500元，800单才赚6000元；每增加100单，利润增加1500元。\n\n因此，原计算不能支持“直接扩大”。若扩大能增加订单且价格、成本保持不变，利润会提高；仅有400单的预测，还不能证明扩大后能赚多少。"
+    },
+    {
+      "case_id": "general-rule-without-technical-template",
+      "suite": "evals/node-validation-regression-cases.json",
+      "agent": "forward_nontechnical",
+      "prompt": "我们组织线下读书会，报名人数充足，但很多参加者找不到场地入口。现有告知只有街道地址，没有入口照片；没有证据表明讨论质量有问题。目标是让已报名者按时到场。请分析要解决的问题，给出一个可验证的最小调整，400字内。",
+      "output": "目标是让已报名者在开场前进入会场。当前明确的障碍是入口难找：街道地址不足以让部分参加者识别从哪里进入。应先补足入口辨认信息；报名已经充足，也没有证据支持将问题归因于讨论质量。\n\n最小调整：在原通知的地址旁增加一张从街道视角拍摄、包含周边参照物并用箭头标出入口的实景照片，随活动提醒发给已报名者。预期作用是减少现场寻找入口的时间，效果仍需验证。\n\n下一场记录准时到场率（准时人数／报名人数）和因找入口迟到的人数，并询问迷路者是否看过照片；若有同场地、条件相近的历史记录，可作比较。入口相关迟到减少、准时率提高，支持继续使用；看过照片仍迷路，则按实际走错位置修正指引。单次改善只能提供初步证据，照片不能保证消除其他迟到原因。"
+    },
+    {
+      "case_id": "product-known-context-skips-interrogation",
+      "suite": "evals/product-experience-regression-cases.json",
+      "agent": "forward_known_context",
+      "prompt": "这是公司内部已有的报销工具，目标是把人工录入耗时降下来；不用收费，也不讨论获客。给定记录：财务每周处理100份文件，每份现在录入5分钟；方案A处理后每份人工复核1分钟，方案B每份2分钟，两者在同一批100份中都没有发现错误。实现投入A为10个工作日，B为2个工作日。请直接比较现有证据能支持什么，以及选择还受哪些条件影响，不要采访我。控制在600字以内。",
+      "output": "**现有证据支持：A节省的人工时间更多，B实现投入更少；尚不能确定谁总体更划算。**\n\n按每周100份、只计给定的录入或复核环节：\n\n| 比较项 | 现状 | 方案A | 方案B |\n|---|---:|---:|---:|\n| 每周人工耗时 | 500分钟 | 100分钟 | 200分钟 |\n| 每周节省时间 | — | 400分钟 | 300分钟 |\n| 耗时降幅 | — | 80% | 60% |\n| 实现投入 | — | 10个工作日 | 2个工作日 |\n\nA相对B每周多省100分钟，代价是多投入8个工作日。\n\n两者在同一批100份中均未发现错误，支持“本批样本没有观察到质量差异”，不能证明真实错误率相同、未来不会出错，或可以取消复核。样本是否覆盖异常文件、复核能否发现漏错，仍影响判断。\n\n**选择取决于额外投入能否被后续收益覆盖。**若每个工作日代表单人8小时、开发与财务工时等值，并忽略上线时差及其他成本，A多投入64小时，约需38.4周才能靠每周多省100分钟抵消。这只是条件估算。\n\n使用期较短、开发资源紧张，B更有优势；使用期足够长、处理量较大，A更可能值得。实际还需计入上传、异常处理、返工和维护耗时，以及上线早晚、开发机会成本和节省时间的实际用途；这些条件可能改变排序。"
+    }
+  ],
+  "runtime_sha256": {
+    "SKILL.md": "67028ed6e4a626ab3093084cae2e95f123534f244bb72d689425d528aae7b691",
+    "references/core/00-第一性原理核心原则.md": "642a6fdbe4f467451de34a4254632beb78b07941a28ae4a51db958c4b1b61134",
+    "references/core/01-问题识别与分类.md": "a26424ad326feafe5c5834a10147a27fd3870514077d7a11fd893a479cd8f2d3",
+    "references/core/01a-目的、现状、问题与方案.md": "b8c4e562e494e262c1d2832d4d6f6894586ad7321d2424236e45feab1eab314c",
+    "references/core/02-为什么类问题推理.md": "23d94861bd4cbf88f56f3582a73136ee13d2cbe60b307c108220f5479a354552",
+    "references/core/03-怎么做类问题推理.md": "38391c1557fb517b01ef65d3d61dbab2b80afddf575561843356e4bbf9a27a58",
+    "references/core/04-客观性与证据规则.md": "ac73807b6c6c0ce6e9aa35b5316df7c4cd695bfdff84ebebf99f41d7010b6fe6",
+    "references/core/04a-关键推理节点反向校验.md": "c3c6a0c7f1b07152b98922760529e23269667c854cfb823bff28ab933fd80b5d",
+    "references/core/05-输出与表达规则.md": "d6b8069a11c8335b3307fb2e130c9ea78cd9138f312ba8daffff6adaf09d6a38",
+    "references/core/06-文章成稿与压缩.md": "11dc952ed72593c973afc0981f93500ae22bc2e3d72354da9fde24f3789dcd5a",
+    "references/subjects/README.md": "b26cac1339aaf735326d1b3f82872d5a66f10bec7da048a7647600b576ca109f",
+    "references/subjects/产品发现与验证.md": "3f42de430075fff557dfe0b37c15af9079e3127bd8e1af746b9b319ff676462f",
+    "references/subjects/人的行为与情绪.md": "0214d672165ab59b4de92f6ac863f01096a6f15eed8834b45d3487a14876b244",
+    "references/subjects/制度与政策.md": "a7e26c5c2f396d71ad0bbc2342087d5f6cfe9ed48125c3d9f52f33a743f1ac23",
+    "references/subjects/商业与赚钱.md": "e8f7e21b9da495881d6b011b598977d7deab4d51249bf91f027b7f4f528186cc",
+    "references/subjects/商业化与合规.md": "fd043c1b021b00c190617f4269423a1d9602e2892e79927a545a1ee12c6bf043",
+    "references/subjects/技术系统与产品.md": "f0b8ea3be520e98d21129b3433241485b4eb7cc24c946bf9c43a8adf4330c30b",
+    "references/subjects/群体与组织.md": "d07543a49155f1453969bb2b11eed27bf56e95e890c919e5ddd7d94f22a66b80",
+    "references/subjects/自然与生物系统.md": "8a92f11c6a7f6263b28781be0b1c74920e01ba46ed0959fea7846235ab39a668",
+    "references/subjects/行业市场与资源流动.md": "a5a5f9e967d30a84bba5dbfcec3fbe461532ff1adebd1183e4101bba9f3e973d",
+    "references/conclusions/README.md": "b49214666142eeb09e578c81174d1f3e4b7b36b6cfe6557dca2fa3048931349c",
+    "references/conclusions/人的行为与情绪.md": "499a3f21ff39786d88bda75eedf7595356c53b1a34a910097fca6b19b8287e17",
+    "references/conclusions/信息能力与时间差.md": "5bfbe35a7f0623588dfd1985bcbe458dbe317e7fc7a45462101366134bd5cdf4",
+    "references/conclusions/利益关系链.md": "3575a791ae55382abedc08026d5b607abe476ea8930023586e87aace9da41d5a",
+    "references/conclusions/反馈延迟与周期.md": "4cf313dd12df7efa7637ddd032f76141e587f613037b9778c009d9dc6662f3b7",
+    "references/conclusions/资源分配.md": "cf7e296d191fde673928c62ba059daf0e56b3ee8d2d338178804530c1301ba86",
+    "references/conclusions/资金流向.md": "012479b6fabdb99e442ca85b47cc36febf651d162dedf88a92aa54c5c6702eff",
+    "references/writing/00-分析定稿与文章契约.md": "cf27a16b7b57135f1d61686a71d72492bdb5bde7a22bfb0ecfb7ca6dbe1b1c4a",
+    "references/writing/01-写作规则卡.md": "b5220c89324bcec4afb43c6974350b2976b70ef92d4c25678e6a22901e5c3e35",
+    "references/writing/02-文章任务适配.md": "3a05c025c229e5b753494c4ba2399012f5de86eb89b5f9f6b39cb32cc6f3a05a",
+    "references/writing/03-成文检查.md": "582b77b269bcd9a02e721905c87166cc2921e607620a7eb46c92b157823d76bd",
+    "references/writing/04-信息密度、段落与例子控制.md": "510b46142417e5832ac73843115893475d544482d3d1a12de2a89fb16512255b",
+    "references/writing/05-结构节点、信息层级与标题.md": "cfb9b9fb0cb838af5fbadcdb0af6a43167c19cc6372b401af756742f4304e2bb"
+  },
+  "post_review_run": {
+    "reason": "An independent integration review found that any confidence change could be read as triggering full validation. The rule now requires material impact on the communicated answer, action, scope, cost, or conclusion strength. The initial six outputs and their runtime hashes are retained unchanged.",
+    "runtime_version": "Apply runtime_sha256_overrides to the initial runtime_sha256 mapping; all other files retain their initial hashes.",
+    "runtime_sha256_overrides": {
+      "SKILL.md": "28fcab09740aa3d63eccb5d1e100fd46f75f730d5788a3295841092ddf6d2ca2",
+      "references/core/04a-关键推理节点反向校验.md": "75e19d48212beb2384b6bd61b915c6674a1e1996a72a75b4a5386733ec29fcca"
+    },
+    "case_id": "all-decisive-claims-not-top-three",
+    "suite": "evals/node-validation-regression-cases.json",
+    "agent": "forward_materiality",
+    "prompt": "这是虚构练习，只按给定记录判断搬迁是否已具备当天执行条件：合同要求签约、钥匙交接、车辆到场、电力验收和消防通道可用五项同时成立。记录分别为“完成、完成、完成、未验收、被材料占用”。有人检查前三项后就宣布可以搬，因为继续检查太耗时。附带说明：通知标题从“当天搬迁”改成“今日搬迁”，事实和合同均未改变，编辑说自己看了新标题后对计划的信心略有增加。请给出简短判断，并说明这个措辞变化是否需要重新核验全部材料。",
+    "output": "**按给定记录，尚不具备当天搬迁的执行条件。**合同要求五项同时成立，前三项完成仍不够：电力尚未验收，消防通道被材料占用。这两项中任何一项未满足，都足以阻止“可以搬”的结论；检查耗时不能成为将未满足条件视为完成的依据。\n\n**标题改为“今日搬迁”不需要触发全部材料重新核验。**事实和合同均未改变，编辑信心略增只是主观感受的变化，没有增加支持执行的新证据。已有且未变化的核验结果可以复用，当前应补足并核实电力验收、消防通道可用这两项；若出现实质变化，再复查受影响的材料和判断。"
+  }
+}

@@ -22,6 +22,16 @@
 
 使用 `evals/node-validation-regression-cases.json`，检查必要、充分、促进、具体路径与伴随关系，区分逆否命题和否命题，检查反例、替代路径、反向因果与共同原因。严格命题和概率性关系分别处理；发现问题要修复节点，不能只附一句存在例外。
 
+关键论点粒度用例检查复合判断拆分、数值阈值、共享前提与分支、冗余来源、经验检查与形式证明的区别、全部决定性条件覆盖及非技术迁移。以会改变答案或行动的最小独立命题为单位，不以检查数量代替覆盖，也不以未找到反例声称证明成立。
+
+### 产品与商业化合规经验
+
+`evals/product-experience-regression-cases.json` 检查依赖式澄清、已有材料复用、观察条件、实测未知、非售卖目标与协助交付；`evals/commercial-compliance-regression-cases.json` 检查线下场景、权利分层、未决影响范围、主体和版本变化、收费与收益区别，以及无关任务不触发该指南。
+
+两份均由 `scripts/validate_node_reasoning.py` 进行结构校验，沿用推理评分表。生成只接收单个 `prompt` 和运行时规则，`focus`、`must`、`must_not`、全局不变量和来源取舍记录均留给评审。固定假设题按给定事实判断；现实规则问题须核查当前适用的一手来源。
+
+本轮独立样本的实际生成、评阅、审查修正及未执行范围见 [experience-integration-review.md](experience-integration-review.md)，原始输入与输出见 [experience-integration-run.json](experience-integration-run.json)。它们是单版本证据，不是新旧效果比较。
+
 历史纵轴、横向对照、多视角和跨领域借解的回归见 `evals/supplementary-analysis-regression-cases.json`。补充方法按需启用，不能替代主链，也不能让每个问题都变成历史研究。
 
 ### 目的结构
@@ -84,6 +94,8 @@ PY
 ## 成对样本
 
 `evals/writing-style-pairs.json` 的 unit_role 区分结论句、解释段和文章开头。解释段的必要展开不是所有结论句都应扩写的依据；准确定位句可保持不变。原有成对改写要求 before 和 after 不同，不代表实际文章必须改写。
+
+局部成文套件的 `natural-` 案例检查已有作者视角、功能性结构、无需改写的原句，以及检测数字不能证明作者身份。自然表达仍使用现有六维评分和语义保真标准，不新增独立检测分数或要求所有原句发生变化。
 
 读者结构及信息密度套件中的 style_pairs 校准标题、目的、跨段论证、例子和重复。after 不是逐字标准答案，应检查 must_preserve 与 must_not_infer。构造的 before/after 只是示范，不是新旧模型真实输出。
 

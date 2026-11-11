@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate key-node reasoning and optional supplementary-analysis regressions."""
+"""Validate key-node reasoning, supplementary analysis, and scenario experience fixtures."""
 
 from __future__ import annotations
 
@@ -36,6 +36,32 @@ REQUIRED_NODE_CASE_IDS = {
     "exercise-probability-counterexample",
     "core-project-common-cause",
     "real-counterexample-refutes-universal",
+    "compound-premises-need-separate-checks",
+    "quantitative-pivot-and-sensitivity",
+    "shared-premise-distinct-branches",
+    "redundant-supports-still-need-validation",
+    "absence-of-counterexample-is-not-proof",
+    "all-decisive-claims-not-top-three",
+    "general-rule-without-technical-template",
+}
+
+SCENARIO_SUITES = {
+    "product-experience-regression-cases.json": {
+        "product-questions-follow-dependencies",
+        "product-known-context-skips-interrogation",
+        "product-evidence-keeps-observation-conditions",
+        "product-experience-unknown-needs-observation",
+        "product-noncommercial-goal-keeps-own-criteria",
+        "product-assisted-delivery-and-scale-separate",
+    },
+    "commercial-compliance-regression-cases.json": {
+        "compliance-offline-service-scope",
+        "compliance-software-content-rights-split",
+        "compliance-unknown-is-scoped",
+        "compliance-region-version-revalidation",
+        "compliance-permission-revenue-profit",
+        "compliance-not-triggered-by-natural-explanation",
+    },
 }
 
 REQUIRED_SUPPLEMENTARY_CASE_IDS = {
@@ -202,8 +228,8 @@ def main() -> int:
     node_cases, node_invariants = validate_case_suite(
         NODE_CASES_PATH,
         REQUIRED_NODE_CASE_IDS,
-        minimum_cases=5,
-        minimum_invariants=6,
+        minimum_cases=13,
+        minimum_invariants=12,
     )
     supplementary_cases, supplementary_invariants = validate_case_suite(
         SUPPLEMENTARY_CASES_PATH,
@@ -214,6 +240,14 @@ def main() -> int:
 
     print("Validated node reasoning suite: " f"{node_cases} cases, {node_invariants} global invariants")
     print("Validated supplementary analysis suite: " f"{supplementary_cases} cases, {supplementary_invariants} global invariants")
+    for filename, required_ids in SCENARIO_SUITES.items():
+        count, invariants = validate_case_suite(
+            ROOT / "evals" / filename,
+            required_ids,
+            minimum_cases=6,
+            minimum_invariants=6,
+        )
+        print(f"Validated {filename}: {count} cases, {invariants} global invariants")
     return 0
 
 

@@ -16,9 +16,11 @@ ROOT = Path(__file__).resolve().parents[1]
 CORE_PATHS = [
     "references/core/00-第一性原理核心原则.md",
     "references/core/01-问题识别与分类.md",
+    "references/core/01a-目的、现状、问题与方案.md",
     "references/core/02-为什么类问题推理.md",
     "references/core/03-怎么做类问题推理.md",
     "references/core/04-客观性与证据规则.md",
+    "references/core/04a-关键推理节点反向校验.md",
     "references/core/05-输出与表达规则.md",
     "references/core/06-文章成稿与压缩.md",
 ]
@@ -27,8 +29,10 @@ SUBJECT_PATHS = [
     "references/subjects/人的行为与情绪.md",
     "references/subjects/群体与组织.md",
     "references/subjects/技术系统与产品.md",
+    "references/subjects/产品发现与验证.md",
     "references/subjects/行业市场与资源流动.md",
     "references/subjects/商业与赚钱.md",
+    "references/subjects/商业化与合规.md",
     "references/subjects/制度与政策.md",
     "references/subjects/自然与生物系统.md",
 ]

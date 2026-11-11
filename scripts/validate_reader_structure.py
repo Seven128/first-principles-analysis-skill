@@ -112,7 +112,7 @@ def validate_runtime() -> None:
             fail(f"Article contract missing field: {phrase}")
 
     purpose = PURPOSE_PATH.read_text(encoding="utf-8")
-    for phrase in ("稳定角色与目标状态", "完成标准单独保存", "接口调用的大模型"):
+    for phrase in ("稳定角色与目标状态", "完成标准单独保存", "不提前写入具体模块、协议、算法和实现属性"):
         if phrase not in purpose:
             fail(f"Purpose rule missing concept: {phrase}")
 
